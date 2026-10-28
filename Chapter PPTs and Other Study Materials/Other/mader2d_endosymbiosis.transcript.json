@@ -1,0 +1,48 @@
+{
+  "source": "/Users/velusamykaruppagounder/Documents/BIO II/Chapter PPTs and Other Study Materials/Other/mader2d_endosymbiosis.mp4",
+  "audio_duration_seconds": 120.488375,
+  "profile": {
+    "backend": "audio",
+    "runtime_version": "0.6.1",
+    "model_repo": "mlx-community/Qwen3-ASR-1.7B-4bit",
+    "model": "/Users/velusamykaruppagounder/.cache/huggingface/hub/models--mlx-community--Qwen3-ASR-1.7B-4bit/snapshots/78a389c776a5483b2d0d4ea5494e11012e0d6159",
+    "model_revision": "78a389c776a5483b2d0d4ea5494e11012e0d6159",
+    "batch_size": 4,
+    "force_float16": false,
+    "python": "/Users/velusamykaruppagounder/.local/share/uv/tools/mlx-audio/bin/python",
+    "selected_on": "2026-10-21",
+    "benchmark": "Fastest complete configuration tested on this M3/16 GB among 16 runtime/precision/batching cases. Four-minute sample: 42.78s. Not a universal fastest-model guarantee."
+  },
+  "inference_seconds": 17.763966457998322,
+  "total_seconds": 18.099043083999277,
+  "word_count": 186,
+  "text": "The theory of endosymbiosis proposes that a critical stage in the evolution of eukaryotic cells involved endosymbiotic relationships with prokaryotic organisms. Microorganisms that live within other cells and perform specific functions for their host cells are called endosymbionts, according to the theory. Energy-producing bacteria may have been engulfed by a larger primitive cell and come to reside within it, eventually evolving into what we now know as mitochondria. Photosynthetic bacteria use photosynthetic pigments embedded in internal membranes to derive energy from sunlight. These bacteria may have come to live within early eukaryotic cells, leading to the evolution of chloroplasts. Several facts provide evidence for the endosymbiotic hypothesis. A few examples include the following: mitochondria and chloroplasts contain their own circular DNA, similar to DNA in prokaryotes. Both mitochondria and chloroplasts are surrounded by two membranes. The inner membrane is probably evolved from the plasma membrane of the engulfed prokaryote. While the outer membrane is probably derived from the cell membrane of the host, mitochondria are about the same size as bacteria. Mitochondria appear to have been derived from purple bacteria, and chloroplasts derived from photosynthetic bacteria.",
+  "segments": [
+    {
+      "text": "The theory of endosymbiosis proposes that a critical stage in the evolution of eukaryotic cells involved endosymbiotic relationships with prokaryotic organisms. Microorganisms that live within other cells and perform specific functions for their host cells are called endosymbionts, according to the theory.",
+      "language": "English",
+      "start": 0.0,
+      "end": 29.4098125
+    },
+    {
+      "text": "Energy-producing bacteria may have been engulfed by a larger primitive cell and come to reside within it, eventually evolving into what we now know as mitochondria. Photosynthetic bacteria use photosynthetic pigments embedded in internal membranes to derive energy from sunlight. These bacteria may have come to live within early eukaryotic cells, leading to the evolution of chloroplasts.",
+      "language": "English",
+      "start": 29.4098125,
+      "end": 62.28425
+    },
+    {
+      "text": "Several facts provide evidence for the endosymbiotic hypothesis. A few examples include the following: mitochondria and chloroplasts contain their own circular DNA, similar to DNA in prokaryotes. Both mitochondria and chloroplasts are surrounded by two membranes. The inner membrane is probably evolved from the plasma membrane of the engulfed prokaryote.",
+      "language": "English",
+      "start": 62.28425,
+      "end": 92.598375
+    },
+    {
+      "text": "While the outer membrane is probably derived from the cell membrane of the host, mitochondria are about the same size as bacteria. Mitochondria appear to have been derived from purple bacteria, and chloroplasts derived from photosynthetic bacteria.",
+      "language": "English",
+      "start": 92.598375,
+      "end": 120.488375
+    }
+  ],
+  "automatic_transcript": true,
+  "timestamps": "coarse audio chunks"
+}

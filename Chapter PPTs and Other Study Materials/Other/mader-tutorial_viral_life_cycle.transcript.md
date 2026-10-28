@@ -1,0 +1,21 @@
+# mader-tutorial_viral_life_cycle
+
+Automatic local transcript using mlx-community/Qwen3-ASR-1.7B-4bit. Source: `mader-tutorial_viral_life_cycle.mp4`.
+
+Times mark audio chunks, not precise word boundaries.
+
+**00:00**
+
+At first glance, the life cycle of a virus may look fairly complicated, but actually the process is very straightforward. Keep in mind that the overall goal of a virus is to hijack a host cell and then use the metabolic machinery inside the cell, such as the ribosomes, to manufacture more viruses.
+
+**00:25**
+
+So how does this process work? While there are many different types of viruses, and each is specific in the types of cells that it will infect, we can break down the general life cycle in a series of steps. First, the virus must recognize and attach to its host cell. This typically involves the recognition of specific receptors on the surface of the cell. Once this is done, the genetic instructions for building the new viruses enters the cells.
+
+**00:55**
+
+This information may either be RNA or DNA. After the genetic material enters, these instructions are replicated. So, instead of building one virus at a time, it is now possible to construct hundreds. The protein-building machinery of the host cell then manufactures pieces of the virus based upon these instructions. These pieces are used to build new viruses. The new viruses then emerge or bud from the cell, often causing the death of the host cell.
+
+**01:26**
+
+Each of these new viruses is now ready to infect a new cell, thus repeating the process.

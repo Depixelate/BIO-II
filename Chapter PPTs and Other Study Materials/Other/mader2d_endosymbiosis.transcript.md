@@ -1,0 +1,21 @@
+# mader2d_endosymbiosis
+
+Automatic local transcript using mlx-community/Qwen3-ASR-1.7B-4bit. Source: `mader2d_endosymbiosis.mp4`.
+
+Times mark audio chunks, not precise word boundaries.
+
+**00:00**
+
+The theory of endosymbiosis proposes that a critical stage in the evolution of eukaryotic cells involved endosymbiotic relationships with prokaryotic organisms. Microorganisms that live within other cells and perform specific functions for their host cells are called endosymbionts, according to the theory.
+
+**00:29**
+
+Energy-producing bacteria may have been engulfed by a larger primitive cell and come to reside within it, eventually evolving into what we now know as mitochondria. Photosynthetic bacteria use photosynthetic pigments embedded in internal membranes to derive energy from sunlight. These bacteria may have come to live within early eukaryotic cells, leading to the evolution of chloroplasts.
+
+**01:02**
+
+Several facts provide evidence for the endosymbiotic hypothesis. A few examples include the following: mitochondria and chloroplasts contain their own circular DNA, similar to DNA in prokaryotes. Both mitochondria and chloroplasts are surrounded by two membranes. The inner membrane is probably evolved from the plasma membrane of the engulfed prokaryote.
+
+**01:32**
+
+While the outer membrane is probably derived from the cell membrane of the host, mitochondria are about the same size as bacteria. Mitochondria appear to have been derived from purple bacteria, and chloroplasts derived from photosynthetic bacteria.

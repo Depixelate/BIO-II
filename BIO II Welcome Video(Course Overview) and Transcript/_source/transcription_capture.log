@@ -1,0 +1,393 @@
+Args: {'audio': ['/Users/velusamykaruppagounder/Misc/FGC_Welcome_Video/Welcome_Video.mp4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': 'Welcome_Video_Transcript', 'output_dir': '/Users/velusamykaruppagounder/Misc/FGC_Welcome_Video', 'output_format': 'all', 'verbose': True, 'task': 'transcribe', 'language': 'en', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': 'Biology II course orientation. BSC2011C. Instructor Ashlee Johnson. Florida Gateway College. Canvas, McGraw Hill Connect, SmartBook, Honorlock.', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': False, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [00:00<00:01,  2.93it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 4 files:  50%|█████     | 2/4 [00:00<00:00,  4.25it/s]Fetching 4 files: 100%|██████████| 4/4 [00:29<00:00,  9.14s/it]Fetching 4 files: 100%|██████████| 4/4 [00:29<00:00,  7.34s/it]
+[00:00.000 --> 00:28.100]  Hi guys! Welcome to Biology. Biology II, sorry. And as you already know, this is an eight-week course, so we are going to be flying through everything. And we have adopted a new textbook this year, starting this semester, so things are a little bit new. So we are going to be kind of doing a little trial and error and see what works, see what doesn't work for us.
+[00:28.100 --> 00:42.920]  So any and all feedback is completely and totally appreciated. And especially as you go through this course, feel free to click on everything. Make sure the links work. If there's issues that come up, don't hesitate to send me an email.
+[00:43.060 --> 00:56.800]  Because a lot of things that might come up, it's a new program, a new textbook, new publisher, so I'm not familiar with a lot of errors. So me giving you feedback on things, I may or may not know.
+[00:56.800 --> 01:08.160]  But I'm not used to all of the errors, all the problems that might arise, because this is the first year that we're, first semester that we are using this material.
+[01:08.160 --> 01:17.160]  So do not hesitate to reach out and ask questions and let me know what is, what's working and what's not working.
+[01:17.160 --> 01:37.160]  And with that, also, as this semester, because we are in the second half of our fall semester, so this course is the second eight weeks, I have made some changes to make sure that you are following along with this video to make sure you're aware of all of the different changes I'm making to this course.
+[01:37.160 --> 01:46.160]  So with that, let's, let me get out of the way so that we can cover the course so you are familiar with the layout and the expectations.
+[01:46.160 --> 01:51.160]  So when you come into this course, you're going to enter into this.
+[01:51.160 --> 01:53.160]  So always click on our course tab and go to this.
+[01:53.160 --> 01:58.160]  Do not rely on the to do list because it will let you down quite often.
+[01:58.160 --> 02:05.160]  But you'll see our topic here that we're following and what dates we're covering everything.
+[02:05.160 --> 02:12.160]  And if you look, we fly through this because it is only eight weeks and we have, what is it?
+[02:12.160 --> 02:15.160]  I think 27 chapters to get through.
+[02:15.160 --> 02:16.160]  That is a lot.
+[02:16.160 --> 02:30.160]  So I have taken out some assignments that are in the initial syllabus to just make things a little bit easier and not kind of cram everything all in eight weeks because that would be a lot of work to do.
+[02:30.160 --> 02:33.160]  So we're not going to do the more tedious tasks.
+[02:33.160 --> 02:42.160]  We're going to stick to kind of the important things, but this just gives you an idea of what to expect and what we're covering when.
+[02:42.160 --> 02:56.160]  So if we look over here to this menu to what is on my left, I'm not sure what side it's on, but over here, we'll see the announcements that I'll be sending out announcements.
+[02:56.160 --> 03:03.160]  Hopefully every week and so often if I need to send and communicate with you guys as a class, this is where I will send the announcements.
+[03:03.160 --> 03:09.160]  And hopefully they are put up in the new ones that you haven't read.
+[03:09.160 --> 03:14.160]  You'll see them on the home screen or you'll see them here with the announcements.
+[03:14.160 --> 03:17.160]  But keep up with that because that's how I communicate to you.
+[03:17.160 --> 03:22.160]  So it will give you important information if there are any changes that are happening.
+[03:22.160 --> 03:25.160]  And we click on the syllabus and look at the syllabus tab.
+[03:25.160 --> 03:28.160]  This is, and you can go through this and read this at your leisure.
+[03:28.160 --> 03:31.160]  I'm not going to take too much time in this video.
+[03:31.160 --> 03:35.160]  Just a couple things to keep in mind.
+[03:35.160 --> 03:38.160]  So again, our textbooks, and I'll cover this when we get to the modules.
+[03:38.160 --> 03:47.160]  You must purchase the textbook and you must purchase it with access to McGraw Hill Connect, to the online portion of it.
+[03:47.160 --> 03:51.160]  So the textbook only is not enough.
+[03:51.160 --> 03:54.160]  You need access to the Connect software also.
+[03:54.160 --> 03:59.160]  If we look here at the critical dates, you see these dates are different.
+[03:59.160 --> 04:06.160]  I don't have control to change these, but these are from the spring semester.
+[04:06.160 --> 04:12.160]  If you want to know the critical dates, they are on the academic calendar on the FGC website.
+[04:12.160 --> 04:16.160]  So go there if you need to know when we have class, when we don't.
+[04:16.160 --> 04:21.160]  The good thing about it is that this is a online class.
+[04:21.160 --> 04:23.160]  So you're not coming here on campus.
+[04:23.160 --> 04:32.160]  So you don't have to worry about when campus is open or closed because you will have access to Canvas no matter if we are on holiday or not.
+[04:32.160 --> 04:34.160]  So it's not as important.
+[04:34.160 --> 04:38.160]  All of the due dates that are in Canvas, those are strict.
+[04:38.160 --> 04:44.160]  However, there are some because of how we have the semester kind of outlined.
+[04:44.160 --> 04:58.160]  Some dates at the end of the semester are going to change from what they have been like for the first part of the class because of when we have the exam weeks and how we're kind of trying to fit everything in.
+[04:58.160 --> 05:06.160]  So just pay attention to the due dates of the assignments in Canvas and the assignment links, and that's what you're going to go by.
+[05:06.160 --> 05:09.160]  You don't have to worry about if campus is closed or not.
+[05:09.160 --> 05:17.160]  And then this course calendar should be very closely aligned to the calendar that was on the homepage and the course policies.
+[05:17.160 --> 05:18.160]  Let me go through this.
+[05:18.160 --> 05:23.160]  So our course policies on this, the late work, late work is not accepted.
+[05:23.160 --> 05:29.160]  If it is not accessible online, it's not going to be accepted.
+[05:29.160 --> 05:38.160]  The due date that it shows, the assignments, the majority of them are due, due on the due date, but they are accessible.
+[05:38.160 --> 05:40.160]  Up to three days afterwards.
+[05:40.160 --> 05:48.160]  So on Sunday nights is when homework is due, but you can access it until that Wednesday night.
+[05:48.160 --> 05:54.160]  You will receive a 10% deduction in your grade up until Wednesday, and that's when it locks and closes for good.
+[05:54.160 --> 05:56.160]  So keep that in mind.
+[05:56.160 --> 06:03.160]  But life happens and sometimes you're just not able to get things completed right at the due date.
+[06:03.160 --> 06:07.160]  So it still is open for three days after the due date.
+[06:07.160 --> 06:13.160]  But once it's closed and once it's locked in Canvas, then it's not able to be accessed after that.
+[06:13.160 --> 06:15.160]  So always keep that in mind.
+[06:15.160 --> 06:20.160]  Regular attendance, even this is an online class.
+[06:20.160 --> 06:25.160]  Make sure that you're paying attention to the due dates and checking in in case something needs to change.
+[06:25.160 --> 06:34.160]  Again, with it being an online class, there's very little that will be affected because of something, say, that is happening here on campus.
+[06:34.160 --> 06:39.160]  But it's still a good idea to make sure you're checking in at a regular basis.
+[06:39.160 --> 06:42.160]  And here's the grading policies.
+[06:42.160 --> 06:44.160]  That's what everybody cares about is the grade, right?
+[06:44.160 --> 06:47.160]  So the coursework, that's 20%.
+[06:47.160 --> 06:50.160]  Your coursework is going to be the homework assignments.
+[06:50.160 --> 06:55.160]  Because this is an accelerated course, I have taken out the quizzes.
+[06:55.160 --> 07:02.160]  I've taken out the quizzes and the discussions so that way you're not having to do a lot every single week.
+[07:02.160 --> 07:08.160]  So it doesn't take away the fact of, you know, reading your textbook and covering that material.
+[07:08.160 --> 07:17.160]  But we're not going to take all of your time to try to cram them in a week because you would have, you just have a lot going on in there.
+[07:17.160 --> 07:22.160]  So we're taking out, we do not have quizzes and we do not have discussions for this course, even though they're in here.
+[07:22.160 --> 07:27.160]  And this is kind of what we follow for all of the biology courses.
+[07:27.160 --> 07:36.160]  So I'm not changing this because the syllabus was published out months ago.
+[07:36.160 --> 07:42.160]  But for this course, because that was a last minute decision that I made, we're not going to do the quizzes and the discussions.
+[07:42.160 --> 07:45.160]  So make sure that you get the homework done.
+[07:45.160 --> 07:49.160]  For the homeworks, you do have two attempts at every homework.
+[07:49.160 --> 07:52.160]  And every unit has homework assignment that's due.
+[07:52.160 --> 07:54.160]  And you can do it twice.
+[07:54.160 --> 08:00.160]  So definitely as we work through them, and especially with this course, we're covering multiple chapters every week.
+[08:00.160 --> 08:03.160]  You can work through them as we cover that chapter.
+[08:03.160 --> 08:06.160]  And it's helpful to do that.
+[08:06.160 --> 08:10.160]  So then you can work through it and get that second attempt done.
+[08:10.160 --> 08:15.160]  And hopefully in the highest of those two are is what goes into the grade book.
+[08:15.160 --> 08:18.160]  For the labs, there are ten labs assigned.
+[08:18.160 --> 08:24.160]  Now, the labs are kind of spread out for the first part of this course.
+[08:24.160 --> 08:28.160]  But then the last part of this course, you have a lot of labs do.
+[08:28.160 --> 08:35.160]  I highly suggest working ahead on things, especially in the labs.
+[08:35.160 --> 08:39.160]  Sometimes they can be a little tricky and they don't take a lot of time.
+[08:39.160 --> 08:41.160]  That's what's great about them.
+[08:41.160 --> 08:47.160]  But sometimes that technology, they can get a little finicky.
+[08:47.160 --> 08:57.160]  So give yourself time to come across something and have a glitch or an error and be able to shut it off and then come back a little bit later.
+[08:57.160 --> 09:00.160]  On the labs, you do have multiple attempts.
+[09:00.160 --> 09:04.160]  I can't remember right off the top of my head right now if I give you unlimited.
+[09:04.160 --> 09:12.160]  I'm pretty sure I gave you unlimited attempts that you can work through them to get the highest score on them that you can.
+[09:12.160 --> 09:22.160]  But if not, I believe you have either five attempts or you have an unlimited number of attempts to make sure that you get the grade as high as you can on that.
+[09:22.160 --> 09:27.160]  The project, the project covers the last unit, the ecology unit.
+[09:27.160 --> 09:32.160]  But the good thing about it is, is that you have background knowledge on this.
+[09:32.160 --> 09:35.160]  So it's not a completely new concept to you.
+[09:35.160 --> 09:42.160]  So if you want to start, if you want to kind of jump ahead to that unit, look at the project and kind of start working on it ahead of time.
+[09:42.160 --> 09:45.160]  And then you can just add things to it.
+[09:45.160 --> 09:49.160]  Once we get to that unit, that would definitely be advisable.
+[09:49.160 --> 09:58.160]  Which is in this short of a course, it kind of puts a lot on you at the end of the course.
+[09:58.160 --> 10:02.160]  But that's just how we have it laid out for our 16 week course.
+[10:02.160 --> 10:06.160]  So definitely jumping ahead and looking at it now.
+[10:06.160 --> 10:12.160]  I'm kind of giving a plan so you can work on it a little bit as we go until we get to that unit.
+[10:12.160 --> 10:21.160]  Then you can really tweak it and make it a jam up project would be advisable.
+[10:21.160 --> 10:22.160]  And the unit exams.
+[10:22.160 --> 10:29.160]  So there are five unit exams and they are 50 questions, 50 multiple choice questions.
+[10:29.160 --> 10:32.160]  So they're all multiple choice.
+[10:32.160 --> 10:42.160]  With these exams, because you are an accelerated course, I'm allowing you to use your notes for these exams.
+[10:42.160 --> 10:44.160]  So all of the exams are open notes.
+[10:44.160 --> 10:48.160]  They are going to be online using Honorlock.
+[10:48.160 --> 10:51.160]  You have to use Honorlock and you have to use that external camera.
+[10:51.160 --> 10:54.160]  So I can make sure that the only thing you're using is your notes.
+[10:54.160 --> 11:00.160]  But if you take extensive notes, use them all.
+[11:00.160 --> 11:02.160]  But they do need to be an Honorlock.
+[11:02.160 --> 11:04.160]  You do have to have an external camera.
+[11:04.160 --> 11:14.160]  Make sure that you complete the Honorlock practice quiz because that, again, that does not have any questions, any content questions.
+[11:14.160 --> 11:24.160]  But it does just make sure that your computer is working properly and everything, all the settings that we're going to use in the exam are set up that way.
+[11:24.160 --> 11:27.160]  You just won't have, you know, a lot of questions.
+[11:27.160 --> 11:31.160]  But it just helps to make sure everything is set up and everything is working properly.
+[11:31.160 --> 11:34.160]  Make sure you get that done this week as soon as possible.
+[11:34.160 --> 11:39.160]  So that way, if there are any issues, we can figure out a solution before the exam is due.
+[11:39.160 --> 11:48.160]  And because this course is an accelerated course and we have our first exam next week happens kind of fast, but that's just how we go.
+[11:48.160 --> 11:52.160]  So, again, there are five unit exams because there's five units.
+[11:52.160 --> 11:55.160]  However, the lowest exam is going to be dropped.
+[11:55.160 --> 12:02.160]  So your grade is only coming from the top four exams that you have.
+[12:02.160 --> 12:07.160]  So they're roughly 10% each of your grade.
+[12:07.160 --> 12:15.160]  So make sure that as you're working through this, you are taking extensive results and notes so that you can use them on your exams.
+[12:15.160 --> 12:18.160]  And then you have the final exam.
+[12:18.160 --> 12:20.160]  It is a comprehensive final exam.
+[12:20.160 --> 12:28.160]  And I believe if I remember correctly, it's going to be about 70 questions.
+[12:28.160 --> 12:30.160]  Again, all multiple choice.
+[12:30.160 --> 12:33.160]  And you are allowed to use your notes on the final exam.
+[12:33.160 --> 12:44.160]  Also, it's going to be the same concept as our unit exams, kind of the same format, same requirements, except it's going to be a little bit longer because it is comprehensive.
+[12:44.160 --> 12:49.160]  It's going to cover all of the chapters that we cover in this course.
+[12:49.160 --> 12:51.160]  So that's all that.
+[12:51.160 --> 12:54.160]  The Honorlock testing exams are here.
+[12:54.160 --> 13:01.160]  And then you have your course calendar things, but you can review all of this at your leisure.
+[13:01.160 --> 13:06.160]  So let's jump to the modules and let's look at what we have accessible to us.
+[13:06.160 --> 13:07.160]  So the start here module.
+[13:07.160 --> 13:13.160]  And once this welcome video, I couldn't think of words can come to my mouth.
+[13:13.160 --> 13:17.160]  Once we have this welcome video and it's posted, you will see it right here.
+[13:17.160 --> 13:20.160]  And it'll be right above here so that you can watch.
+[13:20.160 --> 13:30.160]  Now, if you have questions or anything, I am available and I am physically in my office Mondays and Wednesdays, 1115 to 1 o'clock.
+[13:30.160 --> 13:33.160]  And Tuesdays, 945 to 215.
+[13:33.160 --> 13:43.160]  If I have a meeting or I am meeting with, have a scheduled appointment with another student during those office hours, then, you know, I would be busy then.
+[13:43.160 --> 13:45.160]  But you're welcome to call my office.
+[13:45.160 --> 13:47.160]  I can answer it.
+[13:47.160 --> 13:50.160]  If I do not answer my phone, definitely leave a message.
+[13:50.160 --> 13:54.160]  Make sure that you leave your name and a callback number for me so I can get back to you.
+[13:54.160 --> 14:00.160]  And if my door is closed, you're always welcome to knock on it to see if I'm there.
+[14:00.160 --> 14:06.160]  I do have virtual office hours from on Mondays only from 4 to 7.
+[14:06.160 --> 14:09.160]  And I see that this is not coming up.
+[14:09.160 --> 14:12.160]  And it comes up online.
+[14:12.160 --> 14:15.160]  So I'll have to look and see what the issue is.
+[14:15.160 --> 14:18.160]  But I will try to get that done as soon as possible.
+[14:18.160 --> 14:24.160]  But this QR code is what you will do what you do with QR codes.
+[14:24.160 --> 14:29.160]  I don't know what that's called to access the virtual office hours.
+[14:29.160 --> 14:33.160]  But I'm only in my virtual office hours on Monday from 4 to 7.
+[14:33.160 --> 14:37.160]  If you are not able to come in during my regular office hours,
+[14:37.160 --> 14:40.160]  and most of the time if you're an online student,
+[14:40.160 --> 14:43.160]  you aren't necessarily coming onto campus regularly,
+[14:43.160 --> 14:45.160]  you can definitely set up a time with me.
+[14:45.160 --> 14:50.160]  Or, you know, let me know that you want to come in and I can send you a link.
+[14:50.160 --> 14:53.160]  And we can still meet virtually, but you kind of have to let me know
+[14:53.160 --> 14:56.160]  if it's during these on-campus office hours.
+[14:56.160 --> 15:04.160]  But on Mondays 4 to 7, then I'll post this link up here once I get done with this video.
+[15:04.160 --> 15:13.160]  But that's how you can access the QR codes to get my virtual office hours.
+[15:13.160 --> 15:18.160]  But you are free to email me at any time, any time of the day, any time of the night,
+[15:18.160 --> 15:19.160]  if you have questions.
+[15:19.160 --> 15:20.160]  Don't hesitate.
+[15:20.160 --> 15:23.160]  Don't think, oh, I'm sure this is a silly question.
+[15:23.160 --> 15:25.160]  Email me the questions.
+[15:25.160 --> 15:28.160]  There are no silly questions and I'm not there with you.
+[15:28.160 --> 15:31.160]  So if you do have questions, ask.
+[15:31.160 --> 15:34.160]  Because a lot of times I may not know that something doesn't work
+[15:34.160 --> 15:37.160]  or I may not know where you're struggling and I would love to help you.
+[15:37.160 --> 15:40.160]  So let's come back here.
+[15:40.160 --> 15:41.160]  The textbook.
+[15:41.160 --> 15:43.160]  You must purchase the textbook.
+[15:43.160 --> 15:47.160]  I know it is a little pricey.
+[15:47.160 --> 15:49.160]  Let's try what it does here.
+[15:49.160 --> 15:54.160]  It's a little pricey, but it is a lot less.
+[15:54.160 --> 15:57.160]  So if we come here, we see here is our textbook.
+[15:57.160 --> 16:02.160]  If you purchase it from the bookstore, it's $224.
+[16:02.160 --> 16:08.160]  But you can purchase it directly through McGraw Hill.
+[16:08.160 --> 16:17.160]  And you'll just go to one of our assignment links and click on that and it will prompt you through to purchase it directly online through their website.
+[16:17.160 --> 16:19.160]  And it's going to be a little bit cheaper.
+[16:19.160 --> 16:26.160]  If you're using financial aid, hopefully you purchased it previous in the semester.
+[16:26.160 --> 16:33.160]  And if you are relying on financial aid and you haven't purchased it previously, I'm not sure when that cutoff date is.
+[16:33.160 --> 16:38.160]  But the bookstore will be able to help you with all the questions with that.
+[16:38.160 --> 16:47.160]  But this is a requirement that you do need biology that comes with that Connect online access.
+[16:47.160 --> 16:54.160]  If you just purchase this, it's going to give you the e-book and it's going to give you access to the online suite of everything that they have.
+[16:54.160 --> 17:11.160]  So you need both of those. If all you have is the textbook, that's not going to be enough because we do all of our homework assignments through Connect and the interactive labs through Connect.
+[17:11.160 --> 17:13.160]  The Honorlock testing instructions are here.
+[17:13.160 --> 17:20.160]  Make sure that you read through those because those are all of the rules that you need to be aware of when you're testing.
+[17:20.160 --> 17:24.160]  Interaction expectations. Here's our discussion expectations.
+[17:24.160 --> 17:36.160]  It's up here. But remember, I've taken the discussions out, so we will not be having discussions for this course or else it would just it would be difficult for us to do all of them in such a short amount of time.
+[17:36.160 --> 17:42.160]  So we're going to stick to the more important ones.
+[17:42.160 --> 17:45.160]  And looking through, giving, making sure that you're aware of everything.
+[17:45.160 --> 17:50.160]  This is your first assignment sending an email to me.
+[17:50.160 --> 17:54.160]  Pretty simple. So make sure that you are sending the email in Canvas.
+[17:54.160 --> 17:57.160]  And that is if we look over here, it is right there.
+[17:57.160 --> 18:00.160]  You'll click on that and then you'll click this course.
+[18:00.160 --> 18:03.160]  You'll click instructor. You'll click my name.
+[18:03.160 --> 18:06.160]  And then you send me an email. I do this for multiple reasons.
+[18:06.160 --> 18:13.160]  First of all, is that you don't you haven't sent me many emails, most likely.
+[18:13.160 --> 18:26.160]  So if you send it to my Ashley.Johnson at FGC.edu, most likely it's going to go to my spam box and I don't check that regularly.
+[18:26.160 --> 18:32.160]  And a lot of times, too, when you when you email with that, it might come from your student email or it might come from your personal email.
+[18:32.160 --> 18:38.160]  And then I'm missing a lot of information or I'm missing the email altogether because I don't get it.
+[18:38.160 --> 18:41.160]  Sending it to me in Canvas. There is no spam box.
+[18:41.160 --> 18:45.160]  The only people that can send me emails are my students.
+[18:45.160 --> 18:49.160]  So I'm not getting random emails that they need to protect me from.
+[18:49.160 --> 18:55.160]  So there is no spam box. If you send me an email through Canvas, I will 100 percent get it.
+[18:55.160 --> 19:01.160]  If I don't respond to it, that is totally on me because it's there and I got it and I keep track with it.
+[19:01.160 --> 19:16.160]  Secondly, is whenever you send me an email on Canvas, it's going to tell me your name because I can't tell you how many emails I get that the email comes to my Ashley.Johnson at FGC.edu.
+[19:16.160 --> 19:20.160]  And it comes from, you know, some random thing at Gmail dot com.
+[19:20.160 --> 19:27.160]  It says, I can't. I have a question on question three for the homework this week.
+[19:27.160 --> 19:32.160]  OK, great. I'd love to help you. But first of all, I don't know who you are.
+[19:32.160 --> 19:35.160]  I don't know what class you're in. I don't know what section you're in.
+[19:35.160 --> 19:40.160]  And I'm not sure what assignment you're talking about and specific question.
+[19:40.160 --> 19:43.160]  So giving me that information is super helpful.
+[19:43.160 --> 19:49.160]  So sending it to Canvas, it tells me your name. It tells me what class you're in and it tells me what section you're in.
+[19:49.160 --> 19:55.160]  So that's extremely important because that's less time that I have to go through digging through all my rosters and then find that.
+[19:55.160 --> 20:02.160]  As far as any questions you have, you're going to need to give me specifics on that because it helps me tremendously.
+[20:02.160 --> 20:09.160]  I can't read your mind. And if you send me a screenshot of a question and error message, anything like that.
+[20:09.160 --> 20:14.160]  Oh, my goodness. That will help out tremendously where they say a picture is worth a thousand words.
+[20:14.160 --> 20:19.160]  It really is because I'm not there with you to see what screen you're on.
+[20:19.160 --> 20:24.160]  So that really helps to know what's going on for me to try to help you as much as I can.
+[20:24.160 --> 20:30.160]  If it's an IT question, if it's something that is going on with the computer, I will help you as much as I can.
+[20:30.160 --> 20:34.160]  But that's not my forte. Technology really doesn't like me that much.
+[20:34.160 --> 20:37.160]  I have just as many problems as you do.
+[20:37.160 --> 20:45.160]  But I do know some common things that students come across that I can try to help you as much as I can.
+[20:45.160 --> 20:49.160]  But if it's above what I can help you, then I'm going to refer you to IT.
+[20:49.160 --> 20:59.160]  And Honorlock, McGraw Hill, they have excellent, even Canvas, have excellent help desks that you can email and little chat bots that you can talk to right then,
+[20:59.160 --> 21:02.160]  that they do help resolve the majority of the issues.
+[21:02.160 --> 21:10.160]  And if all else fails, turn your computer off, turn it back on, and it solves that.
+[21:10.160 --> 21:17.160]  So your email, make sure that you send it to me through Canvas there.
+[21:17.160 --> 21:23.160]  And practice sending me emails that are written out correctly.
+[21:23.160 --> 21:24.160]  It's not texting.
+[21:24.160 --> 21:34.160]  So please have the greeting and the salutation and then express what question you have completely so that I can understand.
+[21:34.160 --> 21:40.160]  You give me as much specifics as you can, and that will help me help you better in a more efficient way.
+[21:40.160 --> 21:47.160]  In this first email, you just need to make sure that you state all of this, and then we're good to go.
+[21:47.160 --> 21:50.160]  And if you have any questions, express this.
+[21:50.160 --> 21:51.160]  Don't just copy and paste this.
+[21:51.160 --> 21:55.160]  Make sure you're reading this so you're not telling me something that's not true.
+[21:55.160 --> 21:59.160]  Or if you have questions, now is a great time to reach out.
+[21:59.160 --> 22:05.160]  And by sending me this email, you get your first, you know, 100 in the class.
+[22:05.160 --> 22:08.160]  The second thing is the Honorlock practice exam.
+[22:08.160 --> 22:12.160]  Make sure that you are using the Chrome browser.
+[22:12.160 --> 22:20.160]  You can, while Honorlock might work with other browsers, it is made for Chrome, so you're going to have less issues with it.
+[22:20.160 --> 22:27.160]  If you have issues because you are using a different browser for it, sorry, but I can't do anything about that.
+[22:27.160 --> 22:32.160]  You're just going to, if there is an issue that comes and you're not able to complete your exam that way, there's nothing I can do about it.
+[22:32.160 --> 22:35.160]  You're going to have to take the grade that you get.
+[22:35.160 --> 22:37.160]  Use the Chrome extension.
+[22:37.160 --> 22:42.160]  By using Chrome, it prevents a lot of other issues.
+[22:42.160 --> 22:50.160]  And if that's the, and I know a lot, and especially for me, there's a few things that I only use Chrome for.
+[22:50.160 --> 22:55.160]  I think the computer here is set up with Microsoft Edge, so that's what everything is done.
+[22:55.160 --> 23:04.160]  But there's a few things that I have to use Chrome on, and that's the only thing I use it on, because it is going to have less issues that way.
+[23:04.160 --> 23:10.160]  So, you're welcome to try it any other way, but if there's issues that come up, there's nothing I can do.
+[23:10.160 --> 23:17.160]  You're going to have to take the penalties caused from it if you're not using Chrome.
+[23:17.160 --> 23:22.160]  And this is why this Honorlock practice quiz is going to help you work through any of those.
+[23:22.160 --> 23:33.160]  It's not going to prevent all errors and all technical issues that come up, but at least it'll give you a good start of trying to identify any problems that you have before it comes to the exam.
+[23:33.160 --> 23:37.160]  And then we have the module ones.
+[23:37.160 --> 23:48.160]  So, with this course, and this is where we have a lot of different changes, and this course is modeled off of our A16 Biology 2.
+[23:48.160 --> 23:55.160]  I don't teach that full semester biology, but I am keeping this aligned with that one.
+[23:55.160 --> 24:00.160]  So, it's going to follow along with that.
+[24:00.160 --> 24:03.160]  So, I'm not changing any part of that.
+[24:03.160 --> 24:12.160]  Now, you have your readings and your lectures of making sure, and this is going to take you, hopefully it takes you, again, click on this.
+[24:12.160 --> 24:17.160]  If it doesn't, let me know, and I'll try my best to fix any issues that come up.
+[24:17.160 --> 24:20.160]  But it's going to take you to the textbook.
+[24:20.160 --> 24:30.160]  Your PowerPoints kind of notes, and the PowerPoints are very detailed, so they are excellent to go through and read and study off of those.
+[24:30.160 --> 24:36.160]  And then random little links to some videos and different things here.
+[24:36.160 --> 24:39.160]  Now, this one does not have the lectures from me.
+[24:39.160 --> 24:48.160]  I have previous lectures from a previous Bio 2 that I have taught, but they are not aligned to this textbook.
+[24:48.160 --> 24:52.160]  I will add some of that into these other learning resources that I have for mine.
+[24:52.160 --> 24:59.160]  But again, to keep this aligned with our normal Biology 2, there's no lectures in there, but I will post some of those.
+[24:59.160 --> 25:07.160]  I'll have to, if I can try to cut them down, or I'll try to post them where they're most appropriate.
+[25:07.160 --> 25:22.160]  However, because this is a shortened eight-week course, and you're able to use your notes that you take on it, I suggest taking these notes and being able to use that.
+[25:22.160 --> 25:32.160]  And read through the textbook, that's going to give you, and you're able to do it on your own time, so that's going to give you plenty of information you need for the exams.
+[25:32.160 --> 25:37.160]  Because the exams all do come from the textbook content.
+[25:37.160 --> 25:45.160]  There's nothing else that is being added that doesn't come from the textbook that's going to be added on the exams.
+[25:45.160 --> 25:54.160]  And these flashcards, these links may or may not work, but they're always great because terminology is super important.
+[25:54.160 --> 25:58.160]  And these are our previous links, so let me know if these links work or not.
+[25:58.160 --> 26:07.160]  Because I do like the flashcards, even though the chapters are a different chapter, because it's from a different link than our textbook here.
+[26:07.160 --> 26:12.160]  So just give me some feedback if these are. I'd like to leave them up there if they work. If not, I'll take them away.
+[26:12.160 --> 26:18.160]  So your readings here, these are assignments, and I'll talk to that just shortly.
+[26:18.160 --> 26:20.160]  And then you have your labs, and you have your homework.
+[26:20.160 --> 26:31.160]  If we look at the due dates of these, all of the due dates of all these assignments are due when that Sunday before our exam opens and is due.
+[26:31.160 --> 26:37.160]  So definitely working ahead and looking at Module 1 and Module 2, all of these assignments are due on October 18th.
+[26:37.160 --> 26:43.160]  But our exam, let me pull up my calendar.
+[26:43.160 --> 26:44.160]  Okay.
+[26:48.160 --> 26:53.160]  So our exam, I believe, is open from the 19th until the 23rd.
+[26:53.160 --> 26:55.160]  So it's open a Monday through Friday.
+[26:55.160 --> 27:02.160]  But that Sunday before the exam opens is when this unit's homework assignments are due.
+[27:02.160 --> 27:06.160]  So you don't have to wait until the 18th to start them and do them.
+[27:06.160 --> 27:08.160]  You can do all of these.
+[27:08.160 --> 27:10.160]  So here is some more information on this.
+[27:10.160 --> 27:18.160]  These reading assignments, and these are SmartBook assignments, and SmartBook is one of the programs that McGraw-Hill has.
+[27:18.160 --> 27:21.160]  All of these reading assignments, they are extra credit.
+[27:21.160 --> 27:27.160]  So as you're working through the textbooks and reading, it's asking you questions.
+[27:27.160 --> 27:32.160]  And as it goes through, and then it'll give you, kind of grade you throughout.
+[27:32.160 --> 27:35.160]  And kind of check your understanding as you go.
+[27:35.160 --> 27:39.160]  These, it's on the coursework, but they are all extra credit.
+[27:39.160 --> 27:42.160]  And I'll show you what I mean by that in just a moment.
+[27:42.160 --> 27:44.160]  But then your labs and your homework assignments.
+[27:44.160 --> 27:47.160]  There is one unit homework assignment.
+[27:47.160 --> 27:50.160]  There's not a homework assignment for every chapter.
+[27:50.160 --> 27:51.160]  It's for the unit.
+[27:51.160 --> 27:54.160]  So you'll see that this homework is units 20 through 22.
+[27:54.160 --> 28:05.160]  And then here, this second unit 2 homework is 23 to 27, even though it is, it is in every module.
+[28:05.160 --> 28:09.160]  Because you should be working on it as you go through the chapters.
+[28:09.160 --> 28:15.160]  But it's there, but it's all the same assignment.
+[28:15.160 --> 28:20.160]  The labs, remember there, this reading, again, it is all extra credit for it.
+[28:20.160 --> 28:23.160]  So it's going to give you extra points at the end.
+[28:23.160 --> 28:27.160]  And these, it's kind of the setup for every chapter.
+[28:27.160 --> 28:30.160]  Pay attention to the due dates that are here on what is due.
+[28:30.160 --> 28:33.160]  Because they aren't due every week.
+[28:33.160 --> 28:38.160]  They're due at, all the assignments are due that Sunday night when the unit ends.
+[28:38.160 --> 28:43.160]  Because the exam opens for that week after that unit closes.
+[28:43.160 --> 28:49.160]  So let me come over here and let's look at the grades here.
+[28:49.160 --> 28:53.160]  So if we look at all of this, this is lists all of our grades.
+[28:53.160 --> 28:56.160]  And I see that's missing because the due date is wrong.
+[28:56.160 --> 28:57.160]  I'll fix that too.
+[28:57.160 --> 28:58.160]  I'm glad I looked at that.
+[28:58.160 --> 29:03.160]  But if we look right here to our grading percentage, right?
+[29:03.160 --> 29:09.160]  And I talked about the final exam, homework and quizzes, the labs, project exams, and what they're weighted.
+[29:09.160 --> 29:12.160]  But we see this extra credit is worth 5%.
+[29:12.160 --> 29:20.160]  And that makes the total that the, all of the grades are at 105%.
+[29:20.160 --> 29:24.160]  However, our grading scale only goes up to 100.
+[29:24.160 --> 29:32.160]  So that means you can get 5 total points added to your final grade if you complete all of those extra credit assignments.
+[29:32.160 --> 29:36.160]  So that is worth way more than the emails that I get from students.
+[29:36.160 --> 29:37.160]  Oh, I missed this.
+[29:37.160 --> 29:39.160]  Can I make this assignment up?
+[29:39.160 --> 29:42.160]  No, you can't make that assignment up after it's due.
+[29:42.160 --> 29:50.160]  But if you are doing the extra credit as you go, that can give you more points than what that one assignment is worth.
+[29:50.160 --> 29:57.160]  However, when you're thinking about the homeworks and the quizzes, that's only the homework assignments.
+[29:57.160 --> 30:02.160]  So that is a pretty good portion of your course grade.
+[30:02.160 --> 30:09.160]  So definitely, I would be, make sure you're completing all the homework assignments and work through the extra credit.
+[30:09.160 --> 30:12.160]  Because that's going to give you more points at the end.
+[30:12.160 --> 30:14.160]  Because again, our grading scale is only out of 100.
+[30:14.160 --> 30:18.160]  So when you're factoring things in, keep that in mind.
+[30:18.160 --> 30:26.160]  When you're looking at the grades in Canvas, we don't, you're not going to turn in the project or that final exam until the end of the course.
+[30:26.160 --> 30:31.160]  So you're not going to have those assignments in to be factored into your final grade.
+[30:31.160 --> 30:37.160]  So whenever you see this, calculate based only on grade assignments versus if you take that off,
+[30:37.160 --> 30:44.160]  it's going to, it's going to grade it based on every assignment that in treat the assignments that you haven't done is zeros.
+[30:44.160 --> 30:49.160]  And that's going to give you kind of your more accurate grade.
+[30:49.160 --> 30:54.160]  If you have this, that this, the grade is only based on your graded assignments.
+[30:54.160 --> 30:58.160]  It's, and you don't have a grade for a project or the final exam.
+[30:58.160 --> 31:03.160]  That grade is not going to be your accurate overall grade at the moment.
+[31:03.160 --> 31:10.160]  But if you have any questions about that, feel free to reach out and we can figure out, you know, where you are if you're concerned about your grade.
+[31:10.160 --> 31:19.160]  But just want to make sure that all of the reading assignments and you'll see what category they fall under here.
+[31:19.160 --> 31:27.160]  They're all extra credit. So if you don't do it, you'll see a zero in there, but it's not going to count against your grade at the end of the course.
+[31:27.160 --> 31:34.160]  It might factor in now until you get grades in all of those categories.
+[31:34.160 --> 31:42.160]  So it is going to look a little off at the moment, but just know any of those extra credit, they are all extra points for it.
+[31:42.160 --> 31:50.160]  So again, if you have any questions on what your actual grade is, reach out to me and we can figure that out.
+[31:50.160 --> 32:03.160]  So with that, again, remember that when we are going through the assignments that are due, they are what show in the module.
+[32:03.160 --> 32:07.160]  We don't have discussions and we don't have the unit quizzes for it.
+[32:07.160 --> 32:10.160]  So the only things that you have are the homework assignments to do.
+[32:10.160 --> 32:15.160]  And this course moves so quickly, that's going to be enough.
+[32:15.160 --> 32:21.160]  You're going to be spending quite a bit of time every week on that and trying to go through and read all the chapters, everything.
+[32:21.160 --> 32:27.160]  So with that, I hope you have a good layout of the course.
+[32:27.160 --> 32:30.160]  And again, make sure you're going through clicking on everything.
+[32:30.160 --> 32:50.160]  If links don't work, if you have questions about things, if you have comments about it, that is greatly appreciated because a lot of this is kind of a new setup that and using new software that may or may not be accurate and linked correctly.
+[32:50.160 --> 32:57.160]  And I may not be aware of that. So I'd appreciate emails feedback on that.
+[32:57.160 --> 33:03.160]  So with that, I hope you guys have a fabulous day and I'm super excited to have you guys in class.
+Traceback (most recent call last):
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/bin/mlx_whisper", line 12, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/lib/python3.14/site-packages/mlx_whisper/cli.py", line 244, in main
+    result = transcribe(
+        audio_obj,
+        path_or_hf_repo=path_or_hf_repo,
+        **args,
+    )
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/lib/python3.14/site-packages/mlx_whisper/transcribe.py", line 297, in transcribe
+    result: DecodingResult = decode_with_fallback(mel_segment)
+                             ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/lib/python3.14/site-packages/mlx_whisper/transcribe.py", line 224, in decode_with_fallback
+    decode_result = model.decode(segment, options)
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/lib/python3.14/site-packages/mlx_whisper/decoding.py", line 740, in decode
+    result = DecodingTask(model, options).run(mel)
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/lib/python3.14/site-packages/mlx_whisper/decoding.py", line 650, in run
+    tokens, sum_logprobs, no_speech_probs = self._main_loop(audio_features, tokens)
+                                            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/velusamykaruppagounder/.cache/uv/archive-v0/9RzQt4oLDoyp5j16/lib/python3.14/site-packages/mlx_whisper/decoding.py", line 600, in _main_loop
+    mx.async_eval(completed, tokens, sum_logprobs, no_speech_probs)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

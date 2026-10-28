@@ -1,0 +1,36 @@
+{
+  "source": "/Users/velusamykaruppagounder/Documents/BIO II/Chapter PPTs and Other Study Materials/Other/mader12e_Binary Fission.mp4",
+  "audio_duration_seconds": 59.9306875,
+  "profile": {
+    "backend": "audio",
+    "runtime_version": "0.6.1",
+    "model_repo": "mlx-community/Qwen3-ASR-1.7B-4bit",
+    "model": "/Users/velusamykaruppagounder/.cache/huggingface/hub/models--mlx-community--Qwen3-ASR-1.7B-4bit/snapshots/78a389c776a5483b2d0d4ea5494e11012e0d6159",
+    "model_revision": "78a389c776a5483b2d0d4ea5494e11012e0d6159",
+    "batch_size": 4,
+    "force_float16": false,
+    "python": "/Users/velusamykaruppagounder/.local/share/uv/tools/mlx-audio/bin/python",
+    "selected_on": "2026-10-21",
+    "benchmark": "Fastest complete configuration tested on this M3/16 GB among 16 runtime/precision/batching cases. Four-minute sample: 42.78s. Not a universal fastest-model guarantee."
+  },
+  "inference_seconds": 10.052048833000299,
+  "total_seconds": 10.316059166998457,
+  "word_count": 100,
+  "text": "Bacterial cells increase in numbers by the process of binary fission. The parent cell grows in size while doubling all of its contents. Then it divides to become two daughter cells. Each daughter cell is identical to the parent cell. Two cells become four, which become eight, and so on. This results in exponential growth of the population. The time required for the number of cells in the population to double is called the generation time. Depending on the medium, temperature, and other conditions, some bacteria can double in minutes, other bacteria have generation times of several hours or days.",
+  "segments": [
+    {
+      "text": "Bacterial cells increase in numbers by the process of binary fission. The parent cell grows in size while doubling all of its contents. Then it divides to become two daughter cells. Each daughter cell is identical to the parent cell. Two cells become four, which become eight, and so on. This results in exponential growth of the population.",
+      "language": "English",
+      "start": 0.0,
+      "end": 31.0035
+    },
+    {
+      "text": "The time required for the number of cells in the population to double is called the generation time. Depending on the medium, temperature, and other conditions, some bacteria can double in minutes, other bacteria have generation times of several hours or days.",
+      "language": "English",
+      "start": 31.0035,
+      "end": 59.9306875
+    }
+  ],
+  "automatic_transcript": true,
+  "timestamps": "coarse audio chunks"
+}
