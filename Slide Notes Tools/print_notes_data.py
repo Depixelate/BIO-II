@@ -1248,3 +1248,263 @@ INDEX += [
     ("Weathering", r"weather", s25(9), None),
     ("Xylem", r"xylem", s25(28, 29), None),
 ]
+
+
+# ======================================================================== Ch 26
+def s26(*ns):
+    return [(26, n) for n in ns]
+
+
+CHAPTERS.append(26)
+TA_SKIP[26] = {48}   # 48: "Accessibility Content" cover slide
+# The text alternative linked from 26.3.41 (hidden slide 56) describes Mimosa's leaves, not the short-day plant:
+# print it with the Mimosa slide instead, and give 26.3.41 its short alt text (cocklebur).
+TEXT_ALT_MATCH[26] = {41: None, 35: 56}
+PRINT_BOTH |= {(26, 35)}   # its short alt text says why the leaflets collapse
+FIG_FIX[(26, 7)] = [("(2,4-D)Gibberellins", "(2,4-D). Gibberellins")]
+CAPTIONS.update({
+    (26, 13): "a. The plant on the right was treated with gibberellins; the plant on the left was not. b. The grapes "
+              "are larger on the right, because gibberellins increased the space between the grapes, allowing them to "
+              "grow larger.",
+})
+PROCESS.update({
+    (26, 15): "Tissue culture experiments show that auxin and cytokinin interact: with the usual amounts of the two "
+              "hormones, tobacco cells form a callus of undifferentiated tissue; one ratio of auxin to cytokinin makes "
+              "the callus produce roots; another, vegetative shoots and leaves; yet another, floral shoots. It is the "
+              "relative concentrations of both hormones that produce the effect.",
+    (26, 19): "When ABA (the first messenger) binds to its receptor in the guard cell plasma membrane, the second "
+              "messenger, calcium ions (Ca2+), enters. Then K+ channels open and K+ leaves the guard cells; water "
+              "follows, and the stoma closes.",
+    (26, 43): "If red light is prevalent, as in bright sunlight, growth is normal. If far-red light is prevalent, as in "
+              "the shade, or the plant grows in darkness, etiolation occurs: the shoot increases in length and the "
+              "leaves stay small and yellow. These effects are due to phytochrome.",
+})
+CORRECTIONS.update({
+    (26, 17): "Abscission isn't ABA's job: applying ABA promotes it, but ABA is no longer believed to cause it "
+              "naturally; ethylene brings it about (26.1.20).",
+    (26, 29): "Roots, which have root caps, grow downward; stems grow upward.",
+    (26, 41): "The deck's text alternative for this slide describes Mimosa's leaves (printed with 26.2.35). The figure "
+              "is cocklebur, a short-day plant: it flowers when the night is longer than a critical length, and a "
+              "flash of light that interrupts that night stops it flowering (Fig. 26.16a).",
+})
+
+TABLES += [
+    {"ch": 26, "title": "Plant hormones", "slides": s26(7, 8, 12, 14, 17, 20), "wide": True,
+     "head": ["Hormone", "Made in", "Effects", "Commercial use"],
+     "rows": [
+         (["Auxin (IAA)", "shoot apical meristem; young leaves, flowers, fruits",
+           "apical dominance (blocks axillary buds); root and fruit growth; prevents loss of leaves and fruit; "
+           "phototropism (shady-side cells elongate); gravitropism",
+           "herbicides (2,4-D; Agent Orange); fruit without pollination"], s26(7, 8, 10)),
+         (["Gibberellins (GA3)", "young leaves, roots, embryos, seeds, fruits (textbook)",
+           "stem elongation; break bud and seed dormancy", "induce growth in crops; larger grapes"], s26(12, 13)),
+         (["Cytokinins (zeatin)", "dividing root tissue, seeds, fruits",
+           "cell division and organ formation; root nodules, galls; with auxin, prevent senescence; low levels in "
+           "autumn let leaves change color and die", "prolong the life of cut flowers and stored vegetables"],
+          s26(14, 16)),
+         (["Abscisic acid (ABA)", "any green tissue",
+           "the stress hormone: starts and maintains seed and bud dormancy; closes stomata; corn that can't respond "
+           "shows vivipary", "thinning fruit, so the remaining fruit grows larger"], s26(7, 17, 18)),
+         (["Ethylene (gas)", "formed from the amino acid methionine",
+           "abscission (stimulates cellulase); ripens fruit (softening, flavor, smell); inhibits axillary buds; "
+           "suppresses stem and root elongation", "ripening fruit for market"], s26(20, 21, 22)),
+     ]},
+    {"ch": 26, "title": "Movements", "head": ["Response", "Stimulus / how"],
+     "rows": [
+         (["Phototropism", "light: stems grow toward it (shady-side cells elongate, auxin); roots insensitive or "
+                           "negative; phototropin absorbs blue light"], s26(25, 26)),
+         (["Thigmotropism", "touch (plant, animal, rock, wind): tendrils and stems coil (runner beans, morning "
+                            "glories)"], s26(27, 28)),
+         (["Thigmomorphogenesis", "whole-plant shape change from touch: barrier, wind, rain"], s26(27)),
+         (["Gravitropism", "gravity: stem up, roots down; statoliths (starch in amyloplasts) settle in root-cap "
+                           "cells; auxin"], s26(29, 30)),
+         (["Turgor (nastic) movement", "no growth, not directional: turgor changes, electrical impulses or "
+                                       "hormones (Mimosa pudica, Venus flytrap)"], s26(33, 35)),
+         (["Sleep movements", "daily, with light and dark; circadian rhythm"], s26(33, 46)),
+     ]},
+    {"ch": 26, "title": "Photoperiod", "slides": s26(40, 41, 42), "head": ["Plant", "Flowers when", "Night flash"],
+     "rows": [
+         ["Short-day (long-night)", "day shorter than the critical length (night longer)", "stops flowering"],
+         ["Long-day (short-night)", "day longer than the critical length (night shorter); clover",
+          "makes it flower"],
+         ["Day-neutral", "regardless of day length", "–"],
+     ]},
+    {"ch": 26, "title": "Phytochrome", "slides": s26(37, 38, 39, 43, 44), "head": ["", "What it does"],
+     "rows": [
+         ["Pr", "inactive; absorbs red light (daylight) and becomes Pfr"],
+         ["Pfr", "active; absorbs far-red light and becomes Pr in the evening, shade or night"],
+         ["Effects", "detects photoperiod changes; promotes germination and flowering; inhibits shoot elongation"],
+         ["Spacing", "more far-red light (shade from neighbors) → grows taller to compete"],
+         ["Darkness", "etiolation: long shoots, small yellow leaves"],
+     ]},
+    {"ch": 26, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["auxin vs cytokinins", "apical dominance, elongation, phototropism vs cell division, organ formation"],
+          s26(8, 14)),
+         (["gibberellins vs abscisic acid", "break dormancy vs start and keep dormancy"], s26(12, 17)),
+         (["abscisic acid vs abscission", "the stress hormone vs leaf, fruit or flower drop (caused by ethylene)"],
+          s26(17, 20)),
+         (["primary vs secondary metabolites", "sugars, amino acids every cell needs vs defense chemicals"], s26(23)),
+         (["positive vs negative tropism", "toward vs away from the stimulus"], s26(24)),
+         (["tropism vs turgor movement", "growth, directional vs no growth, not directional"], s26(24, 33)),
+         (["thigmotropism vs thigmomorphogenesis", "growth toward a touch vs whole-plant shape change"], s26(27)),
+         (["phototropin vs phytochrome", "blue light, phototropism vs red and far-red light, photoperiod"],
+          s26(25, 36, 37)),
+         (["statoliths vs amyloplasts", "starch grains that settle vs the organelles holding them"], s26(29)),
+         (["short-day vs long-day plant", "flowers when nights are long vs short"], s26(40)),
+         (["photoperiodism vs circadian rhythm", "response to day or night length vs a roughly 24-hour cycle"],
+          s26(36, 45)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 26, "title": "Signal transduction", "slides": s26(4, 5),
+     "note": "signal (e.g. blue light) → receptor protein (plasma membrane, cytoplasm or nucleus) activated → "
+             "transduction pathway: relay proteins amplify and convert the signal → cellular response, most often a "
+             "change in gene expression (stem bending, root growth, defense)"},
+    {"ch": 26, "title": "Auxin bends a stem toward light", "slides": s26(10, 11),
+     "note": "light from one side → auxin moves to the shady side → binds receptors → proton pumps push H+ into the cell "
+             "wall → enzymes break cellulose fibers; the wall loosens → water enters, turgor rises → the cell enlarges "
+             "and rebuilds a longer wall → shady side elongates; stem bends toward the light"},
+    {"ch": 26, "title": "Auxin experiment", "slides": s26(9),
+     "note": "coleoptile tip (contains auxin) removed → placed on agar; auxin diffuses into it → agar block placed on one "
+             "side of the cut coleoptile → it curves beneath the block"},
+    {"ch": 26, "title": "ABA closes stomata", "slides": s26(19),
+     "note": "ABA binds a receptor on the guard cell → Ca2+ enters (second messenger) → K+ channels open; K+ leaves → "
+             "water leaves → stoma closes (textbook)"},
+    {"ch": 26, "title": "Roots sense gravity", "slides": s26(29, 30),
+     "note": "statoliths (starch grains in amyloplasts) settle to the bottom of root-cap cells → they press on "
+             "organelles, signaling down → auxin redistributes → the root grows down (a clinostat's rotation stops "
+             "them settling)"},
+    {"ch": 26, "title": "Phytochrome cycle", "slides": s26(37, 38, 39),
+     "note": "Pr (inactive) absorbs red light in daylight → Pfr (active) → Pfr reverts (far-red light; evening, shade, "
+             "night) → Pr"},
+]
+
+USES += [
+    {"ch": 26, "title": "", "slides": s26(7, 10, 13, 14, 22, 31), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Synthetic auxins", "herbicides (2,4-D); fruit without pollination"], s26(7, 10)),
+         (["Agent Orange", "a synthetic auxin used to defoliate forests in Vietnam"], s26(10)),
+         (["Gibberellins", "induce crop growth; larger grapes"], s26(12, 13)),
+         (["Cytokinins", "keep cut flowers and stored vegetables fresh"], s26(14)),
+         (["ABA", "thinning fruit so the rest grows larger"], s26(7)),
+         (["Ethylene", "ripening fruit for market; tomatoes engineered without it ship green"], s26(7, 22)),
+         (["Arabidopsis", "model organism for plant molecular genetics"], s26(31)),
+     ]},
+]
+
+CLUES += [
+    ("Hormones", [
+        ("chemical signal made in one part, acts elsewhere; travels in phloem", "hormone", s26(6)),
+        ("receptor → relay proteins → response", "signal transduction", s26(4, 5)),
+        ("the shoot tip keeps side buds from growing", "apical dominance (auxin)", s26(8)),
+        ("weed killer 2,4-D; Agent Orange", "synthetic auxins", s26(7, 10)),
+        ("coleoptile tip on agar makes a seedling curve", "auxin", s26(9)),
+        ("makes stems elongate; breaks seed and bud dormancy", "gibberellins", s26(12)),
+        ("bigger grapes, much taller plants", "gibberellins", s26(13)),
+        ("cell division and organ formation; root nodules; galls", "cytokinins", s26(14)),
+        ("keeps cut flowers and stored vegetables fresh; prevents aging", "cytokinins", s26(14)),
+        ("leaves change color in autumn", "low cytokinin levels", s26(14, 16)),
+        ("their ratio decides roots or shoots in tissue culture", "auxin and cytokinins", s26(15)),
+        ("stress hormone; keeps seeds and buds dormant; closes stomata", "abscisic acid (ABA)", s26(17)),
+        ("corn kernels sprouting on the cob", "vivipary (insensitive to ABA)", s26(17, 18)),
+        ("gas formed from methionine", "ethylene", s26(20)),
+        ("leaves, fruit or flowers dropping off", "abscission (ethylene)", s26(20, 21)),
+        ("a ripe apple makes a holly twig drop its leaves", "ethylene", s26(21)),
+        ("softens fruit and gives it flavor and smell", "ethylene", s26(20, 22)),
+        ("defense chemicals once thought to be waste", "secondary metabolites", s26(23)),
+        ("sugars and amino acids every cell needs", "primary metabolites", s26(23)),
+    ]),
+    ("Movements", [
+        ("growth toward or away from a stimulus from one direction", "tropism", s26(24)),
+        ("stem bends toward a window", "positive phototropism", s26(25)),
+        ("pigment that absorbs blue light for phototropism", "phototropin", s26(25, 26)),
+        ("tendrils coiling around a pole", "thigmotropism", s26(27, 28)),
+        ("wind-blown plant grows short and sturdy", "thigmomorphogenesis", s26(27)),
+        ("plant laid sideways: stem turns up, root turns down", "gravitropism", s26(29, 30)),
+        ("starch grains settling in root-cap cells", "statoliths (in amyloplasts)", s26(29)),
+        ("rotating chamber that cancels gravity's effect", "clinostat", s26(30)),
+        ("weed with a 5–6-week generation time; no commercial value", "Arabidopsis thaliana (model organism)", s26(31)),
+        ("movement with no growth that doesn't depend on direction", "turgor (nastic) movement", s26(33)),
+        ("leaflets collapse within a second of a touch", "Mimosa pudica (turgor loss)", s26(33, 35)),
+        ("trap snaps shut on an insect", "Venus flytrap (turgor movement)", s26(33)),
+        ("leaves fold every night", "sleep movements", s26(33)),
+    ]),
+    ("Light and timing", [
+        ("response to day or night length, e.g. when to flower", "photoperiodism", s26(36)),
+        ("blue-green leaf pigment with two forms", "phytochrome", s26(37)),
+        ("inactive form of phytochrome; absorbs red light", "Pr", s26(37, 38)),
+        ("active form of phytochrome", "Pfr", s26(38, 39)),
+        ("flowers only when the night is longer than a critical length", "short-day (long-night) plant", s26(41)),
+        ("flowers when a flash of light interrupts a long night", "long-day (short-night) plant", s26(42)),
+        ("flowers regardless of day length", "day-neutral plant", s26(40)),
+        ("seedlings grown in the dark: long, yellow shoots", "etiolation", s26(43)),
+        ("more far-red light from neighbors → grows taller", "phytochrome (plant spacing)", s26(44)),
+        ("about 24 hours; continues without outside cues", "circadian rhythm", s26(45, 46)),
+        ("internal timer that keeps a rhythm going", "biological clock", s26(45)),
+        ("rhythm synchronized to light at daybreak", "entrainment", s26(45)),
+    ]),
+]
+
+GLOSSARY[26] = [
+    ("Abiotic / biotic", "nonliving (light, water, temperature) / living (herbivores, parasites, competing plants) "
+                         "(textbook)", [23]),
+    ("Agar", "a gelatin-like material (textbook)", [9]),
+    ("Callus", "a mass of undifferentiated cells grown in tissue culture (textbook)", [15]),
+    ("Cellulase", "an enzyme that breaks down cellulose, the main material of plant cell walls (textbook)", [20]),
+    ("Clinostat", "a device that slowly rotates a plant so its statoliths can't settle, cancelling the effect of "
+                  "gravity (textbook)", [30]),
+    ("Coleoptile", "a protective sheath over a grass seedling's young leaves (textbook)", [9]),
+    ("Critical length", "the day (or night) length a plant's flowering depends on; for example, 14 hours for spinach "
+                        "and ragweed (textbook)", [40, 41, 42]),
+    ("Gall", "a tumor-like growth caused by bacteria, fungi, insects or nematodes (textbook)", [14]),
+    ("Herbicide", "a weed killer (textbook)", [7, 10]),
+    ("Herbivory", "animals eating plants (textbook)", [23]),
+    ("Phosphorylated", "with a phosphate group added (from ATP) (textbook)", [26]),
+    ("Photoreceptor", "a protein with a pigment that responds to light (textbook)", [25, 36]),
+    ("Pulvinus", "a thickening at the base of a leaflet; its cells' loss of turgor folds Mimosa's leaves (textbook)",
+     [35]),
+    ("Second messenger", "a molecule inside the cell, such as Ca2+, that passes on the signal from a receptor "
+                         "(textbook)", [19]),
+]
+
+INDEX += [
+    ("Abscisic acid (ABA)", r"abscisic|\bABA\b", s26(17), None),
+    ("Abscission", r"abscission", s26(20, 21), "(ethylene)"),
+    ("Agent Orange, 2,4-D", r"agent orange|2,4-D", s26(10, 7), "(synthetic auxins)"),
+    ("Amyloplasts, statoliths", r"amyloplast|statolith", s26(29), None),
+    ("Apical dominance", r"apical dominance", s26(8), None),
+    ("Arabidopsis thaliana", r"arabidopsis|A\. thaliana", s26(31), "(model organism)"),
+    ("Auxin", r"auxin", s26(8), None),
+    ("Biological clock", r"biological clock", s26(36, 45), None),
+    ("Circadian rhythm", r"circadian", s26(45, 46), None),
+    ("Coleoptile", r"coleoptile", s26(9), None),
+    ("Cytokinins", r"cytokinin", s26(14), None),
+    ("Day-neutral plants", r"day-neutral", s26(40), None),
+    ("Dormancy", r"dorman", s26(12, 17), None),
+    ("Entrainment", r"entrainment", s26(45), None),
+    ("Ethylene", r"ethylene", s26(20), None),
+    ("Etiolation", r"etiolat", s26(43), None),
+    ("Gibberellins", r"gibberell", s26(12), None),
+    ("Gravitropism", r"gravitropism", s26(29), None),
+    ("Hormones", r"hormone", s26(6, 7), None),
+    ("Long-day (short-night) plants", r"long-day", s26(40, 42), None),
+    ("Mimosa pudica", r"mimosa", s26(33, 35), "(turgor movement)"),
+    ("Phototropin", r"phototropin", s26(25, 26), None),
+    ("Phototropism", r"phototropism", s26(25), None),
+    ("Photoperiodism", r"photoperiod", s26(36), None),
+    ("Phytochrome (Pr, Pfr)", r"phytochrome|\bPfr\b", s26(37, 38), None),
+    ("Primary, secondary metabolites", r"metabolite", s26(23), None),
+    ("Senescence", r"senescence", s26(14), None),
+    ("Short-day (long-night) plants", r"short-day", s26(40, 41), None),
+    ("Signal transduction", r"transduction", s26(4, 5), None),
+    ("Sleep movements", r"sleep", s26(33), None),
+    ("Stomata closing", r"stomat", s26(17, 19), "(ABA)"),
+    ("Thigmomorphogenesis", r"thigmomorphogenesis", s26(27), None),
+    ("Thigmotropism", r"thigmotropism", s26(27), None),
+    ("Tropism (positive, negative)", r"tropism", s26(24), None),
+    ("Turgor (nastic) movements", r"turgor movement|nastic|turgid|limp", s26(33, 34), None),
+    ("Venus flytrap", r"flytrap", s26(33), "(turgor movement)"),
+    ("Vivipary", r"vivipary", s26(17), None),
+]
