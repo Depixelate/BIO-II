@@ -4,13 +4,13 @@ These instructions are for an AI assistant working in the `BIO II` folder. Read 
 
 ## What you're changing
 
-The printed exam notes (the Word files in `Printed Exam Notes/`) are made by `Slide Notes Tools/build_print_docx.py`, which takes its font from **two lines** in `Slide Notes Tools/build_print_notes.py`. Change those two lines and rebuild; the script picks the largest font size at which every chapter's main file plus index file still fit 10 double-sided sheets (20 pages), and uses it for all files.
+The printed exam notes (the Word files in `Printed Exam Notes/`) are made by `Slide Notes Tools/build_print_docx.py`, which takes its typeface from **two lines** in `Slide Notes Tools/build_print_notes.py`. Change those two lines and rebuild. The size is `FONT_SIZE` in `print_notes_data.py` (Unit 2: 11.5 pt, the user's choice); a new typeface may be wider or narrower, so check that every chapter still fits 10 double-sided sheets (the build's last lines say so), or let `--fit` pick the largest size that fits.
 
 **Never edit the .docx files by hand for this**; rebuild them.
 
 ## Rules
 
-- In the script, change only the two lines in step 2. Don't change any other code or file, except the note in `PLANS.md` (step 6).
+- In the script, change only the two lines in step 2 (and `FONT_SIZE`, if the user picks a size). Don't change any other code or file, except the note in `PLANS.md` (step 6).
 - Never modify, rename, move or delete the PowerPoint files, and don't delete any file without asking the user.
 - Don't open the PowerPoint app.
 
@@ -42,7 +42,7 @@ cd "Slide Notes Tools"
 PYTHONDONTWRITEBYTECODE=1 /tmp/printnotes-venv/bin/python build_print_docx.py --outdir "<test folder>"
 ```
 
-The first output line gives the size, e.g. `12.25 pt, 2 columns:`; the last must start with `checks passed`. The most likely problem is `the text isn't in <font>`: the name is misspelled or the font isn't installed, and LibreOffice silently used another font. If anything fails, put the two lines back and tell the user what it said.
+The first output line gives the size, e.g. `11.5 pt, 2 columns:`; the last must start with `checks passed`. If a chapter is over its 10 sheets, add `--fit` to find the largest size that fits. The most likely problem is `the text isn't in <font>`: the name is misspelled or the font isn't installed, and LibreOffice silently used another font. If anything fails, put the two lines back and tell the user what it said.
 
 **5. Show the user the test files** and the size. Only when they like it, run the same command without `--outdir` to replace the real files.
 
@@ -54,6 +54,6 @@ Set the two lines back to the values in step 2 and run the step 5 command.
 
 ## Good to know
 
-- A size the user picks instead of "largest that fits": add `--font 11` (2 columns by default). The output shows the page counts, which may exceed the budget.
+- A different size: set `FONT_SIZE` in `print_notes_data.py` (whole or half points; Word can't store finer sizes), or try one with `--font 11`. The output shows the sheets per chapter, which may exceed the budget.
 - The font can also be changed by hand in one file: Word, Styles pane, modify **Normal**; LibreOffice, Styles (F11), modify **Default Paragraph Style**. Then select all and press F9 in Word to update the page numbers.
 - The legacy PDF builder (`build_print_notes.py` run directly) uses the same two lines.

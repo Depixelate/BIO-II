@@ -1,6 +1,6 @@
 """Build the printed exam notes as editable Word documents (.docx), for Word or LibreOffice.
 
-usage: python build_print_docx.py [--only CH] [--fit | --font PT --cols N] [--outdir DIR]
+usage: python build_print_docx.py [--only CH] [--fit | --font PT [--cols N]] [--outdir DIR]
        python build_print_docx.py --guides [--font PT]     (only the quick-guides file)
 
 For each chapter it builds two files (see PRINTED_NOTES.md):
@@ -12,8 +12,10 @@ copy of all the quick guides (Unit 2 Quick Guides.docx).
 Content comes from build_print_notes.py's functions, print_notes_data.py and quick_guides.py. The font is set once,
 in the Normal style. Contents page numbers and "see page N" pointers are PAGEREF fields to bookmarks: LibreOffice
 recalculates them; Word shows the stored values (from LibreOffice's layout) until you select all and press F9.
-With --fit (the default) one font size is used for every chapter built: the largest at which each chapter's main
-file plus index file fit print_notes_data.SHEETS_PER_CHAPTER double-sided sheets, as LibreOffice lays them out.
+One body font size is used for every file except the quick-guides copy: print_notes_data.FONT_SIZE, or with --fit
+(or when FONT_SIZE is None) the largest size, in half points, at which each chapter's main and index files, printed
+separately, fit print_notes_data.SHEETS_PER_CHAPTER double-sided sheets with a page to spare (LibreOffice's layout).
+Headings and the page header are fixed steps above or below the body size (SIZE_STEP).
 LibreOffice runs headless with SAL_USE_VCLPLUGIN=osx on the Mac; without it, it can't see the Mac's fonts. Elsewhere
 (Linux) it uses `soffice` from the PATH, and Liberation Sans Narrow stands in for Arial Narrow (same letter widths).
 """
@@ -45,6 +47,14 @@ PAGE_W, MARGIN_LR, GAP = 8.5, 0.4, 0.2   # inches; the HL-2240 can't print withi
 BULLETS = 90                             # numbering id of the bullet list
 VALIDATOR = glob.glob(os.path.expanduser("~/.claude/skills/synced/*/docx/scripts/office/validate.py"))
 GUIDES_FONT = 11                         # the quick-guides file is for reading, so it gets its own, larger size
+# sizes of the larger and smaller text, in points above (or below) the body size. Word stores sizes in half points,
+# so the body size and these steps are whole or half points.
+SIZE_STEP = {
+    "notes": {"Notes title": 3, "Chapter heading": 4.5, "Lookup heading": 4.5, "Section heading": 2,
+              "Guide heading": 3, "Guide part": 1.5, "Group heading": 0.5, "header": -3, "header label": -4},
+    "guides": {"Notes title": 2.5, "Chapter heading": 3.5, "Guide heading": 2.5, "Guide part": 1, "header": -2,
+               "header label": -3},
+}
 HOW_TO = [
     "Find the key term or the clue (a description) in the question.",
     "Look it up in this chapter's Index file: the term index (term → slide) or the clue index (description → answer).",
@@ -139,6 +149,9 @@ class Builder:
     def __init__(self, chapters, fs, cols, pages, kind):
         """kind: "main", "index" or "guides". pages: bookmark name -> stored page number for PAGEREF fields."""
         self.chapters, self.fs, self.cols, self.pages, self.kind = chapters, fs, cols, pages, kind
+        if fs * 2 != int(fs * 2):
+            raise SystemExit(f"{fs} pt: Word stores font sizes in half points; use a size like 11 or 11.5")
+        self.steps = SIZE_STEP["guides" if kind == "guides" else "notes"]
         self.doc = Document()
         self.em = fs * 20                       # one em in twips
         self.text_w = PAGE_W - 2 * MARGIN_LR    # inches
@@ -169,13 +182,13 @@ class Builder:
         normal.paragraph_format.space_before = Pt(0)
         normal.paragraph_format.line_spacing = 1.0
 
-        def para(name, bold=False, italic=False, scale=1.0, before=0.0, after=0.0, keep=False, hang=0.0, box=False):
+        def para(name, bold=False, italic=False, before=0.0, after=0.0, keep=False, hang=0.0, box=False):
             s = st.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
             s.base_style = normal
             s.font.bold = bold or None
             s.font.italic = italic or None
-            if scale != 1.0:
-                s.font.size = Pt(round(self.fs * scale * 4) / 4)
+            if name in self.steps:
+                s.font.size = Pt(self.fs + self.steps[name])
             pf = s.paragraph_format
             pf.space_before, pf.space_after = Pt(self.fs * before), Pt(self.fs * after)
             pf.keep_with_next = keep or None
@@ -188,25 +201,25 @@ class Builder:
                 later[0].addprevious(bdr) if later else ppr.append(bdr)
             return s
 
-        para("Notes title", bold=True, scale=1.25, after=0.2)
+        para("Notes title", bold=True, after=0.2)
         para("How to", box=True)
         para("How to step", hang=1.0, box=True)
         para("Map section", bold=True, before=0.35, keep=True)
         para("Map entry", hang=0.75)
-        para("Chapter heading", bold=True, scale=1.35, before=0.5, after=0.25, keep=True)
-        para("Section heading", bold=True, scale=1.15, before=0.45, after=0.1, keep=True)
+        para("Chapter heading", bold=True, before=0.5, after=0.25, keep=True)
+        para("Section heading", bold=True, before=0.45, after=0.1, keep=True)
         para("Pointer", italic=True, after=0.1)
         para("Slide heading", before=0.3, keep=True)
         para("Bullet")
         para("Figure", hang=0.75)
         para("Correction", hang=0.75)
         para("Table text", after=0.12)
-        para("Lookup heading", bold=True, scale=1.35, before=0.4, after=0.2, keep=True)
+        para("Lookup heading", bold=True, before=0.4, after=0.2, keep=True)
         para("Table title", before=0.45, keep=True)
-        para("Group heading", bold=True, scale=1.03, before=0.4, after=0.1, keep=True)
+        para("Group heading", bold=True, before=0.4, after=0.1, keep=True)
         para("Entry", hang=0.75)
-        para("Guide heading", bold=True, scale=1.25, before=0.2, after=0.15, keep=True)
-        para("Guide part", bold=True, scale=1.1, before=0.4, after=0.1, keep=True)
+        para("Guide heading", bold=True, before=0.2, after=0.15, keep=True)
+        para("Guide part", bold=True, before=0.4, after=0.1, keep=True)
         para("Guide subheading", bold=True, before=0.25, keep=True)
         para("Guide text", after=0.25)
         para("Guide bullet")
@@ -357,8 +370,8 @@ class Builder:
         hp.add_run(" – ")
         field(hp, 'STYLEREF "Slide code" \\l', "")
         for run in hp.runs:
-            run.font.size = Pt(9)
-        r.font.size = Pt(8)
+            run.font.size = Pt(self.fs + self.steps["header"])
+        r.font.size = Pt(self.fs + self.steps["header label"])
         if footer:   # later sections share the first section's footer
             fp = section.footer.paragraphs[0]
             fp.alignment = 1
@@ -594,34 +607,41 @@ def build_one(chapters, kind, size, tmp, out):
     return path, pdf, n
 
 
+def sheets(*pages):
+    """Double-sided sheets for files printed separately: each file is rounded up to whole sheets."""
+    return sum((n + 1) // 2 for n in pages)
+
+
 def fit_size(chapters, budget, tmp):
-    """Largest font (0.25 pt steps) at which every chapter's main + index file fit `budget` pages."""
+    """Largest font (half-point steps; Word stores no finer) at which every chapter's main and index files, printed
+    separately, fit `budget` double-sided sheets with a page to spare in the main file (Word and other programs
+    can lay a page out a line or two longer than LibreOffice)."""
     cache = {}
 
-    def worst(q):
-        if q not in cache:
-            fs = q / 4
-            size = (fs, 2 if fs >= 9 else 3)
-            totals = []
+    def fits(h):
+        if h not in cache:
+            fs = h / 2
+            cols = 2 if fs >= 9 else 3
+            ok = True
             for c in chapters:
-                n = 0
+                n = {}
                 for kind in ("main", "index"):
                     path = os.path.join(tmp, f"fit{kind}{c.ch}.docx")
-                    Builder([c], fs, size[1], {}, kind).build().save(path)
+                    Builder([c], fs, cols, {}, kind).build().save(path)
                     with pymupdf.open(to_pdf(path, tmp)) as d:
-                        n += len(d)
-                totals.append(n)
-            cache[q] = max(totals)
-        return cache[q]
+                        n[kind] = len(d)
+                ok = ok and sheets(n["main"] + 1, n["index"]) <= budget
+            cache[h] = ok
+        return cache[h]
 
-    lo, hi = 28, 64   # quarter points: 7 pt .. 16 pt
+    lo, hi = 14, 32   # half points: 7 pt .. 16 pt
     while lo < hi:
         mid = (lo + hi + 1) // 2
-        if worst(mid) <= budget:
+        if fits(mid):
             lo = mid
         else:
             hi = mid - 1
-    fs = lo / 4
+    fs = lo / 2
     return fs, 2 if fs >= 9 else 3
 
 
@@ -650,6 +670,8 @@ def check_main(c, docx_path):
                 problems.append(f"{c.code(n)}: figure text missing from the document")
         if c.frame(n) and c.frame(n) not in flat:
             problems.append(f"{c.code(n)}: life-cycle step line missing")
+        if (c.ch, n) in D.CORRECTIONS and P.clean(D.CORRECTIONS[(c.ch, n)]) not in flat:
+            problems.append(f"{c.code(n)}: “Textbook:” correction missing")
     for text in guide_texts(c.ch):
         if P.clean(text) not in flat:
             problems.append(f"quick guide text missing: {text[:60]}")
@@ -755,15 +777,20 @@ def main():
         if "--guides" in sys.argv:   # only the guides file
             out, n, problems = build_guides(outdir, tmp, float(arg("--font", GUIDES_FONT)))
             print(f"{n} pages in LibreOffice -> {out}")
-            print("\n".join(problems) if problems else "checks passed: guide citations match their slides; valid Word file")
+            if problems:
+                print("\n".join(problems))
+                sys.exit(1)
+            print("checks passed: every cited slide exists and mentions a key word of the statement; valid Word file")
             return
         only = int(arg("--only")) if "--only" in sys.argv else None
         chapters = [P.Chapter(ch) for ch in D.CHAPTERS if only is None or ch == only]
-        budget = 2 * D.SHEETS_PER_CHAPTER
+        budget = D.SHEETS_PER_CHAPTER
         if "--font" in sys.argv:
             size = (float(arg("--font")), int(arg("--cols", 2)))
-        else:
+        elif "--fit" in sys.argv or D.FONT_SIZE is None:
             size = fit_size(chapters, budget, tmp)
+        else:
+            size = (D.FONT_SIZE, 2)
         problems = P.check_citations(chapters) + check_guides(chapters)
         report = []
         kinds = (("main", "Printed Notes"), ("index", "Index"))
@@ -780,10 +807,12 @@ def main():
             return n
 
         for c in chapters:
-            total = sum(one([c], kind, f"Ch {c.ch} {label}.docx") for kind, label in kinds)
-            report.append(f"  Ch {c.ch} total: {total} pages ({(total + 1) // 2} sheets double-sided; budget {budget})")
-            if total > budget:
-                problems.append(f"Ch {c.ch}: {total} pages; the budget is {budget}")
+            n = [one([c], kind, f"Ch {c.ch} {label}.docx") for kind, label in kinds]
+            used = sheets(*n)
+            report.append(f"  Ch {c.ch}: {used} double-sided sheets ({n[0]} + {n[1]} pages, printed separately; "
+                          f"budget {budget})")
+            if used > budget:
+                problems.append(f"Ch {c.ch}: {used} sheets; the budget is {budget}")
         if only is None and len(chapters) > 1:   # the whole unit in one main file and one index file
             for kind, label in kinds:
                 one(chapters, kind, f"{D.UNIT} {label}.docx")
@@ -792,9 +821,12 @@ def main():
             problems += more
     print(f"{size[0]:g} pt, {size[1]} columns:")
     print("\n".join(report))
-    print("\n".join(problems) if problems else
-          "checks passed: all slide text, figure text, corrections and guide text present; citations match their "
-          "slides; page numbers match LibreOffice's layout; no pictures; valid Word files")
+    if problems:
+        print("\n".join(problems))
+        sys.exit(1)
+    print("checks passed: all slide text, figure text, corrections and guide text present; every cited slide exists "
+          "and mentions a key word of what it's cited for (meaning still needs a read-through); page numbers match "
+          "LibreOffice's layout; sheet budget met; no pictures; valid Word files")
 
 
 if __name__ == "__main__":

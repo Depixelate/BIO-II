@@ -8,20 +8,43 @@ According to the professor (in her email), what appears on the tests will come f
 
 Whenever I ask to understand a concept or ask for the definition of a term, first check the PowerPoints (`Chapter PPTs and Other Study Materials/`) for an existing definition or explanation. If one exists, tell me the chapter and slide number where it is found, and base the explanation on it.
 
-## Printed exam notes ("do the printed notes for chapter N")
+## Printed exam notes ("do the printed notes for chapter N" / "for Unit N")
 
-The professor said on a video call (by Oct 25, 2026) that printed notes are allowed on the exams: basically open-book, but no pictures and no computer. This is the standard for Unit 2 and every later unit:
+The professor said on a video call (by Oct 25, 2026) that printed notes are allowed on the exams: basically open-book, but no pictures and no computer. This is the standard for Unit 2 and every later unit. When I ask for it, do the whole job to this standard without asking me to review drafts: build, verify (the checklist in `Slide Notes Tools/PRINTED_NOTES.md`), fix, rebuild, then report.
 
-- **Word documents only**, built by `Slide Notes Tools/build_print_docx.py` from the untouched decks plus `Slide Notes Tools/print_notes_data.py`. The PDF builder (`build_print_notes.py`) is legacy.
+**Files**
+- **Word documents only**, built by `Slide Notes Tools/build_print_docx.py` from the untouched decks plus `Slide Notes Tools/print_notes_data.py` and `quick_guides.py`. The PDF builder (`build_print_notes.py`) is legacy.
 - **Two files per chapter**, each chapter done separately:
-  - `Printed Exam Notes/Ch NN Printed Notes.docx`: a how-to-use box and contents on page 1, then a plain-language **quick guide** (big picture, then one part per section), then every slide in order (figures as words, "Textbook:" corrections), then lookup tables.
+  - `Printed Exam Notes/Ch NN Printed Notes.docx`: a how-to-use box and contents on page 1, then the **quick guide** (big picture, then one part per section), then every slide in order (figures as words, "Textbook:" corrections), then lookup tables.
   - `Printed Exam Notes/Ch NN Index.docx`: that chapter's clue index, glossary and term index, and nothing else.
-  - For printing in one go, the full build also writes the whole unit as one main file and one index file (`Unit N Printed Notes.docx`, `Unit N Index.docx`; each chapter starts on a new right-hand page) and a convenience copy of all the quick guides (`Unit N Quick Guides.docx`). Keep these up to date with every rebuild; superseded outputs go in `Printed Exam Notes/Old/`.
-- **Page budget:** at most 10 double-sided sheets (20 pages) per chapter, main and index files together. One font size for all files: the largest that fits.
-- **Quick guide size:** whatever it takes to understand the chapter's important concepts and main terms, so I'm not lost on an exam question; no fixed length. Decide it from a deep review of each chapter: explain every high-priority concept, give the organism-by-organism lists one line per item, and leave numbers, extra examples and textbook-only extras to the tables. Give every chapter the same depth (questions are spread evenly across chapters).
-- **Layout:** two columns everywhere, a column line, borders on all table cells (black is fine), no pictures, no shaded fills. No boxes around text in the columns (the only box is the page-1 how-to box); the quick guide is plain text.
-- **Rules:** every fact traces to a slide (or its text alternative) or the textbook, with slide codes; the textbook wins over a slide, also on points worth asking the professor about (the user's decision, Oct 28).
-- The full how-to (workflow for a new chapter, data fields, figure rules, verification checklist) is in `Slide Notes Tools/PRINTED_NOTES.md`; follow it. The current Unit 2 job and its progress log are in `PLANS.md`.
+- **Whole-unit files**, for printing in one go: every full build also writes `Unit N Printed Notes.docx` and `Unit N Index.docx` (each chapter starts on a new right-hand page) and a reading copy of all the quick guides, `Unit N Quick Guides.docx`. Keep all of them up to date with every rebuild. Superseded outputs go in `Printed Exam Notes/Old/`; stale Word lock files (`~$...`) can be deleted.
+
+**Page budget and font**
+- At most **10 double-sided sheets per chapter**, counting the main and index files as printed separately: each file rounds up to whole sheets (2 pages = 1 sheet), so a 15-page main file plus a 5-page index is 8 + 3 = 11 sheets.
+- **One body font size for all chapter and unit files**, in half-point steps (Word can't store finer sizes); headings and the page header are fixed steps above or below it. Unit 2 is **11.5 pt** (my choice, Oct 28: everything half a point smaller than before). For a new unit, use the largest size that fits the budget with a page to spare (`--fit`). The Quick Guides reading copy stays at 11 pt.
+
+**Quick guides**
+- Written for someone who hasn't gone through the chapter: simple, clear language, short sentences, every term explained in plain words where it first appears. It must cover every important concept and the terms needed to understand the chapter and answer its exam questions, so I'm not lost during the exam.
+- Concise: no filler and no repetition (don't re-explain an earlier chapter or repeat the intro in the first section). Uses, history, exact numbers, extra examples and textbook-only extras go to the lookup tables, not the guide.
+- Say what each organism or example is, so contrasts make sense: living or extinct, and which group it belongs to (e.g. Cooksonia is an extinct early vascular plant, not a lycophyte).
+- Don't make a slide's claim stronger: never add absolute words ("only", "all", "always", "every"); on Unit 1 they marked the wrong answers.
+- Length follows from a deep review of each chapter, not a target: explain every high-priority concept, give organism-by-organism lists one line per item, and end each section with its look-alike traps. Every chapter gets the same depth (questions are spread evenly across chapters).
+
+**Layout**
+- Two columns, a column line, borders on all table cells (black is fine), no pictures, no shaded fills. No boxes around text in the columns: the only box is the page-1 how-to box (it and the title span the page). The quick guide is plain text.
+
+**Accuracy**
+- Every fact traces to a slide (or its text alternative) or the textbook, with slide codes.
+- When a slide and the textbook disagree, the textbook wins, also on points worth asking the professor about (my decision, Oct 28): print the correct version on the slide as a "Textbook:" note and add a row to the study guide's slide-errors list. Exception: when the textbook contradicts itself, follow the slide (e.g. 24.3.30, monocot roots don't undergo secondary growth).
+- Check every chapter at the same depth, not just the first: compare every slide bullet with the textbook, read every figure description (text alternative) for garbled or wrong statements, and check every guide sentence against its slides. Work from the text actually printed in the packets, not an older dump.
+
+The full how-to (workflow for a new chapter, data fields, figure rules, verification checklist) is in `Slide Notes Tools/PRINTED_NOTES.md`; follow it. The current Unit 2 job and its progress log are in `PLANS.md`.
+
+## Working with me
+
+- After making changes: commit, push and open a new pull request. Don't watch it; I review and merge. If the last pull request was already merged, start the branch fresh from `main`.
+- When I ask for a review, report what you find and change nothing.
+- In the report, say what changed, what you found that's still open, and anything worth asking the professor.
 
 ## Slide speaker notes ("do the notes thing for chapter N")
 

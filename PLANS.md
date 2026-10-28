@@ -72,11 +72,10 @@ For anything else, choose sensibly, note it in Progress, and continue.
    - `Printed Exam Notes/Ch NN Index.docx`: that chapter's **clue index, glossary and term index**, and nothing else.
 
    The three indexes appear only in the index file. Split Ch 23's existing file the same way.
-3. **Page budget: at most 10 double-sided sheets (20 pages) per chapter, counting that chapter's main file plus its index file together.**
-   - Use **one font size for all files**: the largest at which every chapter fits.
-   - The existing `--fit` logic searches font sizes in 0.25 pt steps using LibreOffice's page count; extend it to the combined budget.
-   - Set `SHEETS_PER_CHAPTER = 10` in `print_notes_data.py`.
-4. **One quick guide at the front of each main file,** about 3–4 pages:
+3. **Page budget: at most 10 double-sided sheets per chapter, counting that chapter's main and index files as printed separately (each rounded up to whole sheets).** (Updated Oct 28: counting pages together hid that 15 + 5 pages is 11 sheets.)
+   - Use **one body font size for all chapter and unit files**: Unit 2 is 11.5 pt (the user's choice, Oct 28: everything half a point smaller); `--fit` finds the largest size, in half points, that fits with a page to spare.
+   - `SHEETS_PER_CHAPTER = 10` and `FONT_SIZE = 11.5` in `print_notes_data.py`.
+4. **One quick guide at the front of each main file,** as long as the chapter needs (no fixed length; see `AGENTS.md`):
    - big picture first;
    - **one part per section, in order**;
    - **no separate section intros** in the slide pages. Each section heading gets only a one-line pointer: "Quick guide for this section: page N" (a PAGEREF field to a bookmark on that guide part).
@@ -203,6 +202,14 @@ For each chapter:
   3. Old PDFs moved to `Printed Exam Notes/Old/`; stale `~$ 23 Printed Notes.docx` deleted; `Unit 2 Quick Guides.docx` kept and rebuilt by every full build.
   5. Guides resized by content, not to a target: one rule for every chapter (explain every high-priority concept; one line per item in organism lists; numbers, extra examples, uses and textbook-only extras left to the tables). Ch 23 gained the high-priority points it lacked (23.1.11 tissues, 23.1.15 spores vs seeds disperse, 23.5.81 features, 23.5.86–87 cell counts); Ch 24–27 lost repeats, examples, uses and textbook extras. Words: Ch 23 1,660; 24 1,880; 25 1,660; 26 1,550; 27 1,750.
   - Full build: 12.25 pt; Ch 23 20 pages, 24 14, 25 12, 26 11, 27 12; all checks pass.
+- 2026-10-28, review follow-up (user: "do all the recommended changes"):
+  - Fonts: everything in the chapter and unit files half a point smaller (body 11.5 pt; headings 12–16 pt; page header 8.5/7.5 pt), set as `FONT_SIZE` in print_notes_data.py. The old "12.25 pt" was really 12 pt (Word stores half points); sizes are now whole or half points, and headings are fixed steps from the body size (`SIZE_STEP`). The Quick Guides copy is unchanged (11 pt).
+  - Budget now counts sheets per file (15 + 5 pages was really 11 sheets). Result: Ch 23 9 sheets (14 + 4 pages), Ch 24 7 (10 + 3), Ch 25 6 (9 + 2), Ch 26 5 (8 + 2), Ch 27 6 (9 + 2); Unit 2 Printed Notes 51 pages, Index 14, Quick Guides 10. `--fit` (largest size with a page to spare) also gives 11.5 pt.
+  - Monocot roots (24.3.30): follow the slide (no secondary growth); the textbook contradicts itself, so its correction was removed (user's decision).
+  - New "Textbook:" corrections: 23.1.9 gravity, 23.3.32 Cooksonia (extinct rhyniophyte, not a lycophyte), 23.5.74 and 23.5.77 species counts, 23.5.78 Nanjinganthus, 24.3.26 root cap, 24.4.46 pith vs primary xylem, 25.1.3 CO2 is inorganic, 26.1.10 auxin's receptor is in the nucleus, 27.1.9 label counts, 27.1.12 tube cell doesn't divide, 27.1.13 garbled life-cycle description. All listed in the study guide's §11.
+  - Guides rewritten for clarity (every term explained where it first appears; organisms placed in their groups, e.g. Cooksonia; no absolute words; no repeats) and gaps filled (tracheophytes, cortex stores food, vascular rays, alternate leaves, pressure and osmotic potential, cations, critical length, turgor-movement triggers, compound ovary). Removed: a stale sentence about 26.3.41, the hydroponics "only", fern uses, Archaefructus.
+  - Builder: checks every correction is printed, exits with an error on any problem, and says plainly what its citation check does. Corrections now count as slide text for the citation check and term index.
+  - AGENTS.md now holds all the user's printed-notes preferences from this thread; PRINTED_NOTES.md has the guide writing rules and the deeper verification steps.
 
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices
