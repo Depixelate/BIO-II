@@ -4,6 +4,7 @@ Slides are (chapter, slide number), like the specs; the tool turns them into cod
 to a slide (or its text alternative) or, where marked, to the textbook (PDF page = book page + 19).
 """
 
+UNIT = "Unit 2"   # names the combined files: "Unit 2 Printed Notes.docx", "Unit 2 Index.docx", "Unit 2 Quick Guides.docx"
 CHAPTERS = [23]
 CHAPTER_NAMES = {
     23: "Plant Evolution and Diversity",
@@ -613,6 +614,8 @@ CORRECTIONS.update({
     (24, 27): "Lignin isn't a protein (the textbook uses the same wording): it's a chemical that hardens cell walls, "
               "and suberin is a waxy, waterproof lipid. Together they make the Casparian strip waterproof, so water "
               "and minerals must pass through the endodermal cells.",
+    (24, 30): "Monocot roots have the same growth zones and undergo the same secondary growth as eudicot roots "
+              "(textbook p. 437).",
     (24, 42): "Woody stems are mostly vascular tissue: wood is secondary xylem, and bark contains secondary phloem "
               "(24.4.43–45). The three regions are bark, wood and pith (the slide leaves out wood). The professor "
               "confirmed this slide is wrong (Oct 22).",
@@ -1541,9 +1544,9 @@ PROCESS.update({
 CORRECTIONS.update({
     (27, 5): "A microspore becomes the male gametophyte (the pollen grain), and a megaspore becomes the female "
              "gametophyte (the embryo sac); the spores themselves aren't gametophytes.",
-    (27, 24): "The slide (27.2.22) and the textbook's text say the hypocotyl, below the cotyledons, contributes to the "
-              "stem and ends in the radicle (the embryonic root); this figure and its textbook caption call it the "
-              "root axis. If asked, the slide's wording is the safer answer.",
+    (27, 24): "The hypocotyl is the portion below the cotyledons; it contributes to stem development and ends in the "
+              "radicle, the embryonic root (textbook p. 496, as on 27.2.22). This figure's \"root axis\" label "
+              "doesn't change that.",
     (27, 26): "Part A is a bean seed, a eudicot (textbook Fig. 27.8a), not a monocot; part B is a corn kernel, a "
               "monocot.",
 })
