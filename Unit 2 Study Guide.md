@@ -358,7 +358,7 @@ Priority: ★★★ = highest density (opening sections, big tables), ★★ = s
   - UV damage → a **diploid** generation, whose second chromosome set can mask a single harmful allele.
 - **The shift to a dominant sporophyte is a land adaptation.** Only sporophytes have vascular tissue, and the gametophyte shrinks and becomes dependent.
 - **Bryophytes** have no vascular tissue, so they stay low, have no true roots, stems or leaves, and their **flagellated sperm swim in a film of water**.
-- **Cooksonia** (an early vascular plant fossil) branched, which meant more sporangia and spores and indicates vascular tissue.
+- **Cooksonia** (an extinct early vascular plant, known only from fossils; not a lycophyte) had no roots or leaves, just forked stems ending in sporangia. Branching meant more sporangia and spores and indicates vascular tissue. Lycophytes, still living, came next and added roots and microphylls.
 - **Megaphylls** capture more sunlight → more food → higher fitness.
 - **Seeds** survive harsh conditions through dormancy, which is why seed plants dominate today. Seed plants keep their spores inside, and pollen carries the sperm, so **no outside water is needed** for fertilization.
 - **Gymnosperm vs. angiosperm:** ovules not fully enclosed ("naked" seeds) vs. ovules enclosed in an ovary that becomes a fruit.
@@ -739,7 +739,7 @@ Much of it builds on Ch 23's flower material, so use the §8 tables. Expect abou
 | Staminate / carpellate flower | A flower with only stamens (male) / only carpels (female) |
 | Proembryo, suspensor | The early ball of cells after the zygote divides; the stalk that anchors it |
 | Globular → heart → torpedo stages | The embryo's shape as it develops: ball → heart (when the cotyledons appear) → elongated |
-| Epicotyl / hypocotyl / radicle | The part above the cotyledons (becomes the shoot) / below them (stem-to-root axis) / the embryonic root |
+| Epicotyl / hypocotyl / radicle | The part above the cotyledons (becomes the shoot) / below them (contributes to the stem and ends in the radicle) / the embryonic root |
 | Coleoptile / coleorhiza | Protective sheaths over a monocot seedling's first leaves / over its first root |
 | Fruit / pericarp | A mature ovary / the fruit wall: **exocarp** (skin), **mesocarp** (flesh), **endocarp** (around the seed) |
 | Simple / aggregate / multiple fruit | From one ovary / many ovaries of one flower (blackberry) / ovaries of many flowers fused (pineapple) |
@@ -858,6 +858,7 @@ She confirmed on Oct 22: when a slide and the textbook disagree, follow the text
 | Ch 26 slide 17: "Abscission is the dropping of leaves…" listed under ABA | The textbook: applying ABA promotes abscission, but ABA is no longer believed to cause it naturally; **ethylene** does (slide 20). |
 | Ch 27 slide 24 (figure): "hypocotyl (root axis)… the hypocotyl will be the root system" | The textbook's text (p. 496) and slide 22: the hypocotyl, below the cotyledons, contributes to **stem** development and ends in the radicle (the embryonic root). |
 | Ch 27 slide 26 (text alternative): part A labeled a monocot | Part A is a **bean seed, a eudicot** (textbook Fig. 27.8a); part B is the corn kernel (monocot). |
+| Ch 24 slide 9 (text alternative): periderm as an "alternate arrangement of cork, cambium, and cork" | Garbled label reading. Periderm = **cork + cork cambium**; gases pass through the cork at **lenticels** (textbook Fig. 24.2d). |
 | Ch 24 slide 26: "Root cap contains the root apical meristem" | The root apical meristem is in the **zone of cell division**; the root cap **covers and protects** it (textbook p. 437). |
 | Ch 24 slide 46 (text alternative): "Pith: it consists of layer of primary xylem" | Two separate layers: the **pith** (parenchyma) is at the center, and the **primary xylem** surrounds it (textbook Fig. 24.18). |
 | Ch 25 slide 3: "carbon dioxide (organic compound)" | CO₂ is **inorganic**; it supplies the carbon the plant builds into organic compounds. |
@@ -980,7 +981,7 @@ Check only after answering. Slide numbers are from each chapter's PowerPoint.
 **Ch 27**
 1. Egg + 2 synergids, a central cell with 2 polar nuclei, and 3 antipodal cells: slide 14.
 2. Pollination = pollen moving from anther to stigma; fertilization = sperm fusing with the egg and polar nuclei after the pollen tube reaches the ovule: slides 15, 17.
-3. Epicotyl → shoot; hypocotyl = below the cotyledons (stem/root axis); radicle = embryonic root: slide 22.
+3. Epicotyl → shoot; hypocotyl = below the cotyledons, contributes to the stem and ends in the radicle; radicle = embryonic root: slide 22 (the slide 24 figure's "root axis" label is a slip, §11).
 4. Blackberry = aggregate (many ovaries of one flower); pineapple = multiple (ovaries of many flowers): slide 27.
 5. Oxygen, warmth, water: slide 34.
 6. It comes from one parent's cells (plant cells are totipotent), so it's genetically identical: slides 38, 40.

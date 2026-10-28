@@ -24,13 +24,15 @@ QUICK_GUIDE[23] = {
         "relatives: no vascular tissue, the plant's plumbing), seedless vascular plants (lycophytes and ferns: "
         "plumbing, but spores instead of seeds), gymnosperms (seeds, usually on cones) and angiosperms (flowering "
         "plants: seeds inside a fruit).",
-        "One idea runs through the whole chapter: every plant's life cycle has two generations that take turns. The "
-        "gametophyte is haploid (n) and makes eggs and sperm; the sporophyte is diploid (2n) and makes spores. Over "
+        "One idea runs through the whole chapter: every land plant's life cycle has two generations that take turns. "
+        "The gametophyte is haploid (n) and makes eggs and sperm; the sporophyte is diploid (2n) and makes spores. "
+        "Over "
         "evolution, the sporophyte got bigger and the gametophyte got smaller (23.1.12, 23.1.14, 23.1.15).",
     ],
     "sections": {
         1: [
-            "Plants come from green algae: both have chlorophylls, store starch and have cellulose cell walls (23.1.3). "
+            "Plants come from green algae: both have chlorophylls, store starch and have cellulose cell walls "
+            "(23.1.3). "
             "Their closest living relatives are the charophytes, freshwater green algae such as Chara and Coleochaete; "
             "like plants, they protect the zygote (23.1.5). Plants go further: they also protect and nourish the "
             "embryo (23.1.3, 23.1.7).",
@@ -98,7 +100,8 @@ QUICK_GUIDE[23] = {
         ],
         4: [
             "Pteridophytes are ferns and their allies, the horsetails and whisk ferns. They are seedless vascular "
-            "plants, dominant long before seed plants, from the late Devonian through the Carboniferous period (23.4.36). "
+            "plants, dominant long before seed plants, from the late Devonian through the Carboniferous period "
+            "(23.4.36). "
             "Their new feature is "
             "the megaphyll, a broad leaf with branching veins, which collects more solar energy (23.4.36, 23.4.37).",
             ("The groups", [
@@ -127,7 +130,8 @@ QUICK_GUIDE[23] = {
             "23.5.57).",
             ("Gymnosperm groups", [
                 "Conifers (pines and their relatives; the most plentiful group): needle-like leaves with a thick "
-                "cuticle and recessed (sunken) stomata; windblown pollen; monoecious, meaning one plant has both pollen cones "
+                "cuticle and recessed (sunken) stomata; windblown pollen; monoecious, meaning one plant has both "
+                "pollen cones "
                 "and seed cones (23.5.58).",
                 "Pine life cycle: small pollen cones make winged pollen; seed cones hold the ovules; in an ovule, "
                 "meiosis makes four megaspores and only one survives; a pollen tube grows to the egg; the seed cone "
@@ -161,7 +165,8 @@ QUICK_GUIDE[23] = {
             ]),
             ("Flowering plant life cycle (23.5.86 to 23.5.89)", [
                 "Male: in the anther, meiosis makes microspores. Each becomes a pollen grain with two cells, a tube "
-                "cell and a generative cell; the generative cell divides into two sperm. The mature male gametophyte is just three cells: the "
+                "cell and a generative cell; the generative cell divides into two sperm. The mature male gametophyte "
+                "is just three cells: the "
                 "tube cell and two sperm (23.5.87, 23.5.89).",
                 "Female: in the ovule, meiosis makes four megaspores; three disintegrate and one becomes the embryo "
                 "sac (the female gametophyte). It usually has seven cells, including the egg and a cell with two polar "
@@ -260,7 +265,8 @@ QUICK_GUIDE[24] = {
             "joins the stem, can grow into branches (textbook).",
             ("Monocots vs eudicots (24.2.22 to 24.2.24)", [
                 "Cotyledons (seed leaves): monocots have one, which acts as transfer tissue, passing on nutrients "
-                "from the endosperm (the seed's stored food); eudicots have two, which supply the seedling's nutrients themselves (24.2.22, "
+                "from the endosperm (the seed's stored food); eudicots have two, which supply the seedling's "
+                "nutrients themselves (24.2.22, "
                 "24.2.23).",
                 "Roots: monocot vascular tissue is in a ring; in eudicots the phloem sits between the arms of the "
                 "xylem (24.2.22, 24.2.23).",
@@ -294,7 +300,8 @@ QUICK_GUIDE[24] = {
             "Monocot roots have the same growth zones and the same layers (pericycle, endodermis, cortex, epidermis), "
             "but a central pith (parenchyma) surrounded by a ring of vascular tissue, and they don't undergo secondary "
             "growth (24.3.30, 24.3.31).",
-            "Root types (24.3.32, 24.3.33): a taproot is one long, fleshy main root that grows straight down and stores "
+            "Root types (24.3.32, 24.3.33): a taproot is one long, fleshy main root that grows straight down and "
+            "stores "
             "food; a fibrous root system is many slender roots that anchor the plant (monocots). Specialized roots "
             "include storage roots (sweet potato), prop roots for support (corn), pneumatophores that reach above "
             "water for oxygen (mangrove), and aerial roots (orchids).",
@@ -549,7 +556,8 @@ QUICK_GUIDE[26] = {
                 "attaches to a receptor (in the cell's nucleus, says the textbook; the slide says the plasma "
                 "membrane). Proton pumps then push H+ into the cell wall, which activates enzymes that break "
                 "cellulose fibers and loosen the wall; water enters, turgor pressure rises, and the cell enlarges and "
-                "rebuilds a longer wall. Only the shady-side cells lengthen, so the stem bends toward the light.",
+                "rebuilds a longer wall. The shady side grows longer than the lit side, so the stem bends toward the "
+                "light.",
                 "Synthetic auxins are used as herbicides (weed killers), such as 2,4-D and Agent Orange (26.1.7, "
                 "26.1.10).",
             ]),
@@ -587,7 +595,7 @@ QUICK_GUIDE[26] = {
             "Hormones mainly handle abiotic (nonliving) stimuli: light, oxygen, water, pH, temperature. Against biotic "
             "(living) threats such as herbivores, parasites and competing plants, plants rely on their epidermis and "
             "bark and on secondary metabolites, defense chemicals once thought to be waste products. Primary "
-            "metabolites, such as sugars and amino acids, are the ones every cell needs to work normally (26.1.23).",
+            "metabolites, such as sugars and amino acids, are the ones a cell needs to work normally (26.1.23).",
             "Traps: abscisic acid vs abscission (the ABA slide defines abscission, but ethylene causes it; the "
             "textbook says ABA no longer counts as its natural cause); gibberellins (break dormancy) vs ABA (keeps "
             "dormancy); auxin (apical dominance, elongation) vs cytokinins (cell division); primary vs secondary "
