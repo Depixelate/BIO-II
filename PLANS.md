@@ -185,6 +185,14 @@ For each chapter:
 - Stage 1: guide text lives in `Slide Notes Tools/quick_guides.py` (`QUICK_GUIDE`, imported by print_notes_data.py once rendering is added). Ch 23 guide WRITTEN.
 - All five guides WRITTEN in quick_guides.py (Ch 23-27, about 800-1500 words each), from the slides and study guide; not yet machine-checked.
 - Next: add a citation check for the guides + guide rendering (gray/thin box, bookmarks, section pointers) to build_print_docx.py, then build `Unit 2 Quick Guides.docx` (all five) and rebuild Ch 23 with its guide.
+- 2026-10-28 (Claude Code, cloud session): user feedback: (1) the Ch 24–27 guides were thinner than Ch 23's; expand all to Ch 23's depth, 10 pages total is fine; (2) remove the box around each column (keep the column line). Done:
+  - Ch 24–27 guides rewritten from the slides, text alternatives, study guide and textbook (1,600–2,160 words each; Ch 23 1,550). `Unit 2 Quick Guides.docx`: 10 pages at 11 pt, about 2 per chapter. Citation check passes.
+  - Guide styles no longer have paragraph borders (in two columns they drew a box around each column). The page-1 how-to box keeps its border; its pBdr is now placed where the Word schema wants it (the validator had flagged it).
+  - Builder runs on Linux too: `soffice` from PATH, and Liberation Sans Narrow (apt `fonts-liberation-sans-narrow`, same letter widths as Arial Narrow) for measuring and the font check. Mac behavior unchanged.
+  - Slide-text reader (build_print_notes.py) now reads equation text (a14:m: e.g. "Ethylene (H2C=CH2)", "Pr", "Pfr", "H+") and text boxes inside mc:AlternateContent, which python-pptx skipped (26.1.10, 26.1.20, 26.3.37, 26.3.38 were empty), and whole multi-line titles (26.2.31, 26.2.33, 27.1.4, 27.4.40).
+  - Ch 23 rebuilt as main + index: 12.25 pt, 15 + 5 = 20 pages, all checks pass (interim size; Stage 3 sets the final shared size).
+  - Found for Stage 2: 25.2.21 and 25.3.41 have ion symbols as MathType OLE pictures: (H+), (K+), (NO3− and HPO4²−), H+, K+ (rebuild those slides' sentences in the data); 24.5.52's text alternative says CO2 leaves the leaf (it enters: correction); 24.4.42 lists only bark and pith (wood missing); textbook p. 437 says monocot roots have secondary growth but p. 440 says only conifers and woody eudicots do (slide 24.3.30 says they don't); hypocotyl: 27.2.22 "stem" vs 27.2.24 figure "root axis".
+- Next: Stage 2, Ch 24 data and files.
 
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices

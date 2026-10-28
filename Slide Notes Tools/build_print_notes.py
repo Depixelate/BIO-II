@@ -36,6 +36,12 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 # which is used for the page header and page numbers. The font must be installed on this Mac.
 FONT_NAME = "Arial Narrow"
 FONT_FILE = "/System/Library/Fonts/Supplemental/Arial Narrow.ttf"
+# Off the Mac (e.g. a Linux cloud session): Liberation Sans Narrow has Arial Narrow's exact letter widths, and
+# LibreOffice substitutes it for Arial Narrow there, so page counts match the Mac's
+METRIC_TWIN = {"Arial Narrow": ("Liberation Sans Narrow",
+                                "/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf")}
+if not os.path.exists(FONT_FILE) and FONT_NAME in METRIC_TWIN and os.path.exists(METRIC_TWIN[FONT_NAME][1]):
+    FONT_FILE = METRIC_TWIN[FONT_NAME][1]
 OUT_DIR = os.path.join(B.HERE, "..", "Printed Exam Notes")
 JUNK = re.compile(r"^(copyright|access the text alternative|see separate flexart|end of main content)"
                   r"|^(figure|table) \d+\.\w+\b|^table (summarizes|divided)|^\d+$", re.I)
@@ -62,6 +68,46 @@ def covered(sentence, text_tokens, share=0.85):
     return not tk or len(tk & text_tokens) / len(tk) >= share
 
 
+A = "{http://schemas.openxmlformats.org/drawingml/2006/main}"
+M = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
+MC = "{http://schemas.openxmlformats.org/markup-compatibility/2006}"
+PML = "{http://schemas.openxmlformats.org/presentationml/2006/main}"
+
+
+def para_text(p):
+    """A paragraph's text in order: runs, line breaks (as spaces) and equations (a14:m, e.g. "(H2C=CH2)", "H+")."""
+    out = []
+
+    def walk(el):
+        if el.tag in (A + "t", M + "t"):
+            out.append(el.text or "")
+        elif el.tag == A + "br":
+            out.append(" ")
+        elif el.tag == M + "d":   # a bracketed expression
+            out.append("(")
+            for child in el:
+                walk(child)
+            out.append(")")
+        elif el.tag not in (A + "rPr", A + "pPr", A + "endParaRPr"):
+            for child in el:
+                walk(child)
+
+    walk(p)
+    return "".join(out)
+
+
+def slide_shapes(slide):
+    """The slide's shapes, plus text boxes that python-pptx skips because they sit inside mc:AlternateContent
+    (PowerPoint wraps a text box that contains an equation that way)."""
+    from pptx.shapes.autoshape import Shape
+    shapes = list(slide.shapes)
+    for ac in slide.shapes._spTree.iterchildren(MC + "AlternateContent"):
+        choice = ac.find(MC + "Choice")
+        if choice is not None:
+            shapes += [Shape(sp, slide.shapes) for sp in choice.iterchildren(PML + "sp")]
+    return shapes
+
+
 def sorted_shapes(shapes):
     return sorted(shapes, key=lambda sh: ((sh.top or 0), (sh.left or 0)))
 
@@ -71,10 +117,11 @@ def shape_items(shape, title):
     if shape.shape_type == 6:   # group
         return [it for sh in sorted_shapes(shape.shapes) for it in shape_items(sh, title)]
     if getattr(shape, "has_table", False) and shape.has_table:
-        rows = [[[clean(p.text) for p in c.text_frame.paragraphs] for c in r.cells] for r in shape.table.rows]
+        rows = [[[clean(para_text(p._p)) for p in c.text_frame.paragraphs] for c in r.cells] for r in shape.table.rows]
         return [("table", [r for r in rows if any(any(c) for c in r)])]
     if shape.has_text_frame and shape != title:
-        return [("p", p.level, clean(p.text)) for p in shape.text_frame.paragraphs if keep(clean(p.text))]
+        return [("p", p.level, clean(para_text(p._p))) for p in shape.text_frame.paragraphs
+                if keep(clean(para_text(p._p)))]
     return []
 
 
@@ -103,12 +150,16 @@ class Chapter:
         return self.deck.code(n)
 
     def title(self, n):
-        return clean(self.deck.title(n))
+        """The whole title (Deck.titles keeps only its first line), without the leading section number."""
+        first = clean(self.deck.titles[n])
+        t = self.deck.prs.slides[n - 1].shapes.title
+        full = clean(" ".join(para_text(p) for p in t._element.iter(A + "p"))) if t is not None else ""
+        return re.sub(rf"^{self.ch}\.\d\s+", "", full if full.startswith(first) else first)
 
     def items(self, n):
         """("p", level, text), ("table", head, rows) or ("cell", heading, text) for one-column tables."""
         slide = self.deck.prs.slides[n - 1]
-        raw = [it for sh in sorted_shapes(slide.shapes) for it in shape_items(sh, slide.shapes.title)]
+        raw = [it for sh in sorted_shapes(slide_shapes(slide)) for it in shape_items(sh, slide.shapes.title)]
         title = self.title(n).lower()
         fixes = D.TYPO_FIX.get((self.ch, n), [])
         out = []
@@ -584,7 +635,7 @@ def check_text(chapters, doc_html):
         for n in c.slides:
             slide = c.deck.prs.slides[n - 1]
             fixes = D.TYPO_FIX.get((c.ch, n), [])
-            raw = [clean("".join(r.text or "" for r in p.iter(A + "t"))) for p in slide._element.iter(A + "p")]
+            raw = [clean(para_text(p)) for p in slide._element.iter(A + "p")]
             for wrong, _ in fixes:
                 if not any(wrong in t for t in raw):
                     problems.append(f"{c.code(n)}: spelling fix not applied (text not found): {wrong[:60]}")

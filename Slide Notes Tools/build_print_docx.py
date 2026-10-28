@@ -11,7 +11,8 @@ in the Normal style. Contents page numbers and "see page N" pointers are PAGEREF
 recalculates them; Word shows the stored values (from LibreOffice's layout) until you select all and press F9.
 With --fit (the default) one font size is used for every chapter built: the largest at which each chapter's main
 file plus index file fit print_notes_data.SHEETS_PER_CHAPTER double-sided sheets, as LibreOffice lays them out.
-LibreOffice runs headless with SAL_USE_VCLPLUGIN=osx; without it, it can't see the Mac's fonts.
+LibreOffice runs headless with SAL_USE_VCLPLUGIN=osx on the Mac; without it, it can't see the Mac's fonts. Elsewhere
+(Linux) it uses `soffice` from the PATH, and Liberation Sans Narrow stands in for Arial Narrow (same letter widths).
 """
 import glob
 import os
@@ -34,7 +35,8 @@ import build_print_notes as P
 import print_notes_data as D
 from quick_guides import QUICK_GUIDE
 
-SOFFICE = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+MAC = sys.platform == "darwin"
+SOFFICE = "/Applications/LibreOffice.app/Contents/MacOS/soffice" if MAC else "soffice"
 PROFILE = os.path.join(tempfile.gettempdir(), "bio2_libreoffice_profile")   # a private LibreOffice profile
 PAGE_W, MARGIN_LR, GAP = 8.5, 0.4, 0.2   # inches; the HL-2240 can't print within 0.25 in of the edge
 BULLETS = 90                             # numbering id of the bullet list
@@ -47,6 +49,10 @@ HOW_TO = [
     "Rule out answers with absolute words (only, all, always, exclusively, must, every): wrong every time on Unit 1.",
 ]
 CODE_IN_TEXT = re.compile(r"\b(\d{2})\.(\d)\.(\d+)\b")
+PPR_AFTER_BDR = {qn(f"w:{t}") for t in ("shd", "tabs", "suppressAutoHyphens", "kinsoku", "wordWrap", "overflowPunct",
+                                         "topLinePunct", "autoSpaceDE", "autoSpaceDN", "bidi", "adjustRightInd",
+                                         "snapToGrid", "spacing", "ind", "contextualSpacing", "mirrorIndents",
+                                         "suppressOverlap", "jc", "textDirection", "textAlignment", "outlineLvl")}
 
 
 # ---------------------------------------------------------------- small OOXML helpers
@@ -172,7 +178,10 @@ class Builder:
             if hang:
                 pf.left_indent, pf.first_line_indent = Twips(int(hang * self.em)), Twips(-int(hang * self.em))
             if box:   # consecutive paragraphs with the same border form one box
-                s.element.get_or_add_pPr().append(border_el("w:pBdr", ("top", "left", "bottom", "right")))
+                ppr = s.element.get_or_add_pPr()
+                bdr = border_el("w:pBdr", ("top", "left", "bottom", "right"))
+                later = [c for c in ppr if c.tag in PPR_AFTER_BDR]   # the schema puts pBdr before these
+                later[0].addprevious(bdr) if later else ppr.append(bdr)
             return s
 
         para("Notes title", bold=True, scale=1.25, after=0.2)
@@ -192,11 +201,11 @@ class Builder:
         para("Table title", before=0.45, keep=True)
         para("Group heading", bold=True, scale=1.03, before=0.4, after=0.1, keep=True)
         para("Entry", hang=0.75)
-        para("Guide heading", bold=True, scale=1.25, before=0.2, after=0.15, keep=True, box=True)
-        para("Guide part", bold=True, scale=1.1, before=0.4, after=0.1, keep=True, box=True)
-        para("Guide subheading", bold=True, before=0.25, keep=True, box=True)
-        para("Guide text", after=0.25, box=True)
-        para("Guide bullet", box=True)
+        para("Guide heading", bold=True, scale=1.25, before=0.2, after=0.15, keep=True)
+        para("Guide part", bold=True, scale=1.1, before=0.4, after=0.1, keep=True)
+        para("Guide subheading", bold=True, before=0.25, keep=True)
+        para("Guide text", after=0.25)
+        para("Guide bullet")
         st.add_style("Slide code", WD_STYLE_TYPE.CHARACTER)   # the running header reads this style:
         # slide codes and section names use it, so the header names what's on each page. It sets no bold:
         # bold in a character style flips the paragraph's bold, so slide codes get bold directly instead.
@@ -531,7 +540,7 @@ def to_pdf(docx_path, outdir):
     fmt = 'pdf:writer_pdf_Export:{"ExportBookmarksToPDFDestination":{"type":"boolean","value":"true"}}'
     res = subprocess.run(["perl", "-e", "alarm 180; exec @ARGV", SOFFICE, "--headless", "--norestore",
                           f"-env:UserInstallation=file://{PROFILE}", "--convert-to", fmt, "--outdir", outdir,
-                          docx_path], capture_output=True, text=True, env={**os.environ, "SAL_USE_VCLPLUGIN": "osx"})
+                          docx_path], capture_output=True, text=True, env={**os.environ, **({"SAL_USE_VCLPLUGIN": "osx"} if MAC else {})})
     pdf = os.path.join(outdir, os.path.splitext(os.path.basename(docx_path))[0] + ".pdf")
     if not os.path.exists(pdf):
         raise SystemExit("LibreOffice didn't convert the document:\n" + res.stdout[-1000:] + res.stderr[-1000:])
@@ -620,7 +629,7 @@ def check_main(c, docx_path):
     for n in c.slides:
         fixes = D.TYPO_FIX.get((c.ch, n), [])
         for p in c.deck.prs.slides[n - 1]._element.iter(A + "p"):
-            t = P.fix(P.clean("".join(r.text or "" for r in p.iter(A + "t"))), fixes)
+            t = P.fix(P.clean(P.para_text(p)), fixes)
             if P.keep(t) and t not in flat and not P.CODE.match(t) and t.lower() not in c.title(n).lower():
                 problems.append(f"{c.code(n)}: slide text missing from the document: {t[:80]}")
         for _, text in c.figure(n):
@@ -672,7 +681,8 @@ def check_layout(pdf_path, main=True):
     problems = []
     with pymupdf.open(pdf_path) as pdf:
         fonts = {f[3].split("+")[-1] for p in pdf for f in p.get_fonts()}
-        if not any(P.FONT_NAME.replace(" ", "").lower() in f.replace(" ", "").lower() for f in fonts):
+        names = [P.FONT_NAME] + ([P.METRIC_TWIN[P.FONT_NAME][0]] if not MAC and P.FONT_NAME in P.METRIC_TWIN else [])
+        if not any(n.replace(" ", "").lower() in f.replace(" ", "").lower() for n in names for f in fonts):
             problems.append(f"the text isn't in {P.FONT_NAME} (fonts used: {sorted(fonts)})")
         text = " ".join(p.get_text() for p in pdf)
         if "Reference source not found" in text or "Error: Reference" in text:
