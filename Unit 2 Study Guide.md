@@ -491,7 +491,7 @@ Priority: ★★★ = highest density (opening sections, big tables), ★★ = s
   - **Location:** vascular cylinder (root), vascular bundles (stem), veins (leaf).
 - **Root zones, tip upward:** root cap (protects the root's apical meristem) → zone of cell division → zone of elongation → zone of maturation (root hairs, fully differentiated cells).
 - **Root tissues, outside in:** epidermis → cortex (parenchyma; water and minerals move through it) → **endodermis** + Casparian strip → **pericycle** (makes lateral roots) → vascular cylinder.
-- **Root types:** taproot (eudicots; stores food) vs. fibrous (monocots; anchors). Monocot roots have pith inside a ring of vascular tissue and no secondary growth.
+- **Root types:** taproot (eudicots; stores food) vs. fibrous (monocots; anchors). Monocot roots have pith inside a ring of vascular tissue. Slide 30 says they don't undergo secondary growth, but the textbook (p. 437) says they undergo the same secondary growth as eudicot roots: follow the textbook (§11).
 - **Root specializations** (textbook Fig. 24.12; the slide is photos only):
 
 | Type | What it does | Example |
@@ -842,15 +842,22 @@ She confirmed on Oct 22: when a slide and the textbook disagree, follow the text
 
 | Slide says | Correct version |
 |---|---|
-| Ch 24 slide 42: "Woody stems have no vascular tissue" | **She confirmed this slide is wrong (Oct 22).** Woody stems are mostly vascular tissue: wood is secondary xylem, and bark contains secondary phloem (slides 44–45 and the textbook). The slide probably meant that woody stems don't have separate **vascular bundles**, because the vascular cambium forms a continuous ring. |
+| Ch 24 slide 42: "Woody stems have no vascular tissue" | **She confirmed this slide is wrong (Oct 22).** Woody stems are mostly vascular tissue: wood is secondary xylem, and bark contains secondary phloem (slides 44–45 and the textbook). The slide probably meant that woody stems don't have separate **vascular bundles**, because the vascular cambium forms a continuous ring. It also lists only bark and pith as the "three distinct regions"; the third is **wood**. |
 | Ch 24 slide 27: the Casparian strip is "protein lignin and suberin" | The textbook uses the same wording, but lignin isn't a protein. Remember: **lignin + suberin**, waterproof, forces water through endodermal cells. |
 | Ch 26 slide 29: "Stems with root caps grow downward" | **Roots** (which have root caps) grow downward; stems grow upward. |
 | Ch 27 slide 5: "Microspore – Male gametophyte" | A microspore **becomes** the male gametophyte (pollen grain); a megaspore **becomes** the female gametophyte (embryo sac). |
 | Ch 23 slide 22: "Gametophyte (n) of a moss is called the protonema" | The protonema is only the **first, thread-like stage** of the moss gametophyte (a spore germinates into a male or female protonema, the text alternative of slide 30); it then produces the leafy shoots. |
 | Ch 23 slide 34: homosporous spores "grow into one type of gamete" | Homosporous = **one type of spore** (growing into one type of gametophyte); heterosporous = two types (microspores and megaspores). |
-| Ch 26 slide 56 (text alternative) | Mislabeled: titled "Short-Day," but it describes Mimosa's turgor movement. |
+| Ch 26 slide 56 (text alternative) | Mislabeled: titled "Short-Day," but it describes Mimosa's turgor movement (the printed notes show it with slide 35). |
 | Ch 25 slide 4: macronutrients "C, H, O, P, K, S, Ca, Mg" | Nitrogen (N) is missing: the textbook's Table 25.1 lists **C, H, O, N, P, K, S, Ca, Mg**. N is the first number in NPK fertilizer (slide 6). |
 | Ch 25 slide 19: water enters root cells "when their osmotic pressure is lower than that of the soil" | Not an error (the textbook says the same), but confusing: it means water moves in when there's more water outside the root than inside, i.e., from higher to lower water potential. |
+| Ch 24 slide 30: monocot roots "do not undergo secondary growth" | The textbook (p. 437) says monocot roots "have the same growth zones and undergo the same secondary growth as eudicot roots." Follow the textbook. (Its p. 440 says secondary growth occurs only in conifers and woody eudicots, so the book isn't consistent.) |
+| Ch 24 slide 52 (text alternative): "carbon dioxide leaving leaf through stoma" | Carbon dioxide **enters** the leaf through the stoma; oxygen and water vapor leave (textbook Fig. 24.22). |
+| Ch 25 slide 30 (text alternative): tracheids and vessel elements both have perforation plates | Tracheids have **pits**, not perforation plates; vessel elements have perforation plates (slide 35, textbook). |
+| Ch 25 slide 34 (text alternative): inside the wilted cell, "higher pressure potential, and higher osmotic potential" | In the wilted cell all three (water, pressure and osmotic potential) are **lower** inside than outside (textbook Fig. 25B), so water enters. |
+| Ch 26 slide 17: "Abscission is the dropping of leaves…" listed under ABA | The textbook: applying ABA promotes abscission, but ABA is no longer believed to cause it naturally; **ethylene** does (slide 20). |
+| Ch 27 slide 24 (figure): "hypocotyl (root axis)… the hypocotyl will be the root system" | The textbook's text (p. 496) and slide 22: the hypocotyl, below the cotyledons, contributes to **stem** development and ends in the radicle (the embryonic root). |
+| Ch 27 slide 26 (text alternative): part A labeled a monocot | Part A is a **bean seed, a eudicot** (textbook Fig. 27.8a); part B is the corn kernel (monocot). |
 
 ---
 

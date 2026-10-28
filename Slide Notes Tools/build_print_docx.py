@@ -1,11 +1,14 @@
 """Build the printed exam notes as editable Word documents (.docx), for Word or LibreOffice.
 
 usage: python build_print_docx.py [--only CH] [--fit | --font PT --cols N] [--outdir DIR]
-       python build_print_docx.py --guides [--font PT]     (all quick guides in one reading copy)
+       python build_print_docx.py --guides [--font PT]     (only the quick-guides file)
 
 For each chapter it builds two files (see PRINTED_NOTES.md):
   Printed Exam Notes/Ch NN Printed Notes.docx  how-to box + contents, quick guide, every slide, lookup tables
   Printed Exam Notes/Ch NN Index.docx          clue index, glossary, term index
+A full build (no --only) also writes the whole unit as one main file and one index file, for printing in one go
+(Unit 2 Printed Notes.docx, Unit 2 Index.docx; each chapter starts on a new right-hand page), and the convenience
+copy of all the quick guides (Unit 2 Quick Guides.docx).
 Content comes from build_print_notes.py's functions, print_notes_data.py and quick_guides.py. The font is set once,
 in the Normal style. Contents page numbers and "see page N" pointers are PAGEREF fields to bookmarks: LibreOffice
 recalculates them; Word shows the stored values (from LibreOffice's layout) until you select all and press F9.
@@ -41,6 +44,7 @@ PROFILE = os.path.join(tempfile.gettempdir(), "bio2_libreoffice_profile")   # a 
 PAGE_W, MARGIN_LR, GAP = 8.5, 0.4, 0.2   # inches; the HL-2240 can't print within 0.25 in of the edge
 BULLETS = 90                             # numbering id of the bullet list
 VALIDATOR = glob.glob(os.path.expanduser("~/.claude/skills/synced/*/docx/scripts/office/validate.py"))
+GUIDES_FONT = 11                         # the quick-guides file is for reading, so it gets its own, larger size
 HOW_TO = [
     "Find the key term or the clue (a description) in the question.",
     "Look it up in this chapter's Index file: the term index (term → slide) or the clue index (description → answer).",
@@ -117,8 +121,8 @@ def bm_guide(ch, part):
     return f"g{ch}{part}"
 
 
-def bm_lookup(key):
-    return "lk" + re.sub(r"[^A-Za-z]", "", key.title())
+def bm_lookup(ch, key):
+    return f"lk{ch}" + re.sub(r"[^A-Za-z]", "", key.title())
 
 
 def narrow_blocks(t):
@@ -343,7 +347,7 @@ class Builder:
         self.doc.add_paragraph(style="Table text")   # a little space after the table
         return t
 
-    def _header(self, section, left):
+    def _header(self, section, left, footer=True):
         section.header.is_linked_to_previous = False
         hp = section.header.paragraphs[0]
         hp.text = ""
@@ -355,39 +359,45 @@ class Builder:
         for run in hp.runs:
             run.font.size = Pt(9)
         r.font.size = Pt(8)
-        fp = section.footer.paragraphs[0]
-        fp.alignment = 1
-        field(fp, "PAGE", "1")
+        if footer:   # later sections share the first section's footer
+            fp = section.footer.paragraphs[0]
+            fp.alignment = 1
+            field(fp, "PAGE", "1")
 
     # -------------------------------------------------------- documents
     def build(self):
         {"main": self._main, "index": self._index, "guides": self._guides}[self.kind]()
         return self.doc
 
-    def _title(self, text):
+    def _start(self, i, text):
+        """A chapter's title, in one column; in a combined file each later chapter starts on a new right-hand page,
+        so the chapters can be separated after double-sided printing."""
+        if i:
+            self.doc.add_section(WD_SECTION.ODD_PAGE)
+            set_columns(self.doc.sections[-1], 1)
         self.para("Notes title", (text, ""))
-        self._header(self.doc.sections[0], text)
+        self._header(self.doc.sections[-1], text, footer=not i)
 
     def _main(self):
-        (c,) = self.chapters
-        self._title(f"BIO II printed notes: Ch {c.ch} (main)")
-        self.para("How to", ("How to use these notes in the exam", "b"))
-        for i, t in enumerate(HOW_TO, 1):
-            self.para("How to step", (f"{i}.\t{t}", ""))
-        self.section(self.cols)
-        self._contents_main(c)
-        self.para("Chapter heading", (f"Chapter {c.ch}: {D.CHAPTER_NAMES[c.ch]}", ""))
-        self._guide(c)
-        sec = None
-        for n in c.slides:
-            if c.deck.section[n] != sec:
-                sec = c.deck.section[n]
-                self.para("Section heading", (f"{c.ch}.{sec} {c.section_name(sec)}", ""))
-                if sec in QUICK_GUIDE.get(c.ch, {}).get("sections", {}):
-                    p = self.para("Pointer", ("Quick guide for this section: page ", ""))
-                    self.ref(p, bm_guide(c.ch, sec))
-            self._slide(c, n, c.section_name(sec))
-        self._lookup_tables(c)
+        for i, c in enumerate(self.chapters):
+            self._start(i, f"BIO II printed notes: Ch {c.ch} (main)")
+            self.para("How to", ("How to use these notes in the exam", "b"))
+            for k, t in enumerate(HOW_TO, 1):
+                self.para("How to step", (f"{k}.\t{t}", ""))
+            self.section(self.cols)
+            self._contents_main(c)
+            self.para("Chapter heading", (f"Chapter {c.ch}: {D.CHAPTER_NAMES[c.ch]}", ""))
+            self._guide(c)
+            sec = None
+            for n in c.slides:
+                if c.deck.section[n] != sec:
+                    sec = c.deck.section[n]
+                    self.para("Section heading", (f"{c.ch}.{sec} {c.section_name(sec)}", ""))
+                    if sec in QUICK_GUIDE.get(c.ch, {}).get("sections", {}):
+                        p = self.para("Pointer", ("Quick guide for this section: page ", ""))
+                        self.ref(p, bm_guide(c.ch, sec))
+                self._slide(c, n, c.section_name(sec))
+            self._lookup_tables(c)
 
     def _contents_main(self, c):
         self.para("Map section", ("Contents", ""))
@@ -411,8 +421,8 @@ class Builder:
         if present:
             self.para("Map section", ("Lookup tables", ""))
             for key in present:
-                self._entry(dict(P.LOOKUP)[key], bm_lookup(key))
-        self.para("Map section", (f"Indexes: see the Ch {c.ch} Index file (clue index, glossary, term index)", ""))
+                self._entry(dict(P.LOOKUP)[key], bm_lookup(c.ch, key))
+        self.para("Map section", (f"Indexes: see Ch {c.ch} in the index file (clue index, glossary, term index)", ""))
 
     def _entry(self, label, name):
         p = self.para("Map entry", (f"{label}\t", ""))
@@ -479,7 +489,7 @@ class Builder:
         titles = dict(P.LOOKUP)
         for key in self._lookup_keys(c):
             p = self.para("Lookup heading", (titles[key], "code"))
-            self.mark(p, bm_lookup(key))
+            self.mark(p, bm_lookup(c.ch, key))
             for t in data[key]:
                 if t["ch"] != c.ch:
                     continue
@@ -499,33 +509,33 @@ class Builder:
                 self.table(t["head"], rows, self.col_w)
 
     def _index(self):
-        (c,) = self.chapters
-        self._title(f"BIO II printed notes: Ch {c.ch} (index)")
-        self.section(self.cols)
         titles = dict(P.LOOKUP)
-        self.para("Map section", ("Contents", ""))
-        for key in ("lk-clues", "lk-gloss", "lk-index"):
-            self._entry(titles[key], bm_lookup(key))
-        p = self.para("Lookup heading", (titles["lk-clues"], "code"))
-        self.mark(p, bm_lookup("lk-clues"))
-        for group, entries in D.CLUES:
-            rows = [e for e in entries if e[2][0][0] == c.ch]
-            if rows:
-                self.para("Group heading", (group, ""))
-                for q, a, s in rows:
-                    self.para("Entry", (f"{q} → ", ""), (a, "b"), (f" {P.fmt_refs(s)}", ""))
-        gl = P.glossary(self.chapters)
-        p = self.para("Lookup heading", (titles["lk-gloss"], "code"))
-        self.mark(p, bm_lookup("lk-gloss"))
-        for t, d, refs, more in gl:
-            self.para("Entry", (t, "b"), (f": {d} {P.fmt_refs(refs)}{more}", ""))
-        p = self.para("Lookup heading", (titles["lk-index"], "code"))
-        self.mark(p, bm_lookup("lk-index"))
-        for t, note, where in P.term_index(self.chapters, gl):
-            self.para("Entry", (t, "b"), (f"{(' ' + note) if note else ''} {where}", ""))
+        for i, c in enumerate(self.chapters):
+            self._start(i, f"BIO II printed notes: Ch {c.ch} (index)")
+            self.section(self.cols)
+            self.para("Map section", ("Contents", ""))
+            for key in ("lk-clues", "lk-gloss", "lk-index"):
+                self._entry(titles[key], bm_lookup(c.ch, key))
+            p = self.para("Lookup heading", (titles["lk-clues"], "code"))
+            self.mark(p, bm_lookup(c.ch, "lk-clues"))
+            for group, entries in D.CLUES:
+                rows = [e for e in entries if e[2][0][0] == c.ch]
+                if rows:
+                    self.para("Group heading", (group, ""))
+                    for q, a, s in rows:
+                        self.para("Entry", (f"{q} → ", ""), (a, "b"), (f" {P.fmt_refs(s)}", ""))
+            gl = P.glossary([c])
+            p = self.para("Lookup heading", (titles["lk-gloss"], "code"))
+            self.mark(p, bm_lookup(c.ch, "lk-gloss"))
+            for t, d, refs, more in gl:
+                self.para("Entry", (t, "b"), (f": {d} {P.fmt_refs(refs)}{more}", ""))
+            p = self.para("Lookup heading", (titles["lk-index"], "code"))
+            self.mark(p, bm_lookup(c.ch, "lk-index"))
+            for t, note, where in P.term_index([c], gl):
+                self.para("Entry", (t, "b"), (f"{(' ' + note) if note else ''} {where}", ""))
 
     def _guides(self):
-        self._title("BIO II Unit 2 quick guides (reading copy)")
+        self._start(0, f"BIO II {D.UNIT} quick guides")
         self.section(self.cols)
         for c in self.chapters:
             self.para("Chapter heading", (f"Chapter {c.ch}: {D.CHAPTER_NAMES[c.ch]}", "code"))
@@ -537,7 +547,10 @@ def to_pdf(docx_path, outdir):
     """LibreOffice's layout of the document as a PDF, with bookmarks as named destinations (time-limited)."""
     # SAL_USE_VCLPLUGIN=osx: use the Mac's text engine, so headless LibreOffice sees the Mac's fonts (otherwise it
     # silently swaps in its own bundled fonts) and lays text out the way the LibreOffice window does
-    fmt = 'pdf:writer_pdf_Export:{"ExportBookmarksToPDFDestination":{"type":"boolean","value":"true"}}'
+    # IsSkipEmptyPages false: keep the blank pages Word layout inserts before a chapter that must start on a
+    # right-hand page, so PDF pages (and the stored page numbers) match the printed page numbers
+    fmt = ('pdf:writer_pdf_Export:{"ExportBookmarksToPDFDestination":{"type":"boolean","value":"true"},'
+           '"IsSkipEmptyPages":{"type":"boolean","value":"false"}}')
     res = subprocess.run(["perl", "-e", "alarm 180; exec @ARGV", SOFFICE, "--headless", "--norestore",
                           f"-env:UserInstallation=file://{PROFILE}", "--convert-to", fmt, "--outdir", outdir,
                           docx_path], capture_output=True, text=True, env={**os.environ, **({"SAL_USE_VCLPLUGIN": "osx"} if MAC else {})})
@@ -565,12 +578,12 @@ def body_codes(page):
     return [t for _, _, t in sorted(found)]
 
 
-def build_one(c, kind, size, tmp, out=None):
+def build_one(chapters, kind, size, tmp, out):
     """Build one file with stored page numbers that match LibreOffice's layout; returns (docx, pdf, pages)."""
-    path = out or os.path.join(tmp, f"{kind}{c.ch}.docx")
+    path = out
     pages = {}
     for _ in range(4):   # store LibreOffice's page numbers in the fields until they stop changing
-        Builder([c], size[0], size[1], pages, kind).build().save(path)
+        Builder(chapters, size[0], size[1], pages, kind).build().save(path)
         pdf = to_pdf(path, tmp)
         new = bookmark_pages(pdf)
         if new == pages:
@@ -692,6 +705,9 @@ def check_layout(pdf_path, main=True):
                 problems.append(f"page {i}: has a picture")
             if (round(p.rect.width), round(p.rect.height)) != (612, 792):
                 problems.append(f"page {i}: not Letter size")
+            foot = [b[4].strip() for b in p.get_text("blocks") if b[1] > p.rect.height - 0.5 * 72]
+            if foot and foot[-1].isdigit() and int(foot[-1]) != i:   # stored page numbers assume they match
+                problems.append(f"page {i}: its printed page number is {foot[-1]}")
             if main:
                 codes = body_codes(p)
                 head = " ".join(b[4] for b in p.get_text("blocks") if b[3] < 0.5 * 72)
@@ -720,21 +736,25 @@ def validate(path):
                                                              + res.stdout[-1500:] + res.stderr[-500:]]
 
 
+def build_guides(outdir, tmp, fs):
+    """The convenience copy of every chapter's quick guide, in one file."""
+    chapters = [P.Chapter(ch) for ch in sorted(QUICK_GUIDE)]
+    out = os.path.join(outdir, f"{D.UNIT} Quick Guides.docx")
+    Builder(chapters, fs, 2, {}, "guides").build().save(out)
+    pdf = to_pdf(out, tmp)
+    with pymupdf.open(pdf) as d:
+        n = len(d)
+    return out, n, check_guides(chapters) + check_layout(pdf, main=False) + validate(out)
+
+
 def main():
     arg = lambda flag, default=None: sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv else default
     outdir = os.path.abspath(arg("--outdir", P.OUT_DIR))
     os.makedirs(outdir, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
-        if "--guides" in sys.argv:   # one reading copy of every quick guide
-            chapters = [P.Chapter(ch) for ch in sorted(QUICK_GUIDE)]
-            size = (float(arg("--font", 11)), int(arg("--cols", 2)))
-            out = os.path.join(outdir, "Unit 2 Quick Guides.docx")
-            Builder(chapters, size[0], size[1], {}, "guides").build().save(out)
-            pdf = to_pdf(out, tmp)
-            with pymupdf.open(pdf) as d:
-                n = len(d)
-            problems = check_guides(chapters) + check_layout(pdf, main=False) + validate(out)
-            print(f"{size[0]:g} pt: {n} pages in LibreOffice -> {out}")
+        if "--guides" in sys.argv:   # only the guides file
+            out, n, problems = build_guides(outdir, tmp, float(arg("--font", GUIDES_FONT)))
+            print(f"{n} pages in LibreOffice -> {out}")
             print("\n".join(problems) if problems else "checks passed: guide citations match their slides; valid Word file")
             return
         only = int(arg("--only")) if "--only" in sys.argv else None
@@ -746,21 +766,30 @@ def main():
             size = fit_size(chapters, budget, tmp)
         problems = P.check_citations(chapters) + check_guides(chapters)
         report = []
+        kinds = (("main", "Printed Notes"), ("index", "Index"))
+
+        def one(chs, kind, name):
+            out = os.path.join(outdir, name)
+            lock = os.path.join(outdir, "~$" + name[2:])
+            if os.path.exists(lock) and "--force" not in sys.argv:
+                print(f"note: {lock} exists (Word lock file); if the file is open in Word, close it first")
+            path, pdf, n = build_one(chs, kind, size, tmp, out)
+            report.append(f"  {name}: {n} pages")
+            problems.extend((sum((check_main(c, path) for c in chs), []) if kind == "main" else [])
+                            + check_layout(pdf, kind == "main") + check_stored_pages(path, pdf) + validate(path))
+            return n
+
         for c in chapters:
-            total = 0
-            for kind, label in (("main", "Printed Notes"), ("index", "Index")):
-                out = os.path.join(outdir, f"Ch {c.ch} {label}.docx")
-                lock = os.path.join(outdir, "~$" + os.path.basename(out)[2:])
-                if os.path.exists(lock) and "--force" not in sys.argv:
-                    print(f"note: {lock} exists (Word lock file); if the file is open in Word, close it first")
-                path, pdf, n = build_one(c, kind, size, tmp, out)
-                total += n
-                report.append(f"  {os.path.basename(out)}: {n} pages")
-                problems += (check_main(c, path) if kind == "main" else []) + check_layout(pdf, kind == "main")
-                problems += check_stored_pages(path, pdf) + validate(path)
+            total = sum(one([c], kind, f"Ch {c.ch} {label}.docx") for kind, label in kinds)
             report.append(f"  Ch {c.ch} total: {total} pages ({(total + 1) // 2} sheets double-sided; budget {budget})")
             if total > budget:
                 problems.append(f"Ch {c.ch}: {total} pages; the budget is {budget}")
+        if only is None and len(chapters) > 1:   # the whole unit in one main file and one index file
+            for kind, label in kinds:
+                one(chapters, kind, f"{D.UNIT} {label}.docx")
+            out, n, more = build_guides(outdir, tmp, GUIDES_FONT)
+            report.append(f"  {os.path.basename(out)}: {n} pages ({GUIDES_FONT:g} pt)")
+            problems += more
     print(f"{size[0]:g} pt, {size[1]} columns:")
     print("\n".join(report))
     print("\n".join(problems) if problems else

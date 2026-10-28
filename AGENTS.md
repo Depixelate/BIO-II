@@ -16,9 +16,11 @@ The professor said on a video call (by Oct 25, 2026) that printed notes are allo
 - **Two files per chapter**, each chapter done separately:
   - `Printed Exam Notes/Ch NN Printed Notes.docx`: a how-to-use box and contents on page 1, then a plain-language **quick guide** (big picture, then one part per section), then every slide in order (figures as words, "Textbook:" corrections), then lookup tables.
   - `Printed Exam Notes/Ch NN Index.docx`: that chapter's clue index, glossary and term index, and nothing else.
-- **Page budget:** at most 10 double-sided sheets (20 pages) per chapter, main and index files together. One font size for all files: the largest that fits. The quick guides are about 2 pages per chapter, with the same depth for every chapter (questions are spread evenly across chapters).
+  - For printing in one go, the full build also writes the whole unit as one main file and one index file (`Unit N Printed Notes.docx`, `Unit N Index.docx`; each chapter starts on a new right-hand page) and a convenience copy of all the quick guides (`Unit N Quick Guides.docx`). Keep these up to date with every rebuild; superseded outputs go in `Printed Exam Notes/Old/`.
+- **Page budget:** at most 10 double-sided sheets (20 pages) per chapter, main and index files together. One font size for all files: the largest that fits.
+- **Quick guide size:** whatever it takes to understand the chapter's important concepts and main terms, so I'm not lost on an exam question; no fixed length. Decide it from a deep review of each chapter: explain every high-priority concept, give the organism-by-organism lists one line per item, and leave numbers, extra examples and textbook-only extras to the tables. Give every chapter the same depth (questions are spread evenly across chapters).
 - **Layout:** two columns everywhere, a column line, borders on all table cells (black is fine), no pictures, no shaded fills. No boxes around text in the columns (the only box is the page-1 how-to box); the quick guide is plain text.
-- **Rules:** every fact traces to a slide (or its text alternative) or the textbook, with slide codes; the textbook wins over a slide.
+- **Rules:** every fact traces to a slide (or its text alternative) or the textbook, with slide codes; the textbook wins over a slide, also on points worth asking the professor about (the user's decision, Oct 28).
 - The full how-to (workflow for a new chapter, data fields, figure rules, verification checklist) is in `Slide Notes Tools/PRINTED_NOTES.md`; follow it. The current Unit 2 job and its progress log are in `PLANS.md`.
 
 ## Slide speaker notes ("do the notes thing for chapter N")

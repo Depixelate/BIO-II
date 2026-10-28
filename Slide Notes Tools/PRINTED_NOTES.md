@@ -18,7 +18,7 @@ The exams allow printed notes but no pictures (professor, video call, Oct 2026).
 1. **Page 1:**
    - a "how to use these notes in the exam" box: find the key term or clue → this chapter's Index file → the slide → the look-alike table → rule out absolute words;
    - then the contents with page numbers: quick guide parts, sections, lookup pages, and "Indexes: see Ch NN Index".
-2. **Quick guide** (`QUICK_GUIDE` in `quick_guides.py`), about 2 pages, the same depth for every chapter (questions are spread evenly across chapters), for someone who has never seen the material. Plain text, no border box:
+2. **Quick guide** (`QUICK_GUIDE` in `quick_guides.py`), for someone who has never seen the material, so they aren't lost on an exam question. Its length follows from a deep review of the chapter, not a target: explain every high-priority concept (definitions, processes, comparisons, "which structure or group" facts) and how the pieces connect; one line per item for organism-by-organism lists; leave numbers, extra examples, uses and textbook-only extras to the tables. Same depth for every chapter. Plain text, no border box:
    - big picture;
    - one part per section in order: key ideas in plain words with examples and slide codes, how the pieces connect, look-alike traps;
    - a "look up, don't memorize" list.
@@ -29,6 +29,8 @@ The exams allow printed notes but no pictures (professor, video call, Oct 2026).
 
 **`Printed Exam Notes/Ch NN Index.docx`:** page-1 contents, then the clue index (`CLUES`: a scenario's clue → answer + slide), the glossary (terms no slide explains) and the term index (`INDEX`).
 
+**Whole-unit files** (written by every full build, i.e. without `--only`): `Unit N Printed Notes.docx` and `Unit N Index.docx`, all chapters in one file each, for printing in one go. Each chapter starts on a new right-hand page (an odd-page section break), so after double-sided printing the chapters come apart; page numbers run through the whole file. Also `Unit N Quick Guides.docx`, every chapter's quick guide at 11 pt, for reading. Superseded outputs go in `Printed Exam Notes/Old/`.
+
 ## Rules
 - **Page budget:** main plus index at most 20 pages (10 double-sided sheets) per chapter (`SHEETS_PER_CHAPTER`). One font size for all files: the largest that fits (`--fit`, the default).
 - **Layout:**
@@ -36,7 +38,7 @@ The exams allow printed notes but no pictures (professor, video call, Oct 2026).
   - a column line; borders on all table cells; no other boxes (only the page-1 how-to box);
   - no pictures, no shaded fills;
   - bold only for slide codes, titles and table headings.
-- **Page numbers** in contents and pointers are PAGEREF fields to bookmarks: LibreOffice updates them itself; Word does on select all + F9.
+- **Page numbers** in contents and pointers are PAGEREF fields to bookmarks: LibreOffice updates them itself; Word does on select all + F9. The stored values come from LibreOffice's PDF, which must keep inserted blank pages (`IsSkipEmptyPages` false); the layout check compares every printed page number with the real page.
 - **One font setting:** the Normal style. Change `FONT_NAME`/`FONT_FILE` in `build_print_notes.py` (see `Change the printed-notes font.md`).
 - **Figures** (no pictures allowed):
   - print the deck's full text alternative;
@@ -45,7 +47,7 @@ The exams allow printed notes but no pictures (professor, video call, Oct 2026).
   - Text alternatives not hyperlinked to their slide: match them in `TEXT_ALT_MATCH` (a value of `None` unlinks a mislabeled one; 26.3.41's describes Mimosa and is printed with 26.2.35).
   - Typos inside a text alternative: `FIG_FIX` (e.g. "drape" → "drupe").
   - Life-cycle figures built up over several slides (`CYCLES`/`FRAMES`): the full description once on the last frame, one line on each earlier frame, plus anything an earlier frame says that the last doesn't (`FRAME_EXTRA`).
-- **Slide errors:** print the correct version on the slide, marked "Textbook:" (`CORRECTIONS`), and list it in the study guide's slide-errors section. Scanned-table typos are restored from the textbook (`TYPO_FIX`).
+- **Slide errors and open questions:** the textbook wins, including on points that might be worth asking the professor about (the user's decision). Print the correct version on the slide, marked "Textbook:" (`CORRECTIONS`), and list it in the study guide's slide-errors section. Scanned-table typos are restored from the textbook (`TYPO_FIX`).
 - **Slide text the reader can't get whole:** text in equation boxes and in `mc:AlternateContent` text boxes is read automatically; text split around pictures of symbols (MathType objects such as "H+") is rebuilt in `SLIDE_TEXT`, keeping every original fragment. Photo credits and labels like "Figure 25B" are dropped (`JUNK` in build_print_notes.py).
 - **Sources:** every fact traces to a slide (or its text alternative) or the textbook (`Official Textbook/`, PDF page = book page + 19). The textbook wins over a slide. Never use Ch 20–22. `Unit 2 Study Guide.md` §2/§8/§9/§11 is already-checked source material for the guides and tables.
 
