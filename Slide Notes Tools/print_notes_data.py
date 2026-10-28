@@ -174,6 +174,11 @@ SHEETS_PER_CHAPTER = 10
 # that fits the budget (build_print_docx.py --fit). Unit 2: 11.5, the user's choice (Oct 28), half a point below the
 # 12 pt that the old page-count budget allowed.
 FONT_SIZE = 11.5
+# font of the whole-unit files, the ones that get printed (Unit 2 Printed Notes.docx and Unit 2 Index.docx): the
+# user's handwriting font (Oct 28), as (name apps show, file relative to Slide Notes Tools). Everything in those two
+# files uses it; the chapter files and the quick-guides copy keep FONT_NAME. None: the same font as the chapter files.
+# The font must be installed on the computer that prints the files (double-click the file, then Install).
+UNIT_FILE_FONT = ("Handwriting Final", "fonts/HandwritingFinal.otf")
 
 # ---------------------------------------------------------------- lookup pages
 # tables: {"ch", "title", "slides", "head", "rows", "wide"}; a row is cells, or (cells, slides) to cite slides;
