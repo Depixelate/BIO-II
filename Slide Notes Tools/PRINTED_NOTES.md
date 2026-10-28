@@ -5,6 +5,7 @@ The exams allow printed notes but no pictures (professor, video call, Oct 2026).
 ## Files and tools
 - `build_print_docx.py` builds the Word files; `build_print_notes.py` supplies the shared content functions and the legacy PDF builder.
 - `print_notes_data.py` holds everything that isn't slide text, keyed by `(chapter, slide)`.
+- `fonts/HandwritingFinal.otf`: the user's handwriting font, used for everything in the whole-unit Printed Notes and Index files (`UNIT_FILE_FONT`). Install it on the Mac (double-click it, then Install) before building or printing; on Linux the script installs it for LibreOffice itself.
 - Setup:
   - `python3 -m venv /tmp/printnotes-venv && /tmp/printnotes-venv/bin/pip install python-pptx pymupdf python-docx defusedxml`;
   - LibreOffice at `/Applications/LibreOffice.app` (install with `brew install --cask libreoffice`).
@@ -41,6 +42,8 @@ The exams allow printed notes but no pictures (professor, video call, Oct 2026).
 ## Rules
 - **Page budget:** at most 10 double-sided sheets per chapter (`SHEETS_PER_CHAPTER`), counting the main and index files as printed separately: each rounds up to whole sheets (15 + 5 pages = 8 + 3 = 11 sheets). `--fit` also keeps a page to spare in the main file.
 - **Font:** one body size for all chapter and unit files (`FONT_SIZE`; Unit 2: 11.5 pt, the user's choice), in whole or half points, since Word stores sizes in half points. Headings and the page header are fixed steps above or below it (`SIZE_STEP` in `build_print_docx.py`). The quick-guides copy is 11 pt (`GUIDES_FONT`).
+- **Typeface:** the chapter files and the quick-guides copy use `FONT_NAME` (Arial Narrow). The whole-unit Printed Notes and Index files, the ones the user prints, use `UNIT_FILE_FONT` (the user's Handwriting Final) for every bit of text, at the same sizes; the build checks their sheet budget per chapter too. It has no bold or italic face, so Word and LibreOffice draw bold and italic by thickening and slanting it.
+- **Missing characters:** every build lists, as warnings, any character a file prints that its font has no glyph for, with an example of where (it would print in some other font). With the handwriting font, ask the user for an updated font rather than changing the text.
 - **Layout:**
   - two columns everywhere; wide tables are printed as one small table per group;
   - a column line; borders on all table cells; no other boxes (only the page-1 how-to box);
@@ -69,7 +72,8 @@ Do every step for every chapter at the same depth, working from the text actuall
 - The script's checks pass (it exits with an error otherwise):
   - all slide text, figure text, corrections and guide text are present;
   - every cited slide exists and mentions a key word of what it's cited for (a sanity check only: it can't judge meaning);
-  - LibreOffice's layout: sheet budget met, contents page numbers and headers correct, no pictures, the chosen font.
+  - LibreOffice's layout: sheet budget met (chapter files and, per chapter, the whole-unit files), contents page numbers and headers correct, no pictures, every bit of text in the file's font;
+  - no missing-character warnings.
 - Slides vs textbook: compare every slide bullet with the textbook text (a fuzzy match flags the ones to read), and read every figure description for garbled or wrong statements; each disagreement gets a correction (or, if the textbook contradicts itself, follows the slide).
 - Word-format validation passes: the docx skill's `validate.py`, at `~/.claude/skills/synced/*/docx/scripts/office/validate.py`. If it's missing, at least confirm LibreOffice converts the file.
 - Convert to PDF with headless LibreOffice and look at every page.
@@ -77,4 +81,5 @@ Do every step for every chapter at the same depth, working from the text actuall
 - Check quick-guide statements and glossary definitions against the slides and textbook.
 - Read the rendered quick guides start to finish as someone new to the chapter: every term explained where it first appears, every organism placed in its group, no repetition, no absolute words the slide doesn't use, nothing important missing (compare with the study guide's key terms and learning objectives).
 - `shasum` of the decks, `Speaker Notes/` and `Textbook Links/` is unchanged.
-- **Tell the user the print steps:** LibreOffice or Word, US Letter (the Mac's printer queue defaults to A4), 100%; odd pages, stack back in, even pages.
+- **Tell the user the print steps:** LibreOffice or Word, US Letter (the Mac's printer queue defaults to A4), 100%; odd pages, stack back in, even pages. Install the handwriting font first, and in Word select all + F9 before printing. If they make a PDF from LibreOffice, "Export automatically inserted blank pages" must stay on, or the page numbers shift and chapters stop starting on right-hand pages.
+- Known LibreOffice quirk: in the whole-unit files, the first page of each chapter after the first (its title, how-to box and contents) has no running header, because LibreOffice drops the header on the first page after a right-hand-page break. Word shows it. Switching to plain page breaks would fix LibreOffice but could start a chapter on a left-hand page, so leave it.

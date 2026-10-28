@@ -165,7 +165,11 @@ TYPO_FIX = {
 # (chapter, slide) -> [paragraph, or (level, paragraph)]; every original fragment must still appear in it
 SLIDE_TEXT = {}
 # typos in a figure's text alternative, fixed when printed: (chapter, slide) -> [(wrong, right)]
-FIG_FIX = {}
+FIG_FIX = {
+    (23, 13): [("sporangium (2).", "sporangium (2n).")],
+    (23, 41): [("whisk fernroot plant", "whisk fern plant")],
+    (23, 59): [("spruce (needless leaves)", "spruce (needle leaves)"), ("scale-like leaves.", "scale-like leaves).")],
+}
 
 # page budget per chapter, in double-sided sheets, counting the main and index files as printed separately (each
 # rounded up to whole sheets; the user's choice)
@@ -174,6 +178,11 @@ SHEETS_PER_CHAPTER = 10
 # that fits the budget (build_print_docx.py --fit). Unit 2: 11.5, the user's choice (Oct 28), half a point below the
 # 12 pt that the old page-count budget allowed.
 FONT_SIZE = 11.5
+# font of the whole-unit files, the ones that get printed (Unit 2 Printed Notes.docx and Unit 2 Index.docx): the
+# user's handwriting font (Oct 28), as (name apps show, file relative to Slide Notes Tools). Everything in those two
+# files uses it; the chapter files and the quick-guides copy keep FONT_NAME. None: the same font as the chapter files.
+# The font must be installed on the computer that prints the files (double-click the file, then Install).
+UNIT_FILE_FONT = ("Handwriting Final", "fonts/HandwritingFinal.otf")
 
 # ---------------------------------------------------------------- lookup pages
 # tables: {"ch", "title", "slides", "head", "rows", "wide"}; a row is cells, or (cells, slides) to cite slides;
@@ -615,6 +624,7 @@ SLIDE_TEXT[(24, 15)] = [   # the slide's "Tracheids" heading is only in its titl
     (1, "They form a continuous vessel for water and mineral transport."),
 ]
 FIG_FIX[(24, 49)] = [("rhizone", "rhizome")]
+FIG_FIX[(24, 36)] = [("terminal budscale scars", "terminal bud-scale scars")]
 CAPTIONS.update({
     (24, 21): "A terminal bud contains an apical meristem and produces new leaves and other tissues during primary "
               "growth. Lateral branches grow from the lateral bud.",
@@ -633,6 +643,9 @@ PROCESS.update({
               "secretes digestive juices that break down the insect's soft parts.",
 })
 CORRECTIONS.update({
+    (24, 9): "Periderm includes cork and cork cambium; the lenticels in the cork are important in gas exchange "
+             "(textbook Fig. 24.2d). The description's “alternate arrangement of cork, cambium, and cork” is a "
+             "garbled reading of the labels.",
     (24, 27): "Lignin isn't a protein (the textbook uses the same wording): it's a chemical that hardens cell walls, "
               "and suberin is a waxy, waterproof lipid. Together they make the Casparian strip waterproof, so water "
               "and minerals must pass through the endodermal cells.",
@@ -1013,6 +1026,20 @@ SLIDE_TEXT.update({
         "Soil Profile Layers", (1, "Topsoil (A): Top layer, containing the most humus"),
         (1, "Subsoil (B): Accumulation of leached materials"), (1, "Bedrock (C): Weathered parent material"),
     ],
+})
+# the text alternatives spell ion symbols out as a screen reader says them ("K plus", "C a 2 plus"); print them as
+# the slides write them
+FIG_FIX.update({
+    (25, 8): [("Zinc (Z n)", "Zinc (Zn)"), ("copper (C u)", "copper (Cu)")],
+    (25, 13): [("(K plus)", "(K+)"), ("(C a 2 plus)", "(Ca2+)"), ("absorbing K plus and C a 2 plus", "absorbing K+ and Ca2+"),
+               ("releasing H plus", "releasing H+")],
+    (25, 23): [("transports H plus out", "transports H+ out"), ("breaking own ATP into ADP plus P", "breaking down ATP into "
+               "ADP + P"), ("causes K plus to enter", "causes K+ to enter"), ("(N O3 minus)", "(NO3−)"),
+               ("along with H plus into", "along with H+ into")],
+    (25, 42): [("and K plus ions enter", "and K+ ions enter"), ("and H plus ions move", "and H+ ions move"),
+               ("water and K plus leave", "water and K+ leave"), ("Several K plus ions", "Several K+ ions")],
+    (25, 45): [("transports H plus from", "transports H+ from"), ("ATP into ADP plus P", "ATP into ADP + P"),
+               ("transports H plus and sucrose", "transports H+ and sucrose")],
 })
 TYPO_FIX.update({
     (25, 4): [("C a, Mg", "Ca, Mg"), ("F e, B, M n, C u, Z n, C l, M o", "Fe, B, Mn, Cu, Zn, Cl, Mo")],
@@ -1590,7 +1617,7 @@ CORRECTIONS.update({
               "fertilization; the ovule then becomes the seed, which grows into the next sporophyte (textbook pp. "
               "490–492).",
     (27, 24): "The hypocotyl is the portion below the cotyledons; it contributes to stem development and ends in the "
-              "radicle, the embryonic root (textbook p. 496, as on 27.2.22). This figure's \"root axis\" label "
+              "radicle, the embryonic root (textbook p. 496, as on 27.2.22). This figure's “root axis” label "
               "doesn't change that.",
     (27, 26): "Part A is a bean seed, a eudicot (textbook Fig. 27.8a), not a monocot; part B is a corn kernel, a "
               "monocot.",

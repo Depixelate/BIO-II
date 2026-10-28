@@ -15,19 +15,25 @@ recalculates them; Word shows the stored values (from LibreOffice's layout) unti
 One body font size is used for every file except the quick-guides copy: print_notes_data.FONT_SIZE, or with --fit
 (or when FONT_SIZE is None) the largest size, in half points, at which each chapter's main and index files, printed
 separately, fit print_notes_data.SHEETS_PER_CHAPTER double-sided sheets with a page to spare (LibreOffice's layout).
-Headings and the page header are fixed steps above or below the body size (SIZE_STEP).
+Headings and the page header are fixed steps above or below the body size (SIZE_STEP). The whole-unit Printed Notes and
+Index files (the ones that get printed) use print_notes_data.UNIT_FILE_FONT, the user's handwriting font, for all text;
+every build warns about characters a file's font has no glyph for.
 LibreOffice runs headless with SAL_USE_VCLPLUGIN=osx on the Mac; without it, it can't see the Mac's fonts. Elsewhere
 (Linux) it uses `soffice` from the PATH, and Liberation Sans Narrow stands in for Arial Narrow (same letter widths).
 """
 import glob
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
+import unicodedata
+import zipfile
 
 import pymupdf
 from docx import Document
+from lxml import etree
 from docx.enum.section import WD_SECTION
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.table import WD_TABLE_ALIGNMENT
@@ -41,6 +47,7 @@ import print_notes_data as D
 from quick_guides import QUICK_GUIDE
 
 MAC = sys.platform == "darwin"
+HERE = os.path.dirname(os.path.abspath(__file__))
 SOFFICE = "/Applications/LibreOffice.app/Contents/MacOS/soffice" if MAC else "soffice"
 PROFILE = os.path.join(tempfile.gettempdir(), "bio2_libreoffice_profile")   # a private LibreOffice profile
 PAGE_W, MARGIN_LR, GAP = 8.5, 0.4, 0.2   # inches; the HL-2240 can't print within 0.25 in of the edge
@@ -146,8 +153,9 @@ def narrow_blocks(t):
 
 # ---------------------------------------------------------------- document
 class Builder:
-    def __init__(self, chapters, fs, cols, pages, kind):
-        """kind: "main", "index" or "guides". pages: bookmark name -> stored page number for PAGEREF fields."""
+    def __init__(self, chapters, fs, cols, pages, kind, font=None):
+        """kind: "main", "index" or "guides". pages: bookmark name -> stored page number for PAGEREF fields.
+        font: (name, file) for every bit of text in the file; the chapter files' font (P.FONT_NAME) by default."""
         self.chapters, self.fs, self.cols, self.pages, self.kind = chapters, fs, cols, pages, kind
         if fs * 2 != int(fs * 2):
             raise SystemExit(f"{fs} pt: Word stores font sizes in half points; use a size like 11 or 11.5")
@@ -157,7 +165,8 @@ class Builder:
         self.text_w = PAGE_W - 2 * MARGIN_LR    # inches
         self.col_w = (self.text_w - GAP * (cols - 1)) / cols
         self.bid = 0
-        self.font = pymupdf.Font(fontfile=P.FONT_FILE)   # to measure words for table column widths
+        self.font_name, font_file = font or (P.FONT_NAME, P.FONT_FILE)
+        self.font = pymupdf.Font(fontfile=font_file)   # to measure words for table column widths
         self._page_setup()
         self._styles()
         self._bullets()
@@ -175,8 +184,8 @@ class Builder:
     def _styles(self):
         st = self.doc.styles
         normal = st["Normal"]
-        normal.font.name = P.FONT_NAME
-        normal.element.rPr.rFonts.set(qn("w:eastAsia"), P.FONT_NAME)
+        normal.font.name = self.font_name   # every other style, the bullets, header and footer inherit it
+        normal.element.rPr.rFonts.set(qn("w:eastAsia"), self.font_name)
         normal.font.size = Pt(self.fs)
         normal.paragraph_format.space_after = Pt(0)
         normal.paragraph_format.space_before = Pt(0)
@@ -250,7 +259,7 @@ class Builder:
             l.append(ppr)
             rpr, fonts = OxmlElement("w:rPr"), OxmlElement("w:rFonts")
             for a in ("w:ascii", "w:hAnsi", "w:cs"):
-                fonts.set(qn(a), P.FONT_NAME)
+                fonts.set(qn(a), self.font_name)
             rpr.append(fonts)
             l.append(rpr)
             abstract.append(l)
@@ -591,12 +600,12 @@ def body_codes(page):
     return [t for _, _, t in sorted(found)]
 
 
-def build_one(chapters, kind, size, tmp, out):
+def build_one(chapters, kind, size, tmp, out, font=None):
     """Build one file with stored page numbers that match LibreOffice's layout; returns (docx, pdf, pages)."""
     path = out
     pages = {}
     for _ in range(4):   # store LibreOffice's page numbers in the fields until they stop changing
-        Builder(chapters, size[0], size[1], pages, kind).build().save(path)
+        Builder(chapters, size[0], size[1], pages, kind, font).build().save(path)
         pdf = to_pdf(path, tmp)
         new = bookmark_pages(pdf)
         if new == pages:
@@ -711,14 +720,26 @@ def check_guides(chapters):
     return problems
 
 
-def check_layout(pdf_path, main=True):
-    """LibreOffice's layout: no pictures, Letter pages, the chosen font, running headers (main file)."""
+def check_layout(pdf_path, main=True, font=None, missing=""):
+    """LibreOffice's layout: no pictures, Letter pages, all text in the chosen font (apart from characters the font
+    lacks, `missing`, which check_glyphs reports), running headers (main file)."""
     problems = []
+    name = font[0] if font else P.FONT_NAME
+    names = [name] + ([P.METRIC_TWIN[name][0]] if not MAC and name in P.METRIC_TWIN else [])
+    ours = lambda f: any(n.replace(" ", "").lower() in f.replace(" ", "").lower() for n in names)
     with pymupdf.open(pdf_path) as pdf:
-        fonts = {f[3].split("+")[-1] for p in pdf for f in p.get_fonts()}
-        names = [P.FONT_NAME] + ([P.METRIC_TWIN[P.FONT_NAME][0]] if not MAC and P.FONT_NAME in P.METRIC_TWIN else [])
-        if not any(n.replace(" ", "").lower() in f.replace(" ", "").lower() for n in names for f in fonts):
-            problems.append(f"the text isn't in {P.FONT_NAME} (fonts used: {sorted(fonts)})")
+        other = {}   # font LibreOffice used instead -> sample text
+        for p in pdf:
+            for b in p.get_text("dict")["blocks"]:
+                for line in b.get("lines", []):
+                    for sp in line["spans"]:
+                        chars = {c for c in sp["text"] if not c.isspace()} - set(missing)
+                        if chars and not ours(sp["font"]):
+                            other.setdefault(sp["font"], sp["text"].strip())
+        if other:
+            hint = (f" (install {font[1]} on this computer: double-click it, then Install)" if font and MAC else "")
+            problems.append(f"{os.path.basename(pdf_path)}: text isn't in {name}{hint}: "
+                            + "; ".join(f"{f!r} for {t[:40]!r}" for f, t in other.items()))
         text = " ".join(p.get_text() for p in pdf)
         if "Reference source not found" in text or "Error: Reference" in text:
             problems.append("a page number shows a reference error")
@@ -738,6 +759,69 @@ def check_layout(pdf_path, main=True):
                 if codes and shown and codes[0] not in shown:
                     problems.append(f"page {i}: running header doesn't show its first slide {codes[0]}")
     return problems
+
+
+def check_glyphs(docx_path, font_file):
+    """Characters the document prints (text, page header and footer, bullet markers) that the font has no glyph for:
+    {character: [paragraphs it's in]}. Word and LibreOffice would draw them in another font."""
+    font = pymupdf.Font(fontfile=font_file)
+    W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+    missing = {}
+
+    def scan(text, where):
+        for ch in sorted(set(text)):
+            if not ch.isspace() and not font.has_glyph(ord(ch)):
+                missing.setdefault(ch, []).append(where)
+
+    with zipfile.ZipFile(docx_path) as z:
+        used_nums = set()
+        for part in z.namelist():
+            if re.fullmatch(r"word/(document|header\d*|footer\d*)\.xml", part):
+                root = etree.fromstring(z.read(part))
+                for par in root.iter(W + "p"):
+                    text = "".join(t.text or "" for t in par.iter(W + "t"))
+                    scan(text, text.strip())
+                used_nums |= {n.get(W + "val") for n in root.iter(W + "numId")}
+        if "word/numbering.xml" in z.namelist():   # bullet markers of the lists the paragraphs use
+            root = etree.fromstring(z.read("word/numbering.xml"))
+            abstract = {n.get(W + "numId"): n.find(W + "abstractNumId").get(W + "val") for n in root.iter(W + "num")}
+            for a in root.iter(W + "abstractNum"):
+                if a.get(W + "abstractNumId") in {abstract.get(n) for n in used_nums}:
+                    for lvl in a.iter(W + "lvlText"):
+                        scan(lvl.get(W + "val") or "", "a bullet marker")
+    return missing
+
+
+def glyph_warnings(name, font_name, missing):
+    return [f"warning: {name}: {font_name} has no “{ch}” (U+{ord(ch):04X} {unicodedata.name(ch, '?')}), so it prints "
+            f"in another font; in {len(where)} paragraph(s), e.g. {where[0][:80]!r}" for ch, where in missing.items()]
+
+
+def chapter_sheets(pdf_path):
+    """Pages and double-sided sheets per chapter in a whole-unit file, from the "printed notes: Ch NN" label in each
+    page's header, or in the chapter's title on its first page (LibreOffice leaves that page's header empty).
+    A blank page before a chapter (it starts on a right-hand page) counts with the chapter before it."""
+    pages = {}
+    with pymupdf.open(pdf_path) as pdf:
+        current = None
+        for p in pdf:
+            m = re.search(r"printed notes: Ch (\d{2})\b", p.get_text()[:300])
+            current = int(m.group(1)) if m else current
+            pages[current] = pages.get(current, 0) + 1
+    return {ch: (n, sheets(n)) for ch, n in pages.items() if ch}
+
+
+def install_font(name, path):
+    """LibreOffice has to see a font to lay text out in it. On Linux, copy it to ~/.local/share/fonts; on the Mac it
+    must be installed (double-click the file, then Install), as it must be to print, and the layout check says so."""
+    if MAC or not path:
+        return
+    found = subprocess.run(["fc-list", f":family={name}"], capture_output=True, text=True).stdout.strip()
+    if not found:
+        folder = os.path.expanduser("~/.local/share/fonts")
+        os.makedirs(folder, exist_ok=True)
+        shutil.copy(path, folder)
+        subprocess.run(["fc-cache", "-f", folder], capture_output=True)
 
 
 def check_stored_pages(docx_path, pdf_path):
@@ -766,7 +850,9 @@ def build_guides(outdir, tmp, fs):
     pdf = to_pdf(out, tmp)
     with pymupdf.open(pdf) as d:
         n = len(d)
-    return out, n, check_guides(chapters) + check_layout(pdf, main=False) + validate(out)
+    missing = check_glyphs(out, P.FONT_FILE)
+    return (out, n, check_guides(chapters) + check_layout(pdf, False, None, "".join(missing)) + validate(out),
+            glyph_warnings(os.path.basename(out), P.FONT_NAME, missing))
 
 
 def main():
@@ -775,8 +861,10 @@ def main():
     os.makedirs(outdir, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
         if "--guides" in sys.argv:   # only the guides file
-            out, n, problems = build_guides(outdir, tmp, float(arg("--font", GUIDES_FONT)))
+            out, n, problems, warnings = build_guides(outdir, tmp, float(arg("--font", GUIDES_FONT)))
             print(f"{n} pages in LibreOffice -> {out}")
+            if warnings:
+                print("\n".join(warnings))
             if problems:
                 print("\n".join(problems))
                 sys.exit(1)
@@ -792,41 +880,58 @@ def main():
         else:
             size = (D.FONT_SIZE, 2)
         problems = P.check_citations(chapters) + check_guides(chapters)
-        report = []
+        report, warnings = [], []
         kinds = (("main", "Printed Notes"), ("index", "Index"))
+        # the whole-unit files (the ones that get printed) can have their own font: the user's handwriting
+        unit_font = (D.UNIT_FILE_FONT[0], os.path.join(HERE, D.UNIT_FILE_FONT[1])) if D.UNIT_FILE_FONT else None
+        if unit_font:
+            install_font(*unit_font)
 
-        def one(chs, kind, name):
+        def one(chs, kind, name, font=None):
             out = os.path.join(outdir, name)
             lock = os.path.join(outdir, "~$" + name[2:])
             if os.path.exists(lock) and "--force" not in sys.argv:
                 print(f"note: {lock} exists (Word lock file); if the file is open in Word, close it first")
-            path, pdf, n = build_one(chs, kind, size, tmp, out)
-            report.append(f"  {name}: {n} pages")
+            path, pdf, n = build_one(chs, kind, size, tmp, out, font)
+            report.append(f"  {name}: {n} pages" + (f" ({font[0]})" if font else ""))
+            missing = check_glyphs(path, font[1] if font else P.FONT_FILE)
+            warnings.extend(glyph_warnings(name, font[0] if font else P.FONT_NAME, missing))
             problems.extend((sum((check_main(c, path) for c in chs), []) if kind == "main" else [])
-                            + check_layout(pdf, kind == "main") + check_stored_pages(path, pdf) + validate(path))
-            return n
+                            + check_layout(pdf, kind == "main", font, "".join(missing))
+                            + check_stored_pages(path, pdf) + validate(path))
+            return n, pdf
 
         for c in chapters:
-            n = [one([c], kind, f"Ch {c.ch} {label}.docx") for kind, label in kinds]
+            n = [one([c], kind, f"Ch {c.ch} {label}.docx")[0] for kind, label in kinds]
             used = sheets(*n)
             report.append(f"  Ch {c.ch}: {used} double-sided sheets ({n[0]} + {n[1]} pages, printed separately; "
                           f"budget {budget})")
             if used > budget:
                 problems.append(f"Ch {c.ch}: {used} sheets; the budget is {budget}")
         if only is None and len(chapters) > 1:   # the whole unit in one main file and one index file
+            per_ch = {}
             for kind, label in kinds:
-                one(chapters, kind, f"{D.UNIT} {label}.docx")
-            out, n, more = build_guides(outdir, tmp, GUIDES_FONT)
+                _, pdf = one(chapters, kind, f"{D.UNIT} {label}.docx", unit_font)
+                for ch, (n, sh) in chapter_sheets(pdf).items():
+                    per_ch.setdefault(ch, []).append((n, sh))
+            for ch, parts in sorted(per_ch.items()):   # these are the files that get printed: check them too
+                used = sum(sh for _, sh in parts)
+                report.append(f"    in the {D.UNIT} files, Ch {ch}: {used} sheets "
+                              f"({' + '.join(str(n) for n, _ in parts)} pages)")
+                if used > budget:
+                    problems.append(f"{D.UNIT} files, Ch {ch}: {used} sheets; the budget is {budget}")
+            out, n, more, warn = build_guides(outdir, tmp, GUIDES_FONT)
             report.append(f"  {os.path.basename(out)}: {n} pages ({GUIDES_FONT:g} pt)")
             problems += more
+            warnings += warn
     print(f"{size[0]:g} pt, {size[1]} columns:")
-    print("\n".join(report))
+    print("\n".join(report + warnings))
     if problems:
         print("\n".join(problems))
         sys.exit(1)
     print("checks passed: all slide text, figure text, corrections and guide text present; every cited slide exists "
           "and mentions a key word of what it's cited for (meaning still needs a read-through); page numbers match "
-          "LibreOffice's layout; sheet budget met; no pictures; valid Word files")
+          "LibreOffice's layout; sheet budget met; all text in the chosen font; no pictures; valid Word files")
 
 
 if __name__ == "__main__":
