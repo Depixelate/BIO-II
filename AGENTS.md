@@ -16,8 +16,8 @@ The professor said on a video call (by Oct 25, 2026) that printed notes are allo
 - **Two files per chapter**, each chapter done separately:
   - `Printed Exam Notes/Ch NN Printed Notes.docx`: a how-to-use box and contents on page 1, then a plain-language **quick guide** (big picture, then one part per section), then every slide in order (figures as words, "Textbook:" corrections), then lookup tables.
   - `Printed Exam Notes/Ch NN Index.docx`: that chapter's clue index, glossary and term index, and nothing else.
-- **Page budget:** at most 10 double-sided sheets (20 pages) per chapter, main and index files together. One font size for all files: the largest that fits.
-- **Layout:** two columns everywhere, a column line, borders on all table cells (black is fine), no pictures, no shaded fills.
+- **Page budget:** at most 10 double-sided sheets (20 pages) per chapter, main and index files together. One font size for all files: the largest that fits. The quick guides are about 2 pages per chapter, with the same depth for every chapter (questions are spread evenly across chapters).
+- **Layout:** two columns everywhere, a column line, borders on all table cells (black is fine), no pictures, no shaded fills. No boxes around text in the columns (the only box is the page-1 how-to box); the quick guide is plain text.
 - **Rules:** every fact traces to a slide (or its text alternative) or the textbook, with slide codes; the textbook wins over a slide.
 - The full how-to (workflow for a new chapter, data fields, figure rules, verification checklist) is in `Slide Notes Tools/PRINTED_NOTES.md`; follow it. The current Unit 2 job and its progress log are in `PLANS.md`.
 

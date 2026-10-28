@@ -1508,3 +1508,327 @@ INDEX += [
     ("Venus flytrap", r"flytrap", s26(33), "(turgor movement)"),
     ("Vivipary", r"vivipary", s26(17), None),
 ]
+
+
+# ======================================================================== Ch 27
+def s27(*ns):
+    return [(27, n) for n in ns]
+
+
+CHAPTERS.append(27)
+TA_SKIP[27] = {43}   # 43: "Accessibility Content" cover slide
+TYPO_FIX[(27, 12)] = [("The pollen gain is", "The pollen grain is")]
+FIG_FIX.update({
+    (27, 11): [("(a)Cose of Jatropha", "(a) Close-up of Jatropha")],
+    (27, 30): [("A. a drape is", "A. A drupe is")],
+})
+CAPTIONS.update({
+    (27, 8): "A complete flower has all flower parts: sepals, petals, stamens, and at least one carpel.",
+    (27, 11): "a. The flowers of the mature Jatropha plant are monoecious, having both male and female flowers on the "
+              "same plant. b. Holly trees are dioecious; berries are produced only by female plants, and pollen only by "
+              "male plants.",
+    (27, 16): "Some flowering plants, such as grasses and grains, rely on wind pollination and make huge amounts of "
+              "pollen. Pollen grain walls are strong and distinctive enough to identify the plant, so pollen often "
+              "becomes fossils.",
+})
+PROCESS.update({
+    (27, 18): "a. A bee-pollinated flower is a color other than red (bees can't detect red); bees see ultraviolet "
+              "markings (nectar guides), and the flower's reproductive structures brush against the bee's body, so "
+              "pollen is transferred. b. A butterfly-pollinated flower is often a composite of many individual "
+              "flowers; the broad surface gives the butterfly room to land, and it lowers its proboscis into each "
+              "flower in turn.",
+})
+CORRECTIONS.update({
+    (27, 5): "A microspore becomes the male gametophyte (the pollen grain), and a megaspore becomes the female "
+             "gametophyte (the embryo sac); the spores themselves aren't gametophytes.",
+    (27, 24): "The slide (27.2.22) and the textbook's text say the hypocotyl, below the cotyledons, contributes to the "
+              "stem and ends in the radicle (the embryonic root); this figure and its textbook caption call it the "
+              "root axis. If asked, the slide's wording is the safer answer.",
+    (27, 26): "Part A is a bean seed, a eudicot (textbook Fig. 27.8a), not a monocot; part B is a corn kernel, a "
+              "monocot.",
+})
+
+TABLES += [
+    {"ch": 27, "title": "Male vs female gametophyte", "slides": s27(12, 13, 14, 17),
+     "head": ["", "Male (pollen grain)", "Female (embryo sac)"],
+     "rows": [
+         ["Where", "anther: 4 pollen sacs", "ovule, inside the ovary"],
+         ["Meiosis", "microspore mother cell → 4 microspores", "megaspore mother cell → 4 megaspores; 3 nonfunctional"],
+         ["Mitosis", "microspore → pollen grain (tube cell + generative cell); generative cell → 2 sperm",
+          "functional megaspore → 8 nuclei"],
+         ["Mature", "tube cell (grows the pollen tube) + 2 sperm",
+          "egg + 2 synergids; central cell with 2 polar nuclei; 3 antipodal cells"],
+         ["After fertilization", "–", "ovule → seed (integuments → seed coat); ovary → fruit"],
+     ]},
+    {"ch": 27, "title": "Flower parts and terms", "head": ["Term", "Meaning"],
+     "rows": [
+         (["Peduncle / receptacle", "the flower stalk / where the four whorls attach"], s27(7, 8)),
+         (["Sepals / petals", "protect the bud / attract pollinators"], s27(7)),
+         (["Stamen", "male: anther (saclike container) + filament (slender stalk)"], s27(7)),
+         (["Carpel", "female: stigma (sticky knob) + style (slender stalk) + ovary (enlarged base enclosing ovules)"],
+          s27(7)),
+         (["Complete / incomplete", "sepals, petals, stamens and a carpel / missing one or more"], s27(10)),
+         (["Perfect / imperfect", "stamens and carpels, bisexual / only one, unisexual"], s27(10)),
+         (["Monoecious / dioecious", "staminate and carpellate flowers on one plant (Jatropha) / on separate plants "
+                                    "(holly)"], s27(10, 11)),
+         (["Monocot / eudicot flowers", "parts in threes (daylily) / in fours or fives (azalea)"], s27(6, 9)),
+     ]},
+    {"ch": 27, "title": "Embryo and seed", "head": ["Stage / part", "What it is"],
+     "rows": [
+         (["Proembryo + suspensor", "the zygote divides repeatedly; the suspensor anchors the embryo"], s27(20, 23)),
+         (["Globular stage", "a ball of cells; outer cells become dermal tissue"], s27(20, 24)),
+         (["Heart stage", "cotyledons appear"], s27(21, 24)),
+         (["Torpedo stage", "elongates; shoot and root apical meristems"], s27(21, 24)),
+         (["Epicotyl", "portion between the cotyledons; becomes the shoot"], s27(22)),
+         (["Hypocotyl", "portion below; contributes to the stem; ends in the radicle"], s27(22)),
+         (["Radicle", "the embryonic root"], s27(22)),
+         (["Monocot seed", "one cotyledon; stores some nutrients, absorbs others from the endosperm"], s27(25)),
+         (["Eudicot seed", "two cotyledons store all the nutrients (they took up the endosperm)"], s27(25)),
+         (["Coleoptile / coleorhiza", "sheath over the shoot / over the root (corn)"], s27(26, 35)),
+         (["Mature seed", "embryo + stored food + seed coat"], s27(17)),
+     ]},
+    {"ch": 27, "title": "Fruits", "head": ["Type", "What it is (example)"],
+     "rows": [
+         (["Simple", "from a single ovary (one or several chambers)"], s27(27)),
+         (["Aggregate", "ovaries of a single flower on one receptacle (blackberry)"], s27(27)),
+         (["Multiple", "ovaries of separate flowers clustered together (pineapple)"], s27(27)),
+         (["Pericarp", "the ovary wall: exocarp (skin), mesocarp (flesh), endocarp (boundary around the seeds)"],
+          s27(28)),
+         (["Dehiscent / indehiscent", "dry fruit that splits open when ripe (legumes) / doesn't (grains)"], s27(29)),
+         (["Drupe", "fleshy; a pit with a single seed; simple ovary (peach)"], s27(30)),
+         (["Berry", "fleshy; seeds and pulp; compound ovary (tomato)"], s27(30)),
+         (["Legume", "dry, dehiscent; single ovary (pea)"], s27(30)),
+         (["Samara", "dry, indehiscent; simple ovary (maple)"], s27(30)),
+         (["Dispersal", "wind (hairs, plumes, wings; dandelion); animals eat fleshy fruits; hooks and spines catch fur "
+                        "(burdock); forced ejection (dehiscent pods)"], s27(31, 32)),
+     ]},
+    {"ch": 27, "title": "Pollinators (textbook)", "head": ["Pollinator", "Typical flower"],
+     "rows": [
+         (["Bee", "yellow, blue or white, not red (bees can't see red); ultraviolet nectar guides; sweet smell; "
+                  "landing platform"], s27(18)),
+         (["Butterfly", "bright colors, even red; flat landing platform, often a composite flower; little smell"],
+          s27(18)),
+         (["Hummingbird", "red; slender tube; petals curved back; lots of nectar; little smell"], s27(19)),
+         (["Bat", "large, sturdy, white or pale; opens at night; strong musky smell"], s27(19)),
+         (["Wind", "grasses and grains; huge amounts of pollen"], s27(16)),
+     ]},
+    {"ch": 27, "title": "Germination", "head": ["", "What happens"],
+     "rows": [
+         (["Germination", "the embryo resumes growth and metabolic activity"], s27(33)),
+         (["Needs", "oxygen (metabolism), warmth (enzyme activity), water (hydrates the cells)"], s27(34)),
+         (["Dormancy", "no growth; cold breaks it in temperate zones; fleshy fruits contain inhibitors"], s27(33)),
+         (["Bean (eudicot)", "root first; hook-shaped shoot; the two cotyledons feed it, then wither (textbook)"],
+          s27(35)),
+         (["Corn (monocot)", "coleoptile covers the first leaf, coleorhiza the root; then adventitious and prop roots"],
+          s27(35)),
+     ]},
+    {"ch": 27, "title": "Asexual reproduction", "head": ["Method", "How"],
+     "rows": [
+         (["Stolons", "horizontal stems above ground; new plants at the nodes (strawberry)"], s27(36, 37)),
+         (["Rhizomes", "underground stems; new plants at the nodes"], s27(36)),
+         (["Tubers", "potato “eyes” are buds that grow into new plants"], s27(36)),
+         (["Tissue culture", "meristem on a medium with auxin, cytokinins and nutrients → callus → organogenesis → "
+                             "plantlet; clones; works because cells are totipotent"], s27(38, 39, 40)),
+         (["Cell suspension culture", "callus pieces shaken into liquid; cells make chemicals (Digitalis heart "
+                                      "drugs)"], s27(40)),
+     ]},
+    {"ch": 27, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["microspore vs megaspore", "becomes the pollen grain vs the embryo sac"], s27(3, 5)),
+         (["tube cell vs generative cell", "grows the pollen tube vs divides into 2 sperm"], s27(12)),
+         (["synergids vs antipodal cells vs polar nuclei", "beside the egg vs 3 cells at the other end vs 2 nuclei in "
+                                                           "the central cell"], s27(14)),
+         (["pollination vs fertilization", "pollen reaches the stigma vs sperm unites with the egg"], s27(15, 17)),
+         (["self-pollination vs cross-pollination", "same plant vs another plant of the same species"], s27(15)),
+         (["zygote vs endosperm", "sperm + egg, 2n vs sperm + 2 polar nuclei, 3n"], s27(17)),
+         (["complete vs perfect", "all four parts vs both stamens and carpels"], s27(10)),
+         (["monoecious vs dioecious", "both flower types on one plant vs on separate plants"], s27(10)),
+         (["epicotyl vs hypocotyl vs radicle", "shoot vs stem vs embryonic root"], s27(22)),
+         (["coleoptile vs coleorhiza", "shoot sheath vs root sheath"], s27(26)),
+         (["simple vs aggregate vs multiple", "one ovary vs many ovaries of one flower vs ovaries of many flowers"],
+          s27(27)),
+         (["exocarp vs mesocarp vs endocarp", "skin vs flesh vs around the seeds"], s27(28)),
+         (["dehiscent vs indehiscent", "splits open vs stays closed"], s27(29)),
+         (["drupe vs berry", "one seed in a pit vs seeds in pulp"], s27(30)),
+         (["tissue culture vs cell suspension culture", "whole new plants vs chemicals from cells"], s27(40)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 27, "title": "Flowering plant life cycle", "slides": s27(3, 4, 13, 17),
+     "note": "sporophyte (2n) bears flowers → meiosis in anthers and ovules → microspores and megaspores (n) → mitosis → "
+             "pollen grain and embryo sac (n) → pollination → pollen tube to the micropyle → double fertilization: "
+             "sperm + egg → zygote (2n); sperm + 2 polar nuclei → endosperm (3n) → seed (embryo, stored food, seed "
+             "coat) in a fruit → germination → new sporophyte"},
+    {"ch": 27, "title": "Male gametophyte", "slides": s27(12),
+     "note": "anther (4 pollen sacs) → microspore mother cell → meiosis → 4 microspores → mitosis → pollen grain (tube "
+             "cell + generative cell) → generative cell divides by mitosis → 2 sperm → mature male gametophyte"},
+    {"ch": 27, "title": "Female gametophyte", "slides": s27(14),
+     "note": "ovule (parenchyma covered by integuments) → one cell enlarges into the megaspore mother cell → meiosis → 4 "
+             "megaspores, 3 nonfunctional → mitosis → 8 nuclei → embryo sac: egg + 2 synergids, central cell with 2 "
+             "polar nuclei, 3 antipodals"},
+    {"ch": 27, "title": "Eudicot embryo", "slides": s27(20, 21, 22, 23, 24),
+     "note": "zygote → proembryo + suspensor → globular (ball; outer cells → dermal tissue) → heart (cotyledons appear) "
+             "→ torpedo (elongates; shoot and root apical meristems) → mature embryo: epicotyl, hypocotyl, radicle, "
+             "cotyledons"},
+    {"ch": 27, "title": "Tissue culture", "slides": s27(39, 40),
+     "note": "meristem tissue on a medium with auxin, cytokinins and nutrients → callus (undifferentiated cells) → "
+             "organogenesis (roots, shoots) → plantlet → stored in sterile containers"},
+]
+
+PLOIDY += [
+    {"ch": 27, "title": "", "slides": s27(3, 4, 12, 13, 14, 17), "head": ["", "Structures"],
+     "rows": [
+         ["n (haploid)", "microspores, megaspores; pollen grain (tube cell, generative cell, 2 sperm); embryo sac (egg, "
+                         "synergids, polar nuclei, antipodals)"],
+         ["2n (diploid)", "sporophyte (the plant with flowers); microspore and megaspore mother cells; zygote; embryo"],
+         ["3n (triploid)", "endosperm (sperm + 2 polar nuclei)"],
+         ["Meiosis (2n → n)", "in the anther's pollen sacs (microspore mother cells) and the ovule (megaspore mother "
+                              "cell)"],
+         ["Mitosis", "spores → gametophytes; generative cell → 2 sperm; zygote → embryo and sporophyte"],
+     ]},
+]
+
+USES += [
+    {"ch": 27, "title": "", "slides": s27(31, 40, 41), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Tissue culture", "clones with identical traits; rare plants grown for conservation (ladyslipper orchid)"],
+          s27(40, 41)),
+         (["Cell suspension culture", "heart-disease drugs from Digitalis without overcollecting wild plants"],
+          s27(40)),
+         (["Fruits", "food for animals, which carry the seeds away (peaches, cherries, tomatoes)"], s27(31)),
+     ]},
+]
+
+CLUES += [
+    ("Flowers and gametophytes", [
+        ("the dominant generation, which bears the flowers", "sporophyte (2n)", s27(3)),
+        ("spores made in anthers / in ovules", "microspores / megaspores", s27(3, 4)),
+        ("male gametophyte / female gametophyte", "pollen grain / embryo sac", s27(5)),
+        ("flower stalk / where the flower parts attach", "peduncle / receptacle", s27(7)),
+        ("protect the bud / attract pollinators", "sepals / petals", s27(7)),
+        ("anther + filament / stigma + style + ovary", "stamen / carpel", s27(7)),
+        ("has sepals, petals, stamens and a carpel", "complete flower", s27(10)),
+        ("has both stamens and carpels", "perfect (bisexual) flower", s27(10)),
+        ("male and female flowers on one plant (Jatropha)", "monoecious", s27(10, 11)),
+        ("only female trees bear berries (holly)", "dioecious", s27(10, 11)),
+        ("divides by meiosis into four microspores", "microspore mother cell", s27(12)),
+        ("pollen cell that grows the tube / that makes 2 sperm", "tube cell / generative cell", s27(12)),
+        ("four megaspores made, three don't function", "megaspore mother cell (meiosis)", s27(14)),
+        ("two cells beside the egg", "synergids", s27(14)),
+        ("two nuclei in the central cell", "polar nuclei", s27(14)),
+        ("three cells at the far end of the embryo sac", "antipodal cells", s27(14)),
+        ("pollen moves from anther to stigma", "pollination", s27(15)),
+        ("pollen from another plant of the same species", "cross-pollination", s27(15)),
+        ("opening in the ovule the pollen tube reaches", "micropyle", s27(17)),
+        ("one sperm + egg, the other + polar nuclei", "double fertilization", s27(17)),
+        ("yellow or blue flower with ultraviolet nectar guides", "bee-pollinated", s27(18)),
+        ("red, tube-shaped flower with lots of nectar", "hummingbird-pollinated", s27(19)),
+        ("large, sturdy, pale flower open at night", "bat-pollinated", s27(19)),
+    ]),
+    ("Seeds and fruits", [
+        ("zygote divides into a proembryo and a stalk that anchors it", "suspensor", s27(20)),
+        ("embryo is a ball of cells", "globular stage", s27(20, 24)),
+        ("embryo becomes heart-shaped as the cotyledons appear", "heart stage", s27(21)),
+        ("embryo elongates", "torpedo stage", s27(21)),
+        ("embryo part that becomes the shoot", "epicotyl", s27(22)),
+        ("embryo part below the cotyledons", "hypocotyl", s27(22)),
+        ("embryonic root", "radicle", s27(22)),
+        ("one cotyledon that absorbs nutrients from the endosperm", "monocot seed (corn)", s27(25)),
+        ("cotyledons that store all the embryo's food", "eudicot seed (bean)", s27(25)),
+        ("sheath over a corn seedling's shoot / root", "coleoptile / coleorhiza", s27(26, 35)),
+        ("a mature ovary", "fruit", s27(27)),
+        ("blackberry: many ovaries of one flower", "aggregate fruit", s27(27)),
+        ("pineapple: ovaries of many flowers", "multiple fruit", s27(27)),
+        ("ovary wall: skin, flesh, layer around the seed", "pericarp: exocarp, mesocarp, endocarp", s27(28)),
+        ("dry fruit that splits open (pea pod)", "dehiscent (legume)", s27(29, 30)),
+        ("dry fruit that stays closed (grain)", "indehiscent", s27(29)),
+        ("peach: fleshy fruit, single seed in a pit", "drupe", s27(30)),
+        ("tomato: fleshy fruit, seeds and pulp", "berry", s27(30)),
+        ("maple's winged fruit", "samara", s27(30)),
+        ("dandelion parachutes; burdock hooks", "wind / animal dispersal", s27(31, 32)),
+        ("embryo resumes growth and metabolism", "germination", s27(33)),
+        ("cold weather breaks it; inhibitors in fleshy fruits", "dormancy", s27(33)),
+        ("oxygen, warmth and water", "germination requirements", s27(34)),
+    ]),
+    ("Asexual reproduction", [
+        ("strawberry runners make new plants at nodes", "stolons", s27(36, 37)),
+        ("potato eyes", "buds (on a tuber)", s27(36)),
+        ("each cell can become a whole plant", "totipotent", s27(38)),
+        ("undifferentiated cell mass in tissue culture", "callus", s27(40)),
+        ("roots and shoots forming from a callus", "organogenesis", s27(39, 40)),
+        ("Digitalis heart drugs from cells in liquid", "cell suspension culture", s27(40)),
+    ]),
+]
+
+GLOSSARY[27] = [
+    ("Adventitious roots", "roots that grow from a stem, e.g. corn's prop roots (textbook)", [35]),
+    ("Clone", "an offspring genetically identical to its single parent (textbook)", [36, 40]),
+    ("Coevolution", "two species changing in response to each other, like flowers and their pollinators (textbook)",
+     [18, 19]),
+    ("Composite flower", "a compact head of many small flowers that looks like one flower (textbook)", [18]),
+    ("Integuments", "the layers covering the ovule; they become the seed coat (textbook)", [14]),
+    ("Nectar guides", "ultraviolet markings that lead bees to the nectar (textbook)", [18]),
+    ("Plumule", "the shoot tip and first small leaves at the tip of the epicotyl (textbook)", [26, 35]),
+    ("Whorl", "a ring of flower parts (sepals, petals, stamens or carpels) (textbook)", [7]),
+]
+
+INDEX += [
+    ("Aggregate fruit", r"aggregate", s27(27, 30), "(blackberry)"),
+    ("Anther, filament", r"\banthers?\b|filament", s27(7), None),
+    ("Antipodal cells", r"antipodal", s27(14), None),
+    ("Bee, butterfly pollinators", r"\bbees?\b|butterfly", s27(18), None),
+    ("Berry", r"\bberr(y|ies)\b", s27(30), "(tomato)"),
+    ("Callus", r"callus", s27(40, 39), None),
+    ("Carpel (stigma, style, ovary)", r"carpel", s27(7), None),
+    ("Cell suspension culture", r"suspension", s27(40), None),
+    ("Coleoptile, coleorhiza", r"coleopt|coleorhiza", s27(26, 35), None),
+    ("Complete / incomplete flowers", r"complete", s27(10), None),
+    ("Cotyledons", r"cotyledon", s27(21, 25), None),
+    ("Dehiscent / indehiscent", r"dehiscent", s27(29), None),
+    ("Digitalis", r"digitalis", s27(40), "(heart drugs)"),
+    ("Dioecious, monoecious", r"oecious", s27(10, 11), None),
+    ("Dispersal", r"dispers", s27(31, 32), None),
+    ("Dormancy", r"dorman", s27(33), None),
+    ("Double fertilization", r"double fertilization", s27(17), None),
+    ("Drupe", r"drupe", s27(30), "(peach)"),
+    ("Embryo sac", r"embryo sac", s27(5, 14), None),
+    ("Endosperm (3n)", r"endosperm", s27(17, 25), None),
+    ("Epicotyl, hypocotyl, radicle", r"epicotyl|hypocotyl|radicle", s27(22), None),
+    ("Exocarp, mesocarp, endocarp", r"[a-z]*carp\b(?! ?el)", s27(28), None),
+    ("Fruit", r"\bfruits?\b", s27(27), None),
+    ("Generative cell", r"generative cell", s27(12), None),
+    ("Germination", r"germinat", s27(33, 34), None),
+    ("Globular, heart, torpedo stages", r"globular|heart stage|heart-shaped|torpedo", s27(20, 21), None),
+    ("Hummingbird, bat pollinators", r"hummingbird|\bbats?\b", s27(19), None),
+    ("Legume", r"legume", s27(29, 30), "(pea)"),
+    ("Megaspore, megaspore mother cell", r"megaspore", s27(5, 14), None),
+    ("Microspore, microspore mother cell", r"microspore", s27(5, 12), None),
+    ("Micropyle", r"micropyle", s27(17), None),
+    ("Multiple fruit", r"multiple fruit", s27(27, 30), "(pineapple)"),
+    ("Organogenesis", r"organogenesis", s27(39, 40), None),
+    ("Ovary, ovule", r"\bovar(y|ies)\b|\bovules?\b", s27(5, 7), None),
+    ("Peduncle, receptacle", r"peduncle|receptacle", s27(7), None),
+    ("Perfect / imperfect flowers", r"perfect", s27(10), None),
+    ("Pericarp", r"pericarp", s27(28), None),
+    ("Petals, sepals", r"petal|sepal", s27(7), None),
+    ("Plantlet", r"plantlet", s27(40), None),
+    ("Polar nuclei", r"polar nucle", s27(14, 17), None),
+    ("Pollen grain", r"pollen grain", s27(5, 12), None),
+    ("Pollen tube", r"pollen tube", s27(12, 17), None),
+    ("Pollination (self, cross)", r"pollinat", s27(15), None),
+    ("Proembryo, suspensor", r"proembryo|suspensor", s27(20, 23), None),
+    ("Rhizomes, stolons", r"rhizome|stolon", s27(36), None),
+    ("Samara", r"samara", s27(30), "(maple)"),
+    ("Seed coat", r"seed coat", s27(17), None),
+    ("Simple fruit", r"simple fruit", s27(27), None),
+    ("Sporophyte, gametophyte", r"sporophyte|gametophyte", s27(3), None),
+    ("Stamen", r"stamen", s27(7), None),
+    ("Staminate, carpellate", r"staminate|carpellate", s27(10), None),
+    ("Synergids", r"synergid", s27(14), None),
+    ("Tissue culture", r"tissue culture", s27(38, 40), None),
+    ("Totipotent", r"totipoten", s27(38), None),
+    ("Tube cell", r"tube cell", s27(12), None),
+    ("Tuber (potato eyes)", r"tuber|potato", s27(36), None),
+    ("Zygote (2n)", r"zygote", s27(17, 20), None),
+]

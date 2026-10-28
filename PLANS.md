@@ -119,7 +119,7 @@ Keep the rest of `AGENTS.md` unchanged. OpenAI's Codex guide: "A short, accurate
 - **Data:** a new `QUICK_GUIDE` in `print_notes_data.py`, e.g. `{ch: {"intro": [paragraphs], "sections": {section_number: [paragraphs or (subheading, [bullets])]}, "look_up": [items]}}`.
 - **Rendering** (`build_print_docx.py`), right after the chapter heading:
   - its own paragraph styles, inheriting the font from Normal so one font change still covers everything;
-  - inside a thin border box so it's clearly not slide text;
+  - no border box (the user's decision, Oct 28: in two columns it drew a box around each column); the guide is set apart by its own headings and position;
   - a bookmark on each section part for the pointers.
 - **Section numbers** (confirm against `Deck.section` in `Slide Notes Tools/build_slide_notes.py`):
   - Ch 23: 23.1 = slides 3–15, 23.2 = 16–30, 23.3 = 31–35, 23.4 = 36–53, 23.5 = 54–91.
@@ -171,7 +171,7 @@ For each chapter:
 - Word-format validation passes:
   - run `/tmp/printnotes-venv/bin/python /Users/velusamykaruppagounder/.claude/skills/synced/ab055352-cf2f-45fe-8803-a8ad83e0e208_dc4ee915-8171-4bdf-b702-eb59eff3b83a/docx/scripts/office/validate.py <file>.docx`; it must print "All validations PASSED";
   - if that path is missing, at least confirm LibreOffice converts the file without errors.
-- Convert each file to PDF with headless LibreOffice (as the script does) and **look at every page**: gaps, cut-off tables, column line and borders present, guide boxes clear.
+- Convert each file to PDF with headless LibreOffice (as the script does) and **look at every page**: gaps, cut-off tables, column line and table borders present, no boxes around the columns.
 - Check every quick-guide statement and glossary definition against the slides and textbook. Report anything you couldn't verify rather than guessing.
 - `shasum` of the decks, `Chapter PPTs and Other Study Materials/Speaker Notes/` and `Textbook Links/` is unchanged before and after.
 - **Tell the user each time:**
@@ -192,7 +192,11 @@ For each chapter:
   - Slide-text reader (build_print_notes.py) now reads equation text (a14:m: e.g. "Ethylene (H2C=CH2)", "Pr", "Pfr", "H+") and text boxes inside mc:AlternateContent, which python-pptx skipped (26.1.10, 26.1.20, 26.3.37, 26.3.38 were empty), and whole multi-line titles (26.2.31, 26.2.33, 27.1.4, 27.4.40).
   - Ch 23 rebuilt as main + index: 12.25 pt, 15 + 5 = 20 pages, all checks pass (interim size; Stage 3 sets the final shared size).
   - Found for Stage 2: 25.2.21 and 25.3.41 have ion symbols as MathType OLE pictures: (H+), (K+), (NO3− and HPO4²−), H+, K+ (rebuild those slides' sentences in the data); 24.5.52's text alternative says CO2 leaves the leaf (it enters: correction); 24.4.42 lists only bark and pith (wood missing); textbook p. 437 says monocot roots have secondary growth but p. 440 says only conifers and woody eudicots do (slide 24.3.30 says they don't); hypocotyl: 27.2.22 "stem" vs 27.2.24 figure "root axis".
-- Next: Stage 2, Ch 24 data and files.
+- Stage 2 done (same day): Ch 24, 25, 26, 27 data in print_notes_data.py (one block per chapter at the end of the file) and their main + index files. Per chapter: textbook captions and figure descriptions (24.3.33, 24.5.55, 26.1.15, 26.1.19, 26.3.43, 27.1.18 and others), corrections, comparison tables, look-alikes, sequences, n/2n/3n (Ch 27), uses, clue index, glossary (textbook definitions, mostly its glossary at PDF pp. 921–946), term index (audited for false hits).
+  - Corrections added: 24.3.27 lignin; 24.4.42 woody stems (+ wood missing from the regions); 24.5.52 CO2 enters; 25.1.4 N missing; 25.2.19 wording; 25.3.30 tracheids have pits, not perforation plates; 25.3.34 wilted cell's potentials are all lower inside; 26.1.17 abscission is ethylene's; 26.2.29 roots; 26.3.41 mislabeled text alternative (moved to 26.2.35); 27.1.5 microspore becomes; 27.2.24 hypocotyl; 27.2.26 part A is a eudicot.
+  - New data fields: SLIDE_TEXT (rebuilt slide text: 24.1.15 heading, 25.1.16 soil layers, 25.2.21 and 25.3.41 ions), FIG_FIX (typos in figure text: "rhizone", "drape", "Cose", "(2,4-D)Gibberellins"), TEXT_ALT_MATCH value None (unlink a mislabeled text alternative). Photo credits and "Figure 25B"-style labels are filtered as junk. Term-index entries now apply only to their own chapter.
+- Stage 3 done: full build (`build_print_docx.py`, --fit) chose 12.25 pt for all ten files; Ch 23 20 pages (15 + 5), Ch 24 14 (11 + 3), Ch 25 12 (10 + 2), Ch 26 11 (9 + 2), Ch 27 12 (10 + 2). All checks pass; every page looked at.
+- Stage 4: AGENTS.md and PRINTED_NOTES.md updated. Waiting on the user: delete the leftovers? (`Ch 23 Printed Notes (large print).pdf`, `Ch 23 Printed Notes.pdf` (legacy PDF build), the temporary `Unit 2 Quick Guides.docx`, and the stale lock file `~$ 23 Printed Notes.docx`.) Questions worth asking the professor: monocot roots and secondary growth (slide 24.3.30 vs textbook p. 437 vs p. 440); hypocotyl (27.2.22 vs 27.2.24).
 
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices
