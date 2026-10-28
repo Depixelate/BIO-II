@@ -149,6 +149,12 @@ TYPO_FIX = {
     ],
 }
 
+# a slide's text rebuilt where the deck splits sentences around pictures of symbols (MathType objects such as "H+"):
+# (chapter, slide) -> [paragraph, or (level, paragraph)]; every original fragment must still appear in it
+SLIDE_TEXT = {}
+# typos in a figure's text alternative, fixed when printed: (chapter, slide) -> [(wrong, right)]
+FIG_FIX = {}
+
 # page budget per chapter, main file + index file together, in double-sided sheets (the user's choice)
 SHEETS_PER_CHAPTER = 10
 
@@ -569,4 +575,1260 @@ INDEX = [
     ("Whisk ferns", r"whisk fern", s23(40), None),
     ("Xylem", r"xylem", s23(31), None),
     ("Zygote", r"zygote", s23(13, 88), None),
+]
+
+
+# ======================================================================== Ch 24
+def s24(*ns):
+    return [(24, n) for n in ns]
+
+
+CHAPTERS.append(24)
+TA_SKIP[24] = {57}   # 57: "Accessibility Content" cover slide
+SLIDE_TEXT[(24, 15)] = [   # the slide's "Tracheids" heading is only in its title
+    "Tracheids", (1, "They are long with tapered ends."), (1, "Water moves across pits in end walls and side walls."),
+    (1, "Vascular rays between rows of tracheids conduct water across the width of the plant."), "Vessel Elements",
+    (1, "They are larger, with perforation plates in their end walls."),
+    (1, "They form a continuous vessel for water and mineral transport."),
+]
+FIG_FIX[(24, 49)] = [("rhizone", "rhizome")]
+CAPTIONS.update({
+    (24, 21): "A terminal bud contains an apical meristem and produces new leaves and other tissues during primary "
+              "growth. Lateral branches grow from the lateral bud.",
+    (24, 29): "This cross section of a willow, Salix, shows the origination and growth of a branch root from the "
+              "pericycle.",
+    (24, 31): "In this overall cross section, it is possible to observe that a vascular ring surrounds a central pith.",
+})
+PROCESS.update({
+    (24, 33): "a. Sweet potato plants have food storage roots. b. Prop roots (corn) are specialized for support in high "
+              "winds. c. Pneumatophores (mangrove, bald cypress) extend above the water's surface, so a tree living in "
+              "water can acquire oxygen. d. The aerial roots of orchids offer physical support, water and nutrient "
+              "uptake, and in some cases even photosynthesis; English ivy uses aerial roots to climb.",
+    (24, 55): "a. The spines of a cactus are modified leaves that protect the fleshy stem from animal predation. b. The "
+              "tendrils of a cucumber are modified leaves that attach the plant to a physical support. c. The modified "
+              "leaves of the Venus flytrap trap insect prey: when an insect triggers it, the leaf snaps shut and "
+              "secretes digestive juices that break down the insect's soft parts.",
+})
+CORRECTIONS.update({
+    (24, 27): "Lignin isn't a protein (the textbook uses the same wording): it's a chemical that hardens cell walls, "
+              "and suberin is a waxy, waterproof lipid. Together they make the Casparian strip waterproof, so water "
+              "and minerals must pass through the endodermal cells.",
+    (24, 42): "Woody stems are mostly vascular tissue: wood is secondary xylem, and bark contains secondary phloem "
+              "(24.4.43–45). The three regions are bark, wood and pith (the slide leaves out wood). The professor "
+              "confirmed this slide is wrong (Oct 22).",
+    (24, 52): "Carbon dioxide enters the leaf through the stoma; oxygen and water vapor leave through it (textbook "
+              "Fig. 24.22). The description's “carbon dioxide leaving” is a slip.",
+})
+
+TABLES += [
+    {"ch": 24, "title": "Meristems", "head": ["Meristem", "Where / what it makes"],
+     "rows": [
+         (["Apical meristem", "tips of stems and roots; primary growth (length); makes the three primary meristems"],
+          s24(3, 6, 42)),
+         (["Protoderm", "epidermis (epidermal tissue), the outer protective covering"], s24(3, 35)),
+         (["Ground meristem", "ground tissue, which fills the interior; in stems, the pith and cortex"], s24(3, 35)),
+         (["Procambium", "vascular tissue: primary xylem and phloem (and vascular cambium)"], s24(3, 35, 37)),
+         (["Vascular cambium", "lateral meristem; secondary xylem and secondary phloem each year; secondary growth "
+                               "(girth)"], s24(43, 45)),
+         (["Cork cambium", "cork (periderm), which replaces the epidermis of woody stems"], s24(8, 44)),
+     ]},
+    {"ch": 24, "title": "Cell and tissue types", "head": ["Tissue / cell", "Features and job"],
+     "rows": [
+         (["Epidermis", "closely packed cells; waxy cuticle where exposed to air; root hairs (absorb water); "
+                        "trichomes (protect from sun and moisture loss; discourage herbivory); stomata on the lower "
+                        "leaf surface"], s24(7, 8)),
+         (["Periderm (cork)", "replaces the epidermis in older woody stems; cork made by cork cambium; suberin; gas "
+                              "exchange only at lenticels"], s24(8, 44)),
+         (["Parenchyma", "least specialized, most abundant, in all organs; can divide; with chloroplasts, "
+                         "photosynthesize"], s24(10)),
+         (["Collenchyma", "living; thicker primary walls; bundles under the epidermis; flexible support of young "
+                          "regions (celery strings)"], s24(10, 12)),
+         (["Sclerenchyma", "thick secondary walls with lignin; mostly dead at maturity; support of mature regions; "
+                           "fibers (long: hemp, rope) and sclereids (short: seed coats, nutshells)"], s24(11, 12)),
+         (["Tracheids (xylem)", "long, tapered ends; water crosses pits in end and side walls"], s24(15)),
+         (["Vessel elements (xylem)", "larger; perforation plates in end walls; form a continuous vessel"], s24(15)),
+         (["Sieve-tube members (phloem)", "conducting cells; cytoplasm but no nucleus; sieve plate (cluster of "
+                                          "pores)"], s24(16)),
+         (["Companion cells (phloem)", "have a nucleus; joined to a sieve-tube member by plasmodesmata; help "
+                                       "transport"], s24(16)),
+     ]},
+    {"ch": 24, "title": "Xylem vs phloem", "slides": s24(13, 15, 16, 44, 45), "head": ["", "Xylem", "Phloem"],
+     "rows": [
+         ["Carries", "water and minerals, roots to leaves", "sucrose and other organic compounds"],
+         ["Conducting cells", "tracheids, vessel elements", "sieve-tube members (with companion cells)"],
+         ["Location", "vascular cylinder (root), vascular bundles (stem), leaf veins (both)", "same, beside the xylem"],
+         ["In a woody stem", "wood (secondary xylem); heartwood no longer carries water",
+          "in the bark; girdling removes it and kills the tree"],
+     ]},
+    {"ch": 24, "title": "Monocots vs eudicots", "slides": s24(22, 23, 24, 32, 38), "head": ["", "Monocots", "Eudicots"],
+     "rows": [
+         ["Cotyledons", "one; transfer tissue (nutrients come from the endosperm)", "two; supply nutrients to the seedling"],
+         ["Root vascular tissue", "in a ring (around a pith)", "phloem between the arms of the xylem"],
+         ["Stem vascular bundles", "scattered", "in a distinct ring"],
+         ["Leaf veins", "parallel", "netted"],
+         ["Flower parts", "threes", "fours or fives"],
+         ["Pollen", "one pore or slit", "three pores or slits"],
+         ["Root system", "fibrous", "taproot (textbook)"],
+     ]},
+    {"ch": 24, "title": "Roots", "head": ["Type", "What it does (example)"],
+     "rows": [
+         (["Taproot", "one long, fleshy root growing straight down; stores food (eudicots; carrot)"], s24(32)),
+         (["Fibrous root system", "slender roots and lateral branches; anchors the plant (monocots; grasses)"],
+          s24(32)),
+         (["Storage roots", "store large amounts of carbohydrate (sweet potato)"], s24(32, 33)),
+         (["Prop roots", "support in high wind (corn)"], s24(33)),
+         (["Pneumatophores", "get oxygen for trees growing in water (mangrove, bald cypress)"], s24(33)),
+         (["Aerial roots", "support, climbing, water and nutrient uptake, some photosynthesis (orchids, English ivy)"],
+          s24(32, 33)),
+         (["Mycorrhizae", "fungus partners that help extract water and minerals"], s24(34)),
+         (["Root nodules", "nitrogen-fixing bacteria; plant gets nitrogen, bacteria get carbohydrates"], s24(34)),
+     ]},
+    {"ch": 24, "title": "Woody stem, outside in", "head": ["Region", "Contains / does"],
+     "rows": [
+         (["Bark", "everything outside the vascular cambium: cork, cork cambium, cortex, phloem; girdling it kills the "
+                   "tree"], s24(44, 46)),
+         (["Vascular cambium", "lateral meristem; makes secondary xylem and secondary phloem each year; dormant in "
+                               "winter"], s24(43, 45)),
+         (["Wood", "secondary xylem in annual rings; sapwood (outer rings) still carries water"], s24(45, 47)),
+         (["Annual ring", "spring wood + summer wood (summer wood has fewer vessels) = one year"], s24(45, 46)),
+         (["Heartwood", "inner rings of older trees; no longer carry water"], s24(45, 47)),
+         (["Pith", "the center"], s24(42, 46)),
+     ]},
+    {"ch": 24, "title": "Stems", "head": ["Type", "What it is (example)"],
+     "rows": [
+         (["Herbaceous stem", "nonwoody; primary growth only; waxy cuticle; bundles in a ring (eudicot) or scattered "
+                              "(monocot)"], s24(38)),
+         (["Woody stem", "primary + secondary growth; bark, wood, pith"], s24(41, 42)),
+         (["Stolon", "above-ground horizontal stem; new plants where nodes touch the ground (strawberry)"], s24(48, 49)),
+         (["Rhizome", "underground horizontal stem; asexual reproduction (iris)"], s24(48, 49)),
+         (["Tuber", "enlarged storage part of a rhizome (potato)"], s24(48, 49)),
+         (["Corm", "underground stem that makes new plants the next season (gladiolus)"], s24(48, 49)),
+     ]},
+    {"ch": 24, "title": "Leaves", "head": ["Term", "Meaning (example)"],
+     "rows": [
+         (["Blade / petiole", "the wide part / the stalk attaching it to the stem"], s24(50)),
+         (["Leaf axil", "upper angle between petiole and stem; holds the axillary bud"], s24(50)),
+         (["Evergreen / deciduous", "keeps leaves all year / loses all its leaves"], s24(50)),
+         (["Palisade mesophyll", "elongated cells under the upper epidermis; most of the photosynthesis"], s24(51)),
+         (["Spongy mesophyll", "irregular cells bounded by air spaces"], s24(51)),
+         (["Stomata", "in the lower epidermis; CO2 in, O2 and water vapor out"], s24(51, 52)),
+         (["Simple / compound", "one blade (magnolia) / leaflets: pinnately in pairs (black walnut) or palmately from "
+                                "one point (buckeye)"], s24(53, 54)),
+         (["Alternate / opposite / whorled", "beech / two leaves per node (maple) / several per node (bedstraw)"],
+          s24(53, 54)),
+         (["Adapted leaves", "shade leaves; spines (cactus, protect the stem); tendrils (cucumber, climbing); reduced "
+                          "leaves; insect-catching leaves (sundew, Venus flytrap)"], s24(53, 55)),
+     ]},
+    {"ch": 24, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["apical vs lateral meristem", "tips, length (primary growth) vs vascular and cork cambium, girth "
+                                         "(secondary growth)"], s24(6, 41, 43)),
+         (["tracheids vs vessel elements", "tapered, water through pits vs larger, perforation plates, continuous "
+                                           "vessel"], s24(15)),
+         (["sieve-tube member vs companion cell", "conducts, no nucleus vs has a nucleus, helps it"], s24(16)),
+         (["collenchyma vs sclerenchyma", "living, flexible support of young parts vs mostly dead, lignin, support of "
+                                          "mature parts"], s24(10, 11)),
+         (["fibers vs sclereids", "long and slender (hemp, rope) vs short (seed coats, nutshells)"], s24(11)),
+         (["root cap vs root hairs", "protects the root apical meristem vs absorb water (zone of maturation)"],
+          s24(7, 26)),
+         (["endodermis vs pericycle", "boundary with the Casparian strip vs dividing cells that start branch roots"],
+          s24(27)),
+         (["taproot vs fibrous roots", "one main root, stores food vs many slender roots, anchor"], s24(32)),
+         (["mycorrhizae vs root nodules", "fungi (water, minerals) vs nitrogen-fixing bacteria"], s24(34)),
+         (["herbaceous vs woody stem", "primary growth only vs primary + secondary growth"], s24(38, 41)),
+         (["bark vs wood", "outside the vascular cambium, contains phloem vs secondary xylem"], s24(44, 45)),
+         (["spring wood vs summer wood", "more vessels vs fewer vessels"], s24(45)),
+         (["sapwood vs heartwood", "outer rings, still carry water vs inner rings, no longer do"], s24(45, 47)),
+         (["stolon vs rhizome", "above-ground vs underground horizontal stem"], s24(48)),
+         (["tuber vs corm", "enlarged storage part of a rhizome vs underground stem making new plants next season"],
+          s24(48)),
+         (["palisade vs spongy mesophyll", "elongated, packed cells vs irregular cells with air spaces"], s24(51)),
+         (["simple vs compound leaf", "one blade vs divided into leaflets"], s24(53)),
+         (["annual vs perennial", "one growing season vs three or more"], s24(25)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 24, "title": "Root zones, from the tip up", "slides": s24(26, 28),
+     "note": "root cap (protects the root apical meristem) → zone of cell division (primary meristems) → zone of "
+             "elongation (cells lengthen and start to specialize) → zone of maturation (fully differentiated cells; "
+             "root hairs)"},
+    {"ch": 24, "title": "Eudicot root tissues, outside in", "slides": s24(27, 28),
+     "note": "epidermis (root hairs) → cortex (parenchyma; water and minerals move through) → endodermis with the "
+             "Casparian strip (forces water and minerals through its cells) → pericycle (starts branch roots) → "
+             "vascular cylinder: star-shaped xylem, phloem between its arms"},
+    {"ch": 24, "title": "Secondary growth of a woody stem", "slides": s24(41, 43, 44, 45),
+     "note": "vascular cambium (lateral meristem) makes secondary xylem and secondary phloem each year → the xylem "
+             "builds up as wood in annual rings (spring wood, then summer wood); inner rings become heartwood → cork "
+             "cambium makes cork, which replaces the epidermis (periderm) → bark = everything outside the vascular "
+             "cambium"},
+]
+
+USES += [
+    {"ch": 24, "title": "", "slides": s24(11, 48), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Sugar cane", "table sugar (its stem stores sugar)"], s24(48)),
+         (["Bark", "cinnamon and quinine"], s24(48)),
+         (["Wood", "paper and building materials (wood is secondary xylem)"], s24(48)),
+         (["Hemp fibers", "rope (fibers are long sclerenchyma cells)"], s24(11)),
+     ]},
+]
+
+CLUES += [
+    ("Tissues and cells", [
+        ("undifferentiated cells that keep dividing all the plant's life", "meristem", s24(6)),
+        ("outer layer that becomes the epidermis / ground tissue / vascular tissue", "protoderm / ground meristem / procambium", s24(3)),
+        ("hairs on stems and leaves; protect from sun and moisture loss; discourage plant-eaters", "trichomes", s24(8)),
+        ("extensions of root epidermal cells that add surface for absorbing water", "root hairs", s24(7)),
+        ("replaces the epidermis of an older woody stem", "periderm (cork)", s24(8)),
+        ("least specialized, most abundant cells; can divide; may photosynthesize", "parenchyma", s24(10)),
+        ("the strings in celery; flexible support for young parts", "collenchyma", s24(10)),
+        ("dead cells with lignin walls that support mature parts", "sclerenchyma", s24(11)),
+        ("long, slender sclerenchyma cells used for rope", "fibers (hemp)", s24(11)),
+        ("short sclerenchyma cells in nutshells and seed coats", "sclereids", s24(11)),
+        ("water-conducting cells with tapered ends and pits", "tracheids", s24(15)),
+        ("wider water-conducting cells with perforation plates, joined into a pipe", "vessel elements", s24(15)),
+        ("carry water sideways across the plant", "vascular rays", s24(15)),
+        ("sugar-conducting cell with cytoplasm but no nucleus", "sieve-tube member", s24(16)),
+        ("cell with a nucleus that serves a sieve-tube member", "companion cell", s24(16)),
+        ("cluster of pores in the wall of a sieve-tube member", "sieve plate", s24(16)),
+    ]),
+    ("Roots", [
+        ("cap that protects the root apical meristem", "root cap", s24(26)),
+        ("region where cells lengthen and begin to specialize", "zone of elongation", s24(26)),
+        ("region with fully differentiated cells and root hairs", "zone of maturation", s24(26)),
+        ("waterproof band (lignin and suberin) that forces water through cells", "Casparian strip (endodermis)", s24(27)),
+        ("dividing layer where branch roots start", "pericycle", s24(27, 29)),
+        ("ground tissue in the center of a monocot root", "pith", s24(30)),
+        ("one thick root that stores food (carrot)", "taproot", s24(32)),
+        ("many slender roots that anchor the plant (grasses)", "fibrous root system", s24(32)),
+        ("roots growing from the base of a corn stem for support", "prop roots", s24(33)),
+        ("roots that stick up out of swamp water to get oxygen", "pneumatophores", s24(33)),
+        ("orchid roots hanging in the air", "aerial roots", s24(33)),
+        ("fungi that help roots take up water and minerals", "mycorrhizae", s24(34)),
+        ("swellings on roots holding nitrogen-fixing bacteria", "root nodules", s24(34)),
+    ]),
+    ("Stems", [
+        ("where a leaf attaches / the stem between two of them", "node / internode", s24(20)),
+        ("bud at the stem tip with the shoot apical meristem", "terminal bud", s24(20, 21)),
+        ("each ring of bud-scale scars on a twig", "one year of growth", s24(35)),
+        ("vascular bundles scattered through the stem", "monocot stem", s24(38, 40)),
+        ("vascular bundles in a ring", "herbaceous eudicot stem", s24(38, 39)),
+        ("increases a stem's girth", "secondary growth (vascular and cork cambium)", s24(42, 43)),
+        ("makes secondary xylem and secondary phloem", "vascular cambium", s24(43)),
+        ("removing a ring of bark kills the tree", "girdling (the phloem is in the bark)", s24(44)),
+        ("waterproof substance in cork cells", "suberin", s24(44)),
+        ("the only spots where a woody stem exchanges gases", "lenticels", s24(44)),
+        ("secondary xylem built up year after year", "wood", s24(45)),
+        ("wood with fewer vessels, made late in the season", "summer wood", s24(45)),
+        ("inner rings that no longer carry water", "heartwood", s24(45, 47)),
+        ("strawberry runners: new plants where nodes touch the ground", "stolons", s24(48)),
+        ("underground horizontal stem (iris)", "rhizome", s24(48, 49)),
+        ("potato", "tuber (a stem, not a root)", s24(48, 49)),
+        ("gladiolus: underground stem that makes new plants next season", "corm", s24(48, 49)),
+    ]),
+    ("Leaves", [
+        ("the wide part of a leaf / its stalk", "blade / petiole", s24(50)),
+        ("upper angle between petiole and stem, where the axillary bud is", "leaf axil", s24(50)),
+        ("loses all its leaves", "deciduous", s24(50)),
+        ("elongated cells under the upper epidermis", "palisade mesophyll", s24(51)),
+        ("irregular cells with air spaces", "spongy mesophyll", s24(51)),
+        ("one blade / blade divided into leaflets", "simple / compound leaf", s24(53, 54)),
+        ("two leaves at each node / several at each node", "opposite / whorled", s24(53, 54)),
+        ("cactus spines", "modified leaves", s24(53, 55)),
+        ("cucumber's coiling climbers", "tendrils (modified leaves)", s24(53, 55)),
+    ]),
+    ("Processes and terms", [
+        ("lives one growing season, then dies after making seeds", "annual", s24(25)),
+        ("lives three or more seasons", "perennial", s24(25)),
+        ("genes that switch a plant between annual and perennial", "LEAFY and Apetala 1", s24(25)),
+        ("one cotyledon, parallel veins, parts in threes", "monocot", s24(22, 24)),
+        ("two cotyledons, netted veins, parts in fours or fives", "eudicot", s24(23, 24)),
+        ("all plant parts except flowers, seeds and fruits", "vegetative organs", s24(18)),
+    ]),
+]
+
+GLOSSARY[24] = [
+    ("Adventitious roots", "roots that grow from a stem, e.g. at the nodes of stolons and rhizomes (textbook)", [49]),
+    ("Cotyledon", "a seed leaf of the embryo; provides nutrients before photosynthesis begins (textbook)", [22, 23]),
+    ("Differentiated cell", "a cell that has specialized in structure and job (textbook)", [5, 6, 26]),
+    ("Endosperm", "the seed's food-storage tissue, made when a sperm joins the polar nuclei (textbook)", [22]),
+    ("Guard cells", "the two cells around each stoma; changes in their turgor open and close it (textbook)", [9, 52]),
+    ("Herbivory", "animals eating plants (textbook)", [8]),
+    ("Leaf primordia", "immature leaves wrapped around the shoot apical meristem in the terminal bud (textbook)",
+     [35, 37]),
+    ("Leaf scar, bundle scars", "marks on a twig where a leaf dropped and where its vascular bundles were "
+                               "(textbook)", [36]),
+    ("Lenticels", "loose patches of cork cells without suberin, where gases pass in and out of a woody stem "
+                  "(textbook)", [9, 36, 44]),
+    ("Lignin", "a chemical that hardens the cell walls of land plants (textbook); not a protein", [11, 27]),
+    ("Mutualism", "a relationship in which both species benefit (textbook)", [34]),
+    ("Nitrogen fixation", "bacteria converting nitrogen gas from the air into compounds plants can use, such as "
+                          "ammonium (textbook)", [34]),
+    ("Perforation plate", "the end wall of a vessel element, with openings that water flows through (textbook)",
+     [14, 15]),
+    ("Pith", "parenchyma tissue in the center of some stems and roots (textbook)", [30, 42]),
+    ("Pits", "thin spots in a tracheid's wall, where no secondary wall forms, that let water pass (textbook)", [15]),
+    ("Plasmodesmata", "narrow channels through cell walls that connect the cytoplasm of neighboring plant cells "
+                      "(textbook)", [16]),
+    ("Primary / secondary cell wall", "every plant cell has a primary wall; some build a thicker secondary wall "
+                                      "inside it, often with lignin (textbook)", [10, 11]),
+    ("Suberin", "a waxy, waterproof lipid in cork cells and the Casparian strip (textbook)", [27, 44]),
+    ("Tendril", "a slender structure (often a modified leaf) that attaches a climbing plant to a support (textbook)",
+     [53, 55]),
+]
+
+INDEX += [
+    ("Annual / perennial", r"\bannual\b(?! ring)|perennial", s24(25), None),
+    ("Annual ring", r"annual\s+ring", s24(45, 46), None),
+    ("Apical meristem", r"apical meristem", s24(6, 3), None),
+    ("Axillary (lateral) bud", r"axillary bud|lateral bud", s24(50, 21), None),
+    ("Bark", r"\bbark\b", s24(44), None),
+    ("Blade, petiole", r"\bblade\b|petiole", s24(50), None),
+    ("Branch (lateral) roots", r"branch root|lateral roots", s24(27, 29), None),
+    ("Bud scales", r"bud ?scale", s24(35, 36), None),
+    ("Casparian strip", r"casparian", s24(27), None),
+    ("Collenchyma", r"collenchyma", s24(10), None),
+    ("Companion cell", r"companion cell", s24(16), None),
+    ("Cork, cork cambium", r"\bcork\b", s24(8, 44), None),
+    ("Corm", r"\bcorms?\b", s24(48), "(gladiolus)"),
+    ("Cortex", r"cortex", s24(27), None),
+    ("Cuticle", r"cuticle", s24(7), None),
+    ("Deciduous, evergreen", r"deciduous|evergreen", s24(50), None),
+    ("Endodermis", r"endodermis", s24(27), None),
+    ("Epidermis, epidermal tissue", r"epiderm", s24(7), None),
+    ("Eudicots", r"eudicot", s24(23, 24), None),
+    ("Fibers, sclereids", r"\bfibers?\b|sclereid", s24(11), None),
+    ("Fibrous root system", r"fibrous", s24(32), None),
+    ("Girdling", r"girdling", s24(44), None),
+    ("Ground meristem", r"ground meristem", s24(3, 35), None),
+    ("Ground tissue", r"ground tissue", s24(10), None),
+    ("Heartwood, sapwood", r"heartwood|sapwood", s24(45, 47), None),
+    ("Herbaceous stems", r"herbaceous|nonwoody", s24(38), None),
+    ("LEAFY, Apetala 1", r"leafy|apetala", s24(25), "(flower-inducing genes)"),
+    ("Leaf axil", r"axil\b", s24(50), None),
+    ("Leaf veins", r"\bveins?\b|venation", s24(13, 52), None),
+    ("Meristem", r"meristem", s24(6), None),
+    ("Mesophyll (palisade, spongy)", r"mesophyll", s24(51), None),
+    ("Monocots", r"monocot", s24(22, 24), None),
+    ("Mycorrhizae", r"mycorrhiza", s24(34), None),
+    ("Node, internode", r"\bnodes?\b|internode", s24(20), None),
+    ("Organs (vegetative)", r"\borgans?\b", s24(4, 18), None),
+    ("Parenchyma", r"parenchyma", s24(10), None),
+    ("Pericycle", r"pericycle", s24(27), None),
+    ("Periderm", r"periderm", s24(8), None),
+    ("Phloem", r"phloem", s24(13, 16), None),
+    ("Pneumatophores, prop roots, aerial roots", r"pneumatophore|prop root|aerial root", s24(33), None),
+    ("Primary / secondary growth", r"primary growth|secondary growth", s24(42), None),
+    ("Procambium", r"procambium", s24(3, 35), None),
+    ("Protoderm", r"protoderm", s24(3, 35), None),
+    ("Rhizome", r"rhizome", s24(48), "(iris)"),
+    ("Root cap", r"root cap", s24(26), None),
+    ("Root hairs", r"root hair", s24(7), None),
+    ("Root nodules", r"nodule", s24(34), None),
+    ("Root system, shoot system", r"root system|shoot system", s24(18, 19), None),
+    ("Root zones (division, elongation, maturation)", r"zone of", s24(26, 28), None),
+    ("Sclerenchyma", r"sclerenchyma", s24(11), None),
+    ("Sieve plate, sieve-tube members", r"sieve", s24(16), None),
+    ("Simple / compound leaves", r"\bcompound\b", s24(53, 54), None),
+    ("Spines, tendrils", r"\bspines?\b|tendril", s24(53, 55), "(modified leaves)"),
+    ("Spring wood, summer wood", r"spring wood|summer wood", s24(45), None),
+    ("Stolon", r"stolon", s24(48), "(strawberry runners)"),
+    ("Stomata", r"stomat|\bstoma\b", s24(8, 51), None),
+    ("Sundew, Venus flytrap", r"sundew|flytrap", s24(53), "(insect-catching leaves)"),
+    ("Taproot", r"taproot", s24(32), None),
+    ("Terminal bud", r"terminal bud", s24(20, 35), None),
+    ("Tissue", r"\btissues?\b", s24(4), None),
+    ("Tracheids", r"tracheid", s24(15), None),
+    ("Trichomes", r"trichome", s24(8), None),
+    ("Tuber", r"\btubers?\b", s24(48), "(potato)"),
+    ("Vascular bundles", r"vascular bundle", s24(13, 38), None),
+    ("Vascular cambium", r"vascular cambium", s24(43), None),
+    ("Vascular cylinder", r"vascular cylinder", s24(13, 27), None),
+    ("Vascular rays", r"vascular rays?", s24(15), None),
+    ("Vessel elements", r"vessel element", s24(15), None),
+    ("Whorled, alternate, opposite leaves", r"whorled", s24(53, 54), None),
+    ("Wood", r"\bwood\b", s24(45), None),
+    ("Xylem", r"xylem", s24(13, 14), None),
+]
+
+
+# ======================================================================== Ch 25
+def s25(*ns):
+    return [(25, n) for n in ns]
+
+
+CHAPTERS.append(25)
+TA_SKIP[25] = {50, 51}   # 50: "Accessibility Content" cover; 51: the title slide's photo
+SLIDE_TEXT.update({
+    # the ions are MathType pictures on the slide: (H+), (K+), (NO3− and HPO4²−), H+, H+
+    (25, 21): [
+        "A plasma-membrane proton pump can transport hydrogen ions (H+) out of the cell.",
+        "An electrochemical gradient drives positively charged ions (K+) into the cell.",
+        "Negatively charged mineral ions (NO3− and HPO4²−) are transported with H+ by carrier proteins.",
+        "No energy is required when H+ is moving down its concentration gradient.",
+        "This model of mineral ion transport is called chemiosmosis, which occurs when an electrochemical gradient is "
+        "used by a cell to do work.",
+        "Minerals move into xylem and then are transported into leaves.",
+    ],
+    # K+, H+, K+ are MathType pictures on the slide
+    (25, 41): [
+        "Each stoma in a leaf epidermis is bordered by guard cells.",
+        (1, "Increased turgor pressure in guard cells opens stoma."),
+        (1, "Active transport of K+ into guard cells causes water to enter by osmosis and stomata to open."),
+        (1, "H+ ions accumulate outside guard cells as K+ moves in."),
+        (1, "Opening and closing of stomata are regulated by light."),
+        (1, "ABA (abscisic acid) can also cause stomata to close."),
+    ],
+    # three one-column tables, each a layer name and its description
+    (25, 16): [
+        "Soil Profile Layers", (1, "Topsoil (A): Top layer, containing the most humus"),
+        (1, "Subsoil (B): Accumulation of leached materials"), (1, "Bedrock (C): Weathered parent material"),
+    ],
+})
+TYPO_FIX.update({
+    (25, 4): [("C a, Mg", "Ca, Mg"), ("F e, B, M n, C u, Z n, C l, M o", "Fe, B, Mn, Cu, Zn, Cl, Mo")],
+    (25, 41): [("A B A (abscisic", "ABA (abscisic")],
+})
+CORRECTIONS.update({
+    (25, 4): "Nitrogen (N) is missing from the macronutrients: the textbook's Table 25.1 lists C, H, O, N, P, K, S, Ca, "
+             "Mg. N is the first number in NPK fertilizer (25.1.6).",
+    (25, 19): "Not an error, but confusing: it means that when there is more water outside the root than inside, water "
+              "moves in by osmosis, i.e. from higher to lower water potential (25.3.32).",
+    (25, 30): "Tracheids have no perforation plates: water passes from one tracheid to the next through pits; vessel "
+              "elements have perforation plates at each end (25.3.35).",
+    (25, 34): "In the wilted cell, water potential, pressure potential and osmotic potential are all lower inside the "
+              "cell than in the fluid outside (textbook Fig. 25B), so water enters; the description's “higher” for the "
+              "inside of the cell is a slip.",
+})
+
+TABLES += [
+    {"ch": 25, "title": "Essential nutrients", "slides": s25(3, 4, 6, 8), "head": ["", "Elements / facts"],
+     "rows": [
+         ["Essential if", "it has an identifiable role; no other nutrient can substitute; a deficiency causes the plant to "
+                          "die"],
+         ["Macronutrients", "C, H, O, N, P, K, S, Ca, Mg (large amounts; the slide leaves out N)"],
+         ["Micronutrients", "Fe, B, Mn, Cu, Zn, Cl, Mo (small amounts)"],
+         ["C, H, O", "about 95% of dry weight; from CO2 (C) and water (H, O)"],
+         ["Roles (textbook)", "N: nucleic acids and proteins; Mg: chlorophyll; Fe: cytochromes"],
+         ["NPK fertilizer", "% nitrogen, phosphorus, potassium by weight; N: lush green growth, P: root development, K: "
+                            "overall vigor"],
+     ]},
+    {"ch": 25, "title": "Soil", "head": ["Part", "What it is / does"],
+     "rows": [
+         (["Weathering", "mechanical (wind, rain, ice, rock grinding on rock) or chemical (acid rain, lichens, mosses)"],
+          s25(9)),
+         (["Sand", "largest particles; water drains readily"], s25(10)),
+         (["Silt", "medium particles"], s25(10)),
+         (["Clay", "smallest particles; small spaces fill with water; negatively charged, binds Ca2+ and K+"],
+          s25(10, 12)),
+         (["Loam", "sand's aeration + the mineral retention of silt and clay"], s25(10)),
+         (["Humus", "decaying organic material; decreases runoff, prevents leaching, makes soil more acidic, retains "
+                    "positive minerals"], s25(9, 11)),
+         (["Cation exchange", "H+ and other positive ions swap places with positive minerals so roots can take them up"],
+          s25(12, 13)),
+         (["Cation exchange capacity", "negative sites that can bind cations; lower in sandy soil"], s25(12)),
+         (["Living organisms", "roots open the soil; earthworms and ants aerate it; microorganisms decompose humus; "
+                               "bacteria make nitrogen available"], s25(14)),
+     ]},
+    {"ch": 25, "title": "Soil profile", "slides": s25(15, 16), "head": ["Horizon", "Contains"],
+     "rows": [
+         ["A (topsoil)", "leaf litter and the most humus (organic matter)"],
+         ["B (subsoil)", "inorganic nutrients: minerals leached from above accumulate"],
+         ["C (parent material)", "weathered rock (bedrock)"],
+     ]},
+    {"ch": 25, "title": "Getting nutrients", "head": ["Partner", "Gives / gets"],
+     "rows": [
+         (["Rhizobium (root nodules)", "fixes atmospheric nitrogen; gets carbohydrates from the plant"], s25(24, 25)),
+         (["Mycorrhizal fungi", "more surface area for water and minerals, break down organic matter; get sugars and "
+                                "amino acids"], s25(24, 26)),
+         (["Parasitic plants", "dodder taps its host's xylem and phloem (haustoria, textbook)"], s25(24, 27)),
+         (["Carnivorous plants", "sundew: sticky hairs trap prey and release digestive enzymes"], s25(24, 27)),
+     ]},
+    {"ch": 25, "title": "Xylem vs phloem", "slides": s25(28, 29, 30, 35, 37, 43, 46),
+     "head": ["", "Xylem", "Phloem"],
+     "rows": [
+         ["Carries", "water and minerals", "sucrose and other organic materials"],
+         ["Direction", "bottom to top", "any direction, source to sink"],
+         ["Cells", "tracheids (pits), vessel elements (perforation plates)",
+          "sieve-tube members (sieve plates, plasmodesmata); companion cells provide proteins"],
+         ["Moved by", "cohesion-tension: transpiration pulls; passive", "pressure flow: sucrose loaded actively, water "
+                                                                       "follows, pressure pushes"],
+         ["Evidence", "root pressure, guttation", "girdling (bark swells above the cut), tracers, aphids"],
+     ]},
+    {"ch": 25, "title": "Water potential", "slides": s25(31, 32, 33, 34), "head": ["", "Effect"],
+     "rows": [
+         ["Water moves", "passively, from higher to lower water potential: soil → root → stem → leaf"],
+         ["More pressure", "higher water potential (pressure potential)"],
+         ["More solutes", "lower water potential (osmotic potential); water moves toward more solute"],
+         ["Turgor pressure", "pressure potential from osmosis; keeps cells firm; a wilted plant has lost it"],
+     ]},
+    {"ch": 25, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["macronutrients vs micronutrients", "needed in larger vs smaller amounts"], s25(4)),
+         (["sand vs clay", "largest, drains readily vs smallest, holds water and minerals"], s25(10)),
+         (["topsoil (A) vs subsoil (B) vs parent material (C)", "litter and humus vs leached minerals vs weathered "
+                                                                "rock"], s25(15)),
+         (["pathway A vs pathway B", "between cell walls to the Casparian strip vs root hairs, then cell to cell "
+                                     "(plasmodesmata)"], s25(19, 23)),
+         (["active vs passive transport", "minerals, uses energy vs water, no energy"], s25(19, 20)),
+         (["channel protein vs carrier protein", "lets K+ in vs brings negative ions in with H+"], s25(21, 23)),
+         (["root nodules vs mycorrhizae", "nitrogen-fixing bacteria vs fungus adding surface area"], s25(24)),
+         (["pressure potential vs osmotic potential", "effect of pressure vs effect of solutes"], s25(33)),
+         (["turgid vs wilted", "full of water, firm vs lost turgor, droops"], s25(34)),
+         (["root pressure vs tension", "push from water entering roots vs pull from transpiration"], s25(35, 39)),
+         (["guttation vs transpiration", "droplets forced out of leaf edges vs evaporation through stomata"],
+          s25(35, 37)),
+         (["cohesion vs adhesion", "water to water vs water to vessel walls"], s25(37)),
+         (["source vs sink", "where sugar comes from vs where it's unloaded"], s25(43)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 25, "title": "Mineral uptake across the membrane", "slides": s25(21, 23),
+     "note": "1. an ATP-driven proton pump pushes H+ out of the cell → 2. the electrochemical gradient lets K+ (and other "
+             "positive ions) in through a channel protein → 3. negative ions (NO3−, HPO4²−) come in with H+ through a "
+             "carrier protein; no energy needed, as H+ moves down its gradient (chemiosmosis) → minerals move into the "
+             "xylem"},
+    {"ch": 25, "title": "Water's path", "slides": s25(19, 23, 32, 38),
+     "note": "soil (higher water potential) → root hair → cortex (between cell walls, pathway A, or cell to cell, pathway "
+             "B) → endodermis (the Casparian strip forces it through the cells) → xylem → stem → leaf → out through the "
+             "stomata (transpiration)"},
+    {"ch": 25, "title": "Cohesion-tension", "slides": s25(37, 38, 39),
+     "note": "transpiration at the leaves creates tension → evaporated water is replaced from the leaf veins → cohesion "
+             "keeps the column continuous and adhesion keeps it in place → the column is pulled up the stem → water "
+             "enters the root xylem by osmosis (passive)"},
+    {"ch": 25, "title": "Stomata", "slides": s25(41, 42),
+     "note": "open: H+ pumped out → K+ actively enters the guard cells → water follows by osmosis → turgor rises → "
+             "stoma opens; close: K+ leaves → water leaves → stoma closes. Light regulates them; ABA closes them."},
+    {"ch": 25, "title": "Pressure flow", "slides": s25(45, 46, 47),
+     "note": "source (leaf): an ATP-driven pump moves H+ out; sucrose enters the sieve tube with H+ (co-transport) → "
+             "water follows by osmosis → high positive pressure → mass flow through the sieve tubes → sink (root): "
+             "sugar unloaded and used for cellular respiration or stored; water exits by osmosis and returns to the "
+             "xylem"},
+]
+
+USES += [
+    {"ch": 25, "title": "", "slides": s25(6, 8, 18, 48), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Fertilizer", "NPK ratio: supplies nitrogen, phosphorus and potassium to avoid deficiencies"], s25(6, 8)),
+         (["Hydroponics", "growing plants in nutrient solution; testing which nutrients are essential"], s25(6, 7)),
+         (["Crop rotation, reduced tillage, companion crops", "reduce farmland erosion"], s25(18)),
+         (["Trees", "prevent coastal erosion"], s25(18)),
+         (["Aphids", "collect phloem sap for study"], s25(43, 48)),
+     ]},
+]
+
+CLUES += [
+    ("Nutrients and soil", [
+        ("about 95% of a plant's dry weight", "carbon, hydrogen and oxygen", s25(3)),
+        ("supplies a plant's carbon / its hydrogen and oxygen", "carbon dioxide / water", s25(3)),
+        ("inorganic substance, usually with two or more elements", "mineral", s25(3)),
+        ("has an identifiable role, can't be replaced, deficiency kills the plant", "essential nutrient", s25(4)),
+        ("needed in large amounts: C, H, O, N, P, K, S, Ca, Mg", "macronutrients", s25(4)),
+        ("needed in small amounts: Fe, B, Mn, Cu, Zn, Cl, Mo", "micronutrients", s25(4)),
+        ("growing plants in nutrient solution to find essential nutrients", "hydroponics", s25(6, 7)),
+        ("the three numbers on a fertilizer bag", "NPK ratio (nitrogen, phosphorus, potassium)", s25(6, 8)),
+        ("light yellow tomato leaves", "nitrogen deficiency", s25(8)),
+        ("rock broken down by wind, rain and ice / by acid rain and lichens", "mechanical / chemical weathering", s25(9)),
+        ("largest soil particles; water drains readily", "sand", s25(10)),
+        ("smallest soil particles; spaces fill with water", "clay", s25(10)),
+        ("ideal soil: aeration plus mineral retention", "loam", s25(10)),
+        ("decaying organic matter; decreases runoff, prevents leaching", "humus", s25(9, 11)),
+        ("root hair releases H+ to free bound K+ and Ca2+", "cation exchange", s25(12, 13)),
+        ("negative sites that hold cations; low in sandy soil", "cation exchange capacity (CEC)", s25(12)),
+        ("topsoil with litter and the most humus", "A horizon", s25(15, 16)),
+        ("subsoil where leached minerals accumulate", "B horizon", s25(15, 16)),
+        ("weathered parent rock", "C horizon", s25(15, 16)),
+        ("earthworm casts; ant colonies", "mix and aerate soil", s25(14)),
+        ("soil carried away by water or wind", "erosion", s25(17)),
+        ("crop rotation, reduced tillage, companion crops", "reduce farmland erosion", s25(18)),
+    ]),
+    ("Uptake", [
+        ("between porous cell walls until the Casparian strip", "pathway A", s25(23)),
+        ("into root hairs, then cell to cell", "pathway B", s25(19, 23)),
+        ("stops minerals flowing back out of the root", "Casparian strip", s25(20)),
+        ("pushes H+ out of the cell using ATP", "proton pump", s25(21, 23)),
+        ("lets K+ into the cell", "channel protein", s25(23)),
+        ("brings nitrate in together with H+", "carrier protein (co-transport)", s25(21, 23)),
+        ("using an H+ gradient to do work", "chemiosmosis", s25(21)),
+        ("nitrogen-fixing bacteria in root nodules", "Rhizobium", s25(24)),
+        ("fungus that adds surface area; gets sugars and amino acids", "mycorrhizae", s25(24, 26)),
+        ("dodder wrapped around a host plant", "parasitic plant", s25(24, 27)),
+        ("sundew digesting insects", "carnivorous plant", s25(24, 27)),
+    ]),
+    ("Transport", [
+        ("water moves from higher to lower", "water potential", s25(31)),
+        ("the higher it is, the higher the water potential", "pressure (pressure potential)", s25(33)),
+        ("the more of them, the lower the water potential", "solutes (osmotic potential)", s25(33)),
+        ("pressure from osmosis that keeps cells firm", "turgor pressure", s25(33, 34)),
+        ("drooping plant whose cells lost turgor", "wilted", s25(34)),
+        ("positive pressure from water entering roots", "root pressure", s25(35)),
+        ("droplets forced out along leaf edges", "guttation", s25(35, 36)),
+        ("water evaporating through stomata", "transpiration", s25(37, 39)),
+        ("water molecules clinging to each other", "cohesion", s25(37)),
+        ("water clinging to vessel walls", "adhesion", s25(37)),
+        ("transpiration pulls a continuous water column up", "cohesion-tension model", s25(37, 38)),
+        ("K+ enters guard cells and water follows", "stoma opens", s25(41, 42)),
+        ("hormone that can close stomata", "ABA (abscisic acid)", s25(41)),
+        ("where sugar comes from / where it's unloaded", "source / sink", s25(43, 44)),
+        ("bark swells just above a girdle", "sugar accumulates (phloem)", s25(43)),
+        ("insects used to collect phloem sap", "aphids", s25(43, 48)),
+        ("sucrose loaded at the source, water follows, pressure pushes sap", "pressure-flow model", s25(46, 47)),
+    ]),
+]
+
+GLOSSARY[25] = [
+    ("Channel protein", "a membrane protein that forms a channel for a particular ion to cross (textbook)", [21, 23]),
+    ("Carrier protein", "a membrane protein that binds a substance and changes shape to move it across (textbook)",
+     [21, 23]),
+    ("Co-transport", "two substances crossing a membrane together through one carrier, e.g. sucrose with H+ "
+                     "(textbook)", [45]),
+    ("Companion crops", "crops that hold and nourish the soil (textbook)", [18]),
+    ("Electrochemical gradient", "a difference in charge and concentration across a membrane, here of H+, that can "
+                                 "drive ions across (textbook)", [21, 23]),
+    ("Haustoria", "root-like projections a parasitic plant pushes into its host's xylem and phloem (textbook)", [27]),
+    ("Leaching", "minerals being washed out of the soil by water (textbook)", [11, 12, 16]),
+    ("Mass (bulk) flow", "a liquid moving as a whole, pushed from high to low pressure (textbook)", [47]),
+    ("Mutualism", "a relationship in which both species benefit (textbook)", [24, 26]),
+    ("Nitrogen fixation", "bacteria converting nitrogen gas from the air into compounds plants can use, such as "
+                          "ammonium (textbook)", [24]),
+    ("Parent material", "the original rock a soil forms from (textbook)", [15, 16]),
+    ("Plasmodesmata", "narrow channels through cell walls connecting the cytoplasm of neighboring plant cells "
+                      "(textbook)", [19, 28]),
+    ("Runoff", "rainwater running off the soil surface instead of soaking in (textbook)", [11]),
+    ("Stylet", "an aphid's needle-like mouthpart, which taps a sieve tube (textbook)", [48]),
+    ("Succession", "larger plants gradually replacing small ones as soil builds up (textbook)", [14]),
+]
+
+INDEX += [
+    ("ABA (abscisic acid)", r"\bA ?B ?A\b|abscisic", s25(41), "(closes stomata)"),
+    ("Adhesion", r"adhesion", s25(37), None),
+    ("Aphids", r"aphid", s25(43, 48), "(phloem sap)"),
+    ("Carnivorous plants (sundew)", r"carnivorous|sundew", s25(24, 27), None),
+    ("Casparian strip", r"casparian", s25(19, 20), None),
+    ("Cation exchange, CEC", r"cation exchange", s25(12, 13), None),
+    ("Chemiosmosis", r"chemiosmosis", s25(21), None),
+    ("Cohesion", r"cohesion", s25(37), None),
+    ("Cohesion-tension model", r"cohesion-tension", s25(37, 38), None),
+    ("Companion cells", r"companion cell", s25(28), None),
+    ("Electrochemical gradient", r"electrochemical", s25(21), None),
+    ("Erosion", r"erosion", s25(17, 18), None),
+    ("Essential nutrients", r"essential", s25(4), None),
+    ("Fertilizer, NPK", r"fertilizer|\bNPK\b", s25(6, 8), None),
+    ("Guard cells", r"guard cell", s25(41, 42), None),
+    ("Guttation", r"guttation", s25(35, 36), None),
+    ("Humus", r"humus", s25(11), None),
+    ("Hydroponics", r"hydroponic", s25(6, 7), None),
+    ("Leaching", r"leach", s25(11, 12), None),
+    ("Loam, sand, silt, clay", r"\bloam\b|\bsand|\bsilt\b|\bclay\b", s25(10), None),
+    ("Macronutrients, micronutrients", r"macronutrient|micronutrient", s25(4), None),
+    ("Mineral", r"\bminerals?\b", s25(3), None),
+    ("Mycorrhizae", r"mycorrhiza", s25(24, 26), None),
+    ("Osmotic potential", r"osmotic potential", s25(33), None),
+    ("Parasitic plants (dodder)", r"parasitic|dodder", s25(24, 27), None),
+    ("Phloem", r"phloem", s25(28, 43), None),
+    ("Plasmodesmata", r"plasmodesmata", s25(19, 28), None),
+    ("Pressure-flow model", r"pressure-flow", s25(46, 47), None),
+    ("Pressure potential", r"pressure potential", s25(33), None),
+    ("Proton pump", r"proton pump|ATP-driven pump", s25(21), None),
+    ("Rhizobium, root nodules", r"rhizobium|nodule", s25(24, 25), None),
+    ("Root pressure", r"root pressure", s25(35), None),
+    ("Sieve-tube members, sieve plates", r"sieve", s25(28), None),
+    ("Source, sink", r"\bsource\b|\bsinks?\b", s25(43, 44), None),
+    ("Soil", r"\bsoil\b", s25(9), None),
+    ("Soil profile, horizons", r"soil profile|horizon|topsoil|subsoil", s25(15, 16), None),
+    ("Stomata", r"stomat|\bstoma\b", s25(41, 42), None),
+    ("Sucrose loading", r"sucrose", s25(45, 46), None),
+    ("Tension", r"\btension\b", s25(38, 39), None),
+    ("Tracheids, vessel elements", r"tracheid|vessel element", s25(28), None),
+    ("Transpiration", r"transpir", s25(37, 39), None),
+    ("Turgor pressure, wilting", r"turgor|wilt", s25(33, 34), None),
+    ("Water potential", r"water potential", s25(31, 33), None),
+    ("Weathering", r"weather", s25(9), None),
+    ("Xylem", r"xylem", s25(28, 29), None),
+]
+
+
+# ======================================================================== Ch 26
+def s26(*ns):
+    return [(26, n) for n in ns]
+
+
+CHAPTERS.append(26)
+TA_SKIP[26] = {48}   # 48: "Accessibility Content" cover slide
+# The text alternative linked from 26.3.41 (hidden slide 56) describes Mimosa's leaves, not the short-day plant:
+# print it with the Mimosa slide instead, and give 26.3.41 its short alt text (cocklebur).
+TEXT_ALT_MATCH[26] = {41: None, 35: 56}
+PRINT_BOTH |= {(26, 35)}   # its short alt text says why the leaflets collapse
+FIG_FIX[(26, 7)] = [("(2,4-D)Gibberellins", "(2,4-D). Gibberellins")]
+CAPTIONS.update({
+    (26, 13): "a. The plant on the right was treated with gibberellins; the plant on the left was not. b. The grapes "
+              "are larger on the right, because gibberellins increased the space between the grapes, allowing them to "
+              "grow larger.",
+})
+PROCESS.update({
+    (26, 15): "Tissue culture experiments show that auxin and cytokinin interact: with the usual amounts of the two "
+              "hormones, tobacco cells form a callus of undifferentiated tissue; one ratio of auxin to cytokinin makes "
+              "the callus produce roots; another, vegetative shoots and leaves; yet another, floral shoots. It is the "
+              "relative concentrations of both hormones that produce the effect.",
+    (26, 19): "When ABA (the first messenger) binds to its receptor in the guard cell plasma membrane, the second "
+              "messenger, calcium ions (Ca2+), enters. Then K+ channels open and K+ leaves the guard cells; water "
+              "follows, and the stoma closes.",
+    (26, 43): "If red light is prevalent, as in bright sunlight, growth is normal. If far-red light is prevalent, as in "
+              "the shade, or the plant grows in darkness, etiolation occurs: the shoot increases in length and the "
+              "leaves stay small and yellow. These effects are due to phytochrome.",
+})
+CORRECTIONS.update({
+    (26, 17): "Abscission isn't ABA's job: applying ABA promotes it, but ABA is no longer believed to cause it "
+              "naturally; ethylene brings it about (26.1.20).",
+    (26, 29): "Roots, which have root caps, grow downward; stems grow upward.",
+    (26, 41): "The deck's text alternative for this slide describes Mimosa's leaves (printed with 26.2.35). The figure "
+              "is cocklebur, a short-day plant: it flowers when the night is longer than a critical length, and a "
+              "flash of light that interrupts that night stops it flowering (Fig. 26.16a).",
+})
+
+TABLES += [
+    {"ch": 26, "title": "Plant hormones", "slides": s26(7, 8, 12, 14, 17, 20), "wide": True,
+     "head": ["Hormone", "Made in", "Effects", "Commercial use"],
+     "rows": [
+         (["Auxin (IAA)", "shoot apical meristem; young leaves, flowers, fruits",
+           "apical dominance (blocks axillary buds); root and fruit growth; prevents loss of leaves and fruit; "
+           "phototropism (shady-side cells elongate); gravitropism",
+           "herbicides (2,4-D; Agent Orange); fruit without pollination"], s26(7, 8, 10)),
+         (["Gibberellins (GA3)", "young leaves, roots, embryos, seeds, fruits (textbook)",
+           "stem elongation; break bud and seed dormancy", "induce growth in crops; larger grapes"], s26(12, 13)),
+         (["Cytokinins (zeatin)", "dividing root tissue, seeds, fruits",
+           "cell division and organ formation; root nodules, galls; with auxin, prevent senescence; low levels in "
+           "autumn let leaves change color and die", "prolong the life of cut flowers and stored vegetables"],
+          s26(14, 16)),
+         (["Abscisic acid (ABA)", "any green tissue",
+           "the stress hormone: starts and maintains seed and bud dormancy; closes stomata; corn that can't respond "
+           "shows vivipary", "thinning fruit, so the remaining fruit grows larger"], s26(7, 17, 18)),
+         (["Ethylene (gas)", "formed from the amino acid methionine",
+           "abscission (stimulates cellulase); ripens fruit (softening, flavor, smell); inhibits axillary buds; "
+           "suppresses stem and root elongation", "ripening fruit for market"], s26(20, 21, 22)),
+     ]},
+    {"ch": 26, "title": "Movements", "head": ["Response", "Stimulus / how"],
+     "rows": [
+         (["Phototropism", "light: stems grow toward it (shady-side cells elongate, auxin); roots insensitive or "
+                           "negative; phototropin absorbs blue light"], s26(25, 26)),
+         (["Thigmotropism", "touch (plant, animal, rock, wind): tendrils and stems coil (runner beans, morning "
+                            "glories)"], s26(27, 28)),
+         (["Thigmomorphogenesis", "whole-plant shape change from touch: barrier, wind, rain"], s26(27)),
+         (["Gravitropism", "gravity: stem up, roots down; statoliths (starch in amyloplasts) settle in root-cap "
+                           "cells; auxin"], s26(29, 30)),
+         (["Turgor (nastic) movement", "no growth, not directional: turgor changes, electrical impulses or "
+                                       "hormones (Mimosa pudica, Venus flytrap)"], s26(33, 35)),
+         (["Sleep movements", "daily, with light and dark; circadian rhythm"], s26(33, 46)),
+     ]},
+    {"ch": 26, "title": "Photoperiod", "slides": s26(40, 41, 42), "head": ["Plant", "Flowers when", "Night flash"],
+     "rows": [
+         ["Short-day (long-night)", "day shorter than the critical length (night longer)", "stops flowering"],
+         ["Long-day (short-night)", "day longer than the critical length (night shorter); clover",
+          "makes it flower"],
+         ["Day-neutral", "regardless of day length", "–"],
+     ]},
+    {"ch": 26, "title": "Phytochrome", "slides": s26(37, 38, 39, 43, 44), "head": ["", "What it does"],
+     "rows": [
+         ["Pr", "inactive; absorbs red light (daylight) and becomes Pfr"],
+         ["Pfr", "active; absorbs far-red light and becomes Pr in the evening, shade or night"],
+         ["Effects", "detects photoperiod changes; promotes germination and flowering; inhibits shoot elongation"],
+         ["Spacing", "more far-red light (shade from neighbors) → grows taller to compete"],
+         ["Darkness", "etiolation: long shoots, small yellow leaves"],
+     ]},
+    {"ch": 26, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["auxin vs cytokinins", "apical dominance, elongation, phototropism vs cell division, organ formation"],
+          s26(8, 14)),
+         (["gibberellins vs abscisic acid", "break dormancy vs start and keep dormancy"], s26(12, 17)),
+         (["abscisic acid vs abscission", "the stress hormone vs leaf, fruit or flower drop (caused by ethylene)"],
+          s26(17, 20)),
+         (["primary vs secondary metabolites", "sugars, amino acids every cell needs vs defense chemicals"], s26(23)),
+         (["positive vs negative tropism", "toward vs away from the stimulus"], s26(24)),
+         (["tropism vs turgor movement", "growth, directional vs no growth, not directional"], s26(24, 33)),
+         (["thigmotropism vs thigmomorphogenesis", "growth toward a touch vs whole-plant shape change"], s26(27)),
+         (["phototropin vs phytochrome", "blue light, phototropism vs red and far-red light, photoperiod"],
+          s26(25, 36, 37)),
+         (["statoliths vs amyloplasts", "starch grains that settle vs the organelles holding them"], s26(29)),
+         (["short-day vs long-day plant", "flowers when nights are long vs short"], s26(40)),
+         (["photoperiodism vs circadian rhythm", "response to day or night length vs a roughly 24-hour cycle"],
+          s26(36, 45)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 26, "title": "Signal transduction", "slides": s26(4, 5),
+     "note": "signal (e.g. blue light) → receptor protein (plasma membrane, cytoplasm or nucleus) activated → "
+             "transduction pathway: relay proteins amplify and convert the signal → cellular response, most often a "
+             "change in gene expression (stem bending, root growth, defense)"},
+    {"ch": 26, "title": "Auxin bends a stem toward light", "slides": s26(10, 11),
+     "note": "light from one side → auxin moves to the shady side → binds receptors → proton pumps push H+ into the cell "
+             "wall → enzymes break cellulose fibers; the wall loosens → water enters, turgor rises → the cell enlarges "
+             "and rebuilds a longer wall → shady side elongates; stem bends toward the light"},
+    {"ch": 26, "title": "Auxin experiment", "slides": s26(9),
+     "note": "coleoptile tip (contains auxin) removed → placed on agar; auxin diffuses into it → agar block placed on one "
+             "side of the cut coleoptile → it curves beneath the block"},
+    {"ch": 26, "title": "ABA closes stomata", "slides": s26(19),
+     "note": "ABA binds a receptor on the guard cell → Ca2+ enters (second messenger) → K+ channels open; K+ leaves → "
+             "water leaves → stoma closes (textbook)"},
+    {"ch": 26, "title": "Roots sense gravity", "slides": s26(29, 30),
+     "note": "statoliths (starch grains in amyloplasts) settle to the bottom of root-cap cells → they press on "
+             "organelles, signaling down → auxin redistributes → the root grows down (a clinostat's rotation stops "
+             "them settling)"},
+    {"ch": 26, "title": "Phytochrome cycle", "slides": s26(37, 38, 39),
+     "note": "Pr (inactive) absorbs red light in daylight → Pfr (active) → Pfr reverts (far-red light; evening, shade, "
+             "night) → Pr"},
+]
+
+USES += [
+    {"ch": 26, "title": "", "slides": s26(7, 10, 13, 14, 22, 31), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Synthetic auxins", "herbicides (2,4-D); fruit without pollination"], s26(7, 10)),
+         (["Agent Orange", "a synthetic auxin used to defoliate forests in Vietnam"], s26(10)),
+         (["Gibberellins", "induce crop growth; larger grapes"], s26(12, 13)),
+         (["Cytokinins", "keep cut flowers and stored vegetables fresh"], s26(14)),
+         (["ABA", "thinning fruit so the rest grows larger"], s26(7)),
+         (["Ethylene", "ripening fruit for market; tomatoes engineered without it ship green"], s26(7, 22)),
+         (["Arabidopsis", "model organism for plant molecular genetics"], s26(31)),
+     ]},
+]
+
+CLUES += [
+    ("Hormones", [
+        ("chemical signal made in one part, acts elsewhere; travels in phloem", "hormone", s26(6)),
+        ("receptor → relay proteins → response", "signal transduction", s26(4, 5)),
+        ("the shoot tip keeps side buds from growing", "apical dominance (auxin)", s26(8)),
+        ("weed killer 2,4-D; Agent Orange", "synthetic auxins", s26(7, 10)),
+        ("coleoptile tip on agar makes a seedling curve", "auxin", s26(9)),
+        ("makes stems elongate; breaks seed and bud dormancy", "gibberellins", s26(12)),
+        ("bigger grapes, much taller plants", "gibberellins", s26(13)),
+        ("cell division and organ formation; root nodules; galls", "cytokinins", s26(14)),
+        ("keeps cut flowers and stored vegetables fresh; prevents aging", "cytokinins", s26(14)),
+        ("leaves change color in autumn", "low cytokinin levels", s26(14, 16)),
+        ("their ratio decides roots or shoots in tissue culture", "auxin and cytokinins", s26(15)),
+        ("stress hormone; keeps seeds and buds dormant; closes stomata", "abscisic acid (ABA)", s26(17)),
+        ("corn kernels sprouting on the cob", "vivipary (insensitive to ABA)", s26(17, 18)),
+        ("gas formed from methionine", "ethylene", s26(20)),
+        ("leaves, fruit or flowers dropping off", "abscission (ethylene)", s26(20, 21)),
+        ("a ripe apple makes a holly twig drop its leaves", "ethylene", s26(21)),
+        ("softens fruit and gives it flavor and smell", "ethylene", s26(20, 22)),
+        ("defense chemicals once thought to be waste", "secondary metabolites", s26(23)),
+        ("sugars and amino acids every cell needs", "primary metabolites", s26(23)),
+    ]),
+    ("Movements", [
+        ("growth toward or away from a stimulus from one direction", "tropism", s26(24)),
+        ("stem bends toward a window", "positive phototropism", s26(25)),
+        ("pigment that absorbs blue light for phototropism", "phototropin", s26(25, 26)),
+        ("tendrils coiling around a pole", "thigmotropism", s26(27, 28)),
+        ("wind-blown plant grows short and sturdy", "thigmomorphogenesis", s26(27)),
+        ("plant laid sideways: stem turns up, root turns down", "gravitropism", s26(29, 30)),
+        ("starch grains settling in root-cap cells", "statoliths (in amyloplasts)", s26(29)),
+        ("rotating chamber that cancels gravity's effect", "clinostat", s26(30)),
+        ("weed with a 5–6-week generation time; no commercial value", "Arabidopsis thaliana (model organism)", s26(31)),
+        ("movement with no growth that doesn't depend on direction", "turgor (nastic) movement", s26(33)),
+        ("leaflets collapse within a second of a touch", "Mimosa pudica (turgor loss)", s26(33, 35)),
+        ("trap snaps shut on an insect", "Venus flytrap (turgor movement)", s26(33)),
+        ("leaves fold every night", "sleep movements", s26(33)),
+    ]),
+    ("Light and timing", [
+        ("response to day or night length, e.g. when to flower", "photoperiodism", s26(36)),
+        ("blue-green leaf pigment with two forms", "phytochrome", s26(37)),
+        ("inactive form of phytochrome; absorbs red light", "Pr", s26(37, 38)),
+        ("active form of phytochrome", "Pfr", s26(38, 39)),
+        ("flowers only when the night is longer than a critical length", "short-day (long-night) plant", s26(41)),
+        ("flowers when a flash of light interrupts a long night", "long-day (short-night) plant", s26(42)),
+        ("flowers regardless of day length", "day-neutral plant", s26(40)),
+        ("seedlings grown in the dark: long, yellow shoots", "etiolation", s26(43)),
+        ("more far-red light from neighbors → grows taller", "phytochrome (plant spacing)", s26(44)),
+        ("about 24 hours; continues without outside cues", "circadian rhythm", s26(45, 46)),
+        ("internal timer that keeps a rhythm going", "biological clock", s26(45)),
+        ("rhythm synchronized to light at daybreak", "entrainment", s26(45)),
+    ]),
+]
+
+GLOSSARY[26] = [
+    ("Abiotic / biotic", "nonliving (light, water, temperature) / living (herbivores, parasites, competing plants) "
+                         "(textbook)", [23]),
+    ("Agar", "a gelatin-like material (textbook)", [9]),
+    ("Callus", "a mass of undifferentiated cells grown in tissue culture (textbook)", [15]),
+    ("Cellulase", "an enzyme that breaks down cellulose, the main material of plant cell walls (textbook)", [20]),
+    ("Clinostat", "a device that slowly rotates a plant so its statoliths can't settle, cancelling the effect of "
+                  "gravity (textbook)", [30]),
+    ("Coleoptile", "a protective sheath over a grass seedling's young leaves (textbook)", [9]),
+    ("Critical length", "the day (or night) length a plant's flowering depends on; for example, 14 hours for spinach "
+                        "and ragweed (textbook)", [40, 41, 42]),
+    ("Gall", "a tumor-like growth caused by bacteria, fungi, insects or nematodes (textbook)", [14]),
+    ("Herbicide", "a weed killer (textbook)", [7, 10]),
+    ("Herbivory", "animals eating plants (textbook)", [23]),
+    ("Phosphorylated", "with a phosphate group added (from ATP) (textbook)", [26]),
+    ("Photoreceptor", "a protein with a pigment that responds to light (textbook)", [25, 36]),
+    ("Pulvinus", "a thickening at the base of a leaflet; its cells' loss of turgor folds Mimosa's leaves (textbook)",
+     [35]),
+    ("Second messenger", "a molecule inside the cell, such as Ca2+, that passes on the signal from a receptor "
+                         "(textbook)", [19]),
+]
+
+INDEX += [
+    ("Abscisic acid (ABA)", r"abscisic|\bABA\b", s26(17), None),
+    ("Abscission", r"abscission", s26(20, 21), "(ethylene)"),
+    ("Agent Orange, 2,4-D", r"agent orange|2,4-D", s26(10, 7), "(synthetic auxins)"),
+    ("Amyloplasts, statoliths", r"amyloplast|statolith", s26(29), None),
+    ("Apical dominance", r"apical dominance", s26(8), None),
+    ("Arabidopsis thaliana", r"arabidopsis|A\. thaliana", s26(31), "(model organism)"),
+    ("Auxin", r"auxin", s26(8), None),
+    ("Biological clock", r"biological clock", s26(36, 45), None),
+    ("Circadian rhythm", r"circadian", s26(45, 46), None),
+    ("Coleoptile", r"coleoptile", s26(9), None),
+    ("Cytokinins", r"cytokinin", s26(14), None),
+    ("Day-neutral plants", r"day-neutral", s26(40), None),
+    ("Dormancy", r"dorman", s26(12, 17), None),
+    ("Entrainment", r"entrainment", s26(45), None),
+    ("Ethylene", r"ethylene", s26(20), None),
+    ("Etiolation", r"etiolat", s26(43), None),
+    ("Gibberellins", r"gibberell", s26(12), None),
+    ("Gravitropism", r"gravitropism", s26(29), None),
+    ("Hormones", r"hormone", s26(6, 7), None),
+    ("Long-day (short-night) plants", r"long-day", s26(40, 42), None),
+    ("Mimosa pudica", r"mimosa", s26(33, 35), "(turgor movement)"),
+    ("Phototropin", r"phototropin", s26(25, 26), None),
+    ("Phototropism", r"phototropism", s26(25), None),
+    ("Photoperiodism", r"photoperiod", s26(36), None),
+    ("Phytochrome (Pr, Pfr)", r"phytochrome|\bPfr\b", s26(37, 38), None),
+    ("Primary, secondary metabolites", r"metabolite", s26(23), None),
+    ("Senescence", r"senescence", s26(14), None),
+    ("Short-day (long-night) plants", r"short-day", s26(40, 41), None),
+    ("Signal transduction", r"transduction", s26(4, 5), None),
+    ("Sleep movements", r"sleep", s26(33), None),
+    ("Stomata closing", r"stomat", s26(17, 19), "(ABA)"),
+    ("Thigmomorphogenesis", r"thigmomorphogenesis", s26(27), None),
+    ("Thigmotropism", r"thigmotropism", s26(27), None),
+    ("Tropism (positive, negative)", r"tropism", s26(24), None),
+    ("Turgor (nastic) movements", r"turgor movement|nastic|turgid|limp", s26(33, 34), None),
+    ("Venus flytrap", r"flytrap", s26(33), "(turgor movement)"),
+    ("Vivipary", r"vivipary", s26(17), None),
+]
+
+
+# ======================================================================== Ch 27
+def s27(*ns):
+    return [(27, n) for n in ns]
+
+
+CHAPTERS.append(27)
+TA_SKIP[27] = {43}   # 43: "Accessibility Content" cover slide
+TYPO_FIX[(27, 12)] = [("The pollen gain is", "The pollen grain is")]
+FIG_FIX.update({
+    (27, 11): [("(a)Cose of Jatropha", "(a) Close-up of Jatropha")],
+    (27, 30): [("A. a drape is", "A. A drupe is")],
+})
+CAPTIONS.update({
+    (27, 8): "A complete flower has all flower parts: sepals, petals, stamens, and at least one carpel.",
+    (27, 11): "a. The flowers of the mature Jatropha plant are monoecious, having both male and female flowers on the "
+              "same plant. b. Holly trees are dioecious; berries are produced only by female plants, and pollen only by "
+              "male plants.",
+    (27, 16): "Some flowering plants, such as grasses and grains, rely on wind pollination and make huge amounts of "
+              "pollen. Pollen grain walls are strong and distinctive enough to identify the plant, so pollen often "
+              "becomes fossils.",
+})
+PROCESS.update({
+    (27, 18): "a. A bee-pollinated flower is a color other than red (bees can't detect red); bees see ultraviolet "
+              "markings (nectar guides), and the flower's reproductive structures brush against the bee's body, so "
+              "pollen is transferred. b. A butterfly-pollinated flower is often a composite of many individual "
+              "flowers; the broad surface gives the butterfly room to land, and it lowers its proboscis into each "
+              "flower in turn.",
+})
+CORRECTIONS.update({
+    (27, 5): "A microspore becomes the male gametophyte (the pollen grain), and a megaspore becomes the female "
+             "gametophyte (the embryo sac); the spores themselves aren't gametophytes.",
+    (27, 24): "The slide (27.2.22) and the textbook's text say the hypocotyl, below the cotyledons, contributes to the "
+              "stem and ends in the radicle (the embryonic root); this figure and its textbook caption call it the "
+              "root axis. If asked, the slide's wording is the safer answer.",
+    (27, 26): "Part A is a bean seed, a eudicot (textbook Fig. 27.8a), not a monocot; part B is a corn kernel, a "
+              "monocot.",
+})
+
+TABLES += [
+    {"ch": 27, "title": "Male vs female gametophyte", "slides": s27(12, 13, 14, 17),
+     "head": ["", "Male (pollen grain)", "Female (embryo sac)"],
+     "rows": [
+         ["Where", "anther: 4 pollen sacs", "ovule, inside the ovary"],
+         ["Meiosis", "microspore mother cell → 4 microspores", "megaspore mother cell → 4 megaspores; 3 nonfunctional"],
+         ["Mitosis", "microspore → pollen grain (tube cell + generative cell); generative cell → 2 sperm",
+          "functional megaspore → 8 nuclei"],
+         ["Mature", "tube cell (grows the pollen tube) + 2 sperm",
+          "egg + 2 synergids; central cell with 2 polar nuclei; 3 antipodal cells"],
+         ["After fertilization", "–", "ovule → seed (integuments → seed coat); ovary → fruit"],
+     ]},
+    {"ch": 27, "title": "Flower parts and terms", "head": ["Term", "Meaning"],
+     "rows": [
+         (["Peduncle / receptacle", "the flower stalk / where the four whorls attach"], s27(7, 8)),
+         (["Sepals / petals", "protect the bud / attract pollinators"], s27(7)),
+         (["Stamen", "male: anther (saclike container) + filament (slender stalk)"], s27(7)),
+         (["Carpel", "female: stigma (sticky knob) + style (slender stalk) + ovary (enlarged base enclosing ovules)"],
+          s27(7)),
+         (["Complete / incomplete", "sepals, petals, stamens and a carpel / missing one or more"], s27(10)),
+         (["Perfect / imperfect", "stamens and carpels, bisexual / only one, unisexual"], s27(10)),
+         (["Monoecious / dioecious", "staminate and carpellate flowers on one plant (Jatropha) / on separate plants "
+                                    "(holly)"], s27(10, 11)),
+         (["Monocot / eudicot flowers", "parts in threes (daylily) / in fours or fives (azalea)"], s27(6, 9)),
+     ]},
+    {"ch": 27, "title": "Embryo and seed", "head": ["Stage / part", "What it is"],
+     "rows": [
+         (["Proembryo + suspensor", "the zygote divides repeatedly; the suspensor anchors the embryo"], s27(20, 23)),
+         (["Globular stage", "a ball of cells; outer cells become dermal tissue"], s27(20, 24)),
+         (["Heart stage", "cotyledons appear"], s27(21, 24)),
+         (["Torpedo stage", "elongates; shoot and root apical meristems"], s27(21, 24)),
+         (["Epicotyl", "portion between the cotyledons; becomes the shoot"], s27(22)),
+         (["Hypocotyl", "portion below; contributes to the stem; ends in the radicle"], s27(22)),
+         (["Radicle", "the embryonic root"], s27(22)),
+         (["Monocot seed", "one cotyledon; stores some nutrients, absorbs others from the endosperm"], s27(25)),
+         (["Eudicot seed", "two cotyledons store all the nutrients (they took up the endosperm)"], s27(25)),
+         (["Coleoptile / coleorhiza", "sheath over the shoot / over the root (corn)"], s27(26, 35)),
+         (["Mature seed", "embryo + stored food + seed coat"], s27(17)),
+     ]},
+    {"ch": 27, "title": "Fruits", "head": ["Type", "What it is (example)"],
+     "rows": [
+         (["Simple", "from a single ovary (one or several chambers)"], s27(27)),
+         (["Aggregate", "ovaries of a single flower on one receptacle (blackberry)"], s27(27)),
+         (["Multiple", "ovaries of separate flowers clustered together (pineapple)"], s27(27)),
+         (["Pericarp", "the ovary wall: exocarp (skin), mesocarp (flesh), endocarp (boundary around the seeds)"],
+          s27(28)),
+         (["Dehiscent / indehiscent", "dry fruit that splits open when ripe (legumes) / doesn't (grains)"], s27(29)),
+         (["Drupe", "fleshy; a pit with a single seed; simple ovary (peach)"], s27(30)),
+         (["Berry", "fleshy; seeds and pulp; compound ovary (tomato)"], s27(30)),
+         (["Legume", "dry, dehiscent; single ovary (pea)"], s27(30)),
+         (["Samara", "dry, indehiscent; simple ovary (maple)"], s27(30)),
+         (["Dispersal", "wind (hairs, plumes, wings; dandelion); animals eat fleshy fruits; hooks and spines catch fur "
+                        "(burdock); forced ejection (dehiscent pods)"], s27(31, 32)),
+     ]},
+    {"ch": 27, "title": "Pollinators (textbook)", "head": ["Pollinator", "Typical flower"],
+     "rows": [
+         (["Bee", "yellow, blue or white, not red (bees can't see red); ultraviolet nectar guides; sweet smell; "
+                  "landing platform"], s27(18)),
+         (["Butterfly", "bright colors, even red; flat landing platform, often a composite flower; little smell"],
+          s27(18)),
+         (["Hummingbird", "red; slender tube; petals curved back; lots of nectar; little smell"], s27(19)),
+         (["Bat", "large, sturdy, white or pale; opens at night; strong musky smell"], s27(19)),
+         (["Wind", "grasses and grains; huge amounts of pollen"], s27(16)),
+     ]},
+    {"ch": 27, "title": "Germination", "head": ["", "What happens"],
+     "rows": [
+         (["Germination", "the embryo resumes growth and metabolic activity"], s27(33)),
+         (["Needs", "oxygen (metabolism), warmth (enzyme activity), water (hydrates the cells)"], s27(34)),
+         (["Dormancy", "no growth; cold breaks it in temperate zones; fleshy fruits contain inhibitors"], s27(33)),
+         (["Bean (eudicot)", "root first; hook-shaped shoot; the two cotyledons feed it, then wither (textbook)"],
+          s27(35)),
+         (["Corn (monocot)", "coleoptile covers the first leaf, coleorhiza the root; then adventitious and prop roots"],
+          s27(35)),
+     ]},
+    {"ch": 27, "title": "Asexual reproduction", "head": ["Method", "How"],
+     "rows": [
+         (["Stolons", "horizontal stems above ground; new plants at the nodes (strawberry)"], s27(36, 37)),
+         (["Rhizomes", "underground stems; new plants at the nodes"], s27(36)),
+         (["Tubers", "potato “eyes” are buds that grow into new plants"], s27(36)),
+         (["Tissue culture", "meristem on a medium with auxin, cytokinins and nutrients → callus → organogenesis → "
+                             "plantlet; clones; works because cells are totipotent"], s27(38, 39, 40)),
+         (["Cell suspension culture", "callus pieces shaken into liquid; cells make chemicals (Digitalis heart "
+                                      "drugs)"], s27(40)),
+     ]},
+    {"ch": 27, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["microspore vs megaspore", "becomes the pollen grain vs the embryo sac"], s27(3, 5)),
+         (["tube cell vs generative cell", "grows the pollen tube vs divides into 2 sperm"], s27(12)),
+         (["synergids vs antipodal cells vs polar nuclei", "beside the egg vs 3 cells at the other end vs 2 nuclei in "
+                                                           "the central cell"], s27(14)),
+         (["pollination vs fertilization", "pollen reaches the stigma vs sperm unites with the egg"], s27(15, 17)),
+         (["self-pollination vs cross-pollination", "same plant vs another plant of the same species"], s27(15)),
+         (["zygote vs endosperm", "sperm + egg, 2n vs sperm + 2 polar nuclei, 3n"], s27(17)),
+         (["complete vs perfect", "all four parts vs both stamens and carpels"], s27(10)),
+         (["monoecious vs dioecious", "both flower types on one plant vs on separate plants"], s27(10)),
+         (["epicotyl vs hypocotyl vs radicle", "shoot vs stem vs embryonic root"], s27(22)),
+         (["coleoptile vs coleorhiza", "shoot sheath vs root sheath"], s27(26)),
+         (["simple vs aggregate vs multiple", "one ovary vs many ovaries of one flower vs ovaries of many flowers"],
+          s27(27)),
+         (["exocarp vs mesocarp vs endocarp", "skin vs flesh vs around the seeds"], s27(28)),
+         (["dehiscent vs indehiscent", "splits open vs stays closed"], s27(29)),
+         (["drupe vs berry", "one seed in a pit vs seeds in pulp"], s27(30)),
+         (["tissue culture vs cell suspension culture", "whole new plants vs chemicals from cells"], s27(40)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 27, "title": "Flowering plant life cycle", "slides": s27(3, 4, 13, 17),
+     "note": "sporophyte (2n) bears flowers → meiosis in anthers and ovules → microspores and megaspores (n) → mitosis → "
+             "pollen grain and embryo sac (n) → pollination → pollen tube to the micropyle → double fertilization: "
+             "sperm + egg → zygote (2n); sperm + 2 polar nuclei → endosperm (3n) → seed (embryo, stored food, seed "
+             "coat) in a fruit → germination → new sporophyte"},
+    {"ch": 27, "title": "Male gametophyte", "slides": s27(12),
+     "note": "anther (4 pollen sacs) → microspore mother cell → meiosis → 4 microspores → mitosis → pollen grain (tube "
+             "cell + generative cell) → generative cell divides by mitosis → 2 sperm → mature male gametophyte"},
+    {"ch": 27, "title": "Female gametophyte", "slides": s27(14),
+     "note": "ovule (parenchyma covered by integuments) → one cell enlarges into the megaspore mother cell → meiosis → 4 "
+             "megaspores, 3 nonfunctional → mitosis → 8 nuclei → embryo sac: egg + 2 synergids, central cell with 2 "
+             "polar nuclei, 3 antipodals"},
+    {"ch": 27, "title": "Eudicot embryo", "slides": s27(20, 21, 22, 23, 24),
+     "note": "zygote → proembryo + suspensor → globular (ball; outer cells → dermal tissue) → heart (cotyledons appear) "
+             "→ torpedo (elongates; shoot and root apical meristems) → mature embryo: epicotyl, hypocotyl, radicle, "
+             "cotyledons"},
+    {"ch": 27, "title": "Tissue culture", "slides": s27(39, 40),
+     "note": "meristem tissue on a medium with auxin, cytokinins and nutrients → callus (undifferentiated cells) → "
+             "organogenesis (roots, shoots) → plantlet → stored in sterile containers"},
+]
+
+PLOIDY += [
+    {"ch": 27, "title": "", "slides": s27(3, 4, 12, 13, 14, 17), "head": ["", "Structures"],
+     "rows": [
+         ["n (haploid)", "microspores, megaspores; pollen grain (tube cell, generative cell, 2 sperm); embryo sac (egg, "
+                         "synergids, polar nuclei, antipodals)"],
+         ["2n (diploid)", "sporophyte (the plant with flowers); microspore and megaspore mother cells; zygote; embryo"],
+         ["3n (triploid)", "endosperm (sperm + 2 polar nuclei)"],
+         ["Meiosis (2n → n)", "in the anther's pollen sacs (microspore mother cells) and the ovule (megaspore mother "
+                              "cell)"],
+         ["Mitosis", "spores → gametophytes; generative cell → 2 sperm; zygote → embryo and sporophyte"],
+     ]},
+]
+
+USES += [
+    {"ch": 27, "title": "", "slides": s27(31, 40, 41), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Tissue culture", "clones with identical traits; rare plants grown for conservation (ladyslipper orchid)"],
+          s27(40, 41)),
+         (["Cell suspension culture", "heart-disease drugs from Digitalis without overcollecting wild plants"],
+          s27(40)),
+         (["Fruits", "food for animals, which carry the seeds away (peaches, cherries, tomatoes)"], s27(31)),
+     ]},
+]
+
+CLUES += [
+    ("Flowers and gametophytes", [
+        ("the dominant generation, which bears the flowers", "sporophyte (2n)", s27(3)),
+        ("spores made in anthers / in ovules", "microspores / megaspores", s27(3, 4)),
+        ("male gametophyte / female gametophyte", "pollen grain / embryo sac", s27(5)),
+        ("flower stalk / where the flower parts attach", "peduncle / receptacle", s27(7)),
+        ("protect the bud / attract pollinators", "sepals / petals", s27(7)),
+        ("anther + filament / stigma + style + ovary", "stamen / carpel", s27(7)),
+        ("has sepals, petals, stamens and a carpel", "complete flower", s27(10)),
+        ("has both stamens and carpels", "perfect (bisexual) flower", s27(10)),
+        ("male and female flowers on one plant (Jatropha)", "monoecious", s27(10, 11)),
+        ("only female trees bear berries (holly)", "dioecious", s27(10, 11)),
+        ("divides by meiosis into four microspores", "microspore mother cell", s27(12)),
+        ("pollen cell that grows the tube / that makes 2 sperm", "tube cell / generative cell", s27(12)),
+        ("four megaspores made, three don't function", "megaspore mother cell (meiosis)", s27(14)),
+        ("two cells beside the egg", "synergids", s27(14)),
+        ("two nuclei in the central cell", "polar nuclei", s27(14)),
+        ("three cells at the far end of the embryo sac", "antipodal cells", s27(14)),
+        ("pollen moves from anther to stigma", "pollination", s27(15)),
+        ("pollen from another plant of the same species", "cross-pollination", s27(15)),
+        ("opening in the ovule the pollen tube reaches", "micropyle", s27(17)),
+        ("one sperm + egg, the other + polar nuclei", "double fertilization", s27(17)),
+        ("yellow or blue flower with ultraviolet nectar guides", "bee-pollinated", s27(18)),
+        ("red, tube-shaped flower with lots of nectar", "hummingbird-pollinated", s27(19)),
+        ("large, sturdy, pale flower open at night", "bat-pollinated", s27(19)),
+    ]),
+    ("Seeds and fruits", [
+        ("zygote divides into a proembryo and a stalk that anchors it", "suspensor", s27(20)),
+        ("embryo is a ball of cells", "globular stage", s27(20, 24)),
+        ("embryo becomes heart-shaped as the cotyledons appear", "heart stage", s27(21)),
+        ("embryo elongates", "torpedo stage", s27(21)),
+        ("embryo part that becomes the shoot", "epicotyl", s27(22)),
+        ("embryo part below the cotyledons", "hypocotyl", s27(22)),
+        ("embryonic root", "radicle", s27(22)),
+        ("one cotyledon that absorbs nutrients from the endosperm", "monocot seed (corn)", s27(25)),
+        ("cotyledons that store all the embryo's food", "eudicot seed (bean)", s27(25)),
+        ("sheath over a corn seedling's shoot / root", "coleoptile / coleorhiza", s27(26, 35)),
+        ("a mature ovary", "fruit", s27(27)),
+        ("blackberry: many ovaries of one flower", "aggregate fruit", s27(27)),
+        ("pineapple: ovaries of many flowers", "multiple fruit", s27(27)),
+        ("ovary wall: skin, flesh, layer around the seed", "pericarp: exocarp, mesocarp, endocarp", s27(28)),
+        ("dry fruit that splits open (pea pod)", "dehiscent (legume)", s27(29, 30)),
+        ("dry fruit that stays closed (grain)", "indehiscent", s27(29)),
+        ("peach: fleshy fruit, single seed in a pit", "drupe", s27(30)),
+        ("tomato: fleshy fruit, seeds and pulp", "berry", s27(30)),
+        ("maple's winged fruit", "samara", s27(30)),
+        ("dandelion parachutes; burdock hooks", "wind / animal dispersal", s27(31, 32)),
+        ("embryo resumes growth and metabolism", "germination", s27(33)),
+        ("cold weather breaks it; inhibitors in fleshy fruits", "dormancy", s27(33)),
+        ("oxygen, warmth and water", "germination requirements", s27(34)),
+    ]),
+    ("Asexual reproduction", [
+        ("strawberry runners make new plants at nodes", "stolons", s27(36, 37)),
+        ("potato eyes", "buds (on a tuber)", s27(36)),
+        ("each cell can become a whole plant", "totipotent", s27(38)),
+        ("undifferentiated cell mass in tissue culture", "callus", s27(40)),
+        ("roots and shoots forming from a callus", "organogenesis", s27(39, 40)),
+        ("Digitalis heart drugs from cells in liquid", "cell suspension culture", s27(40)),
+    ]),
+]
+
+GLOSSARY[27] = [
+    ("Adventitious roots", "roots that grow from a stem, e.g. corn's prop roots (textbook)", [35]),
+    ("Clone", "an offspring genetically identical to its single parent (textbook)", [36, 40]),
+    ("Coevolution", "two species changing in response to each other, like flowers and their pollinators (textbook)",
+     [18, 19]),
+    ("Composite flower", "a compact head of many small flowers that looks like one flower (textbook)", [18]),
+    ("Integuments", "the layers covering the ovule; they become the seed coat (textbook)", [14]),
+    ("Nectar guides", "ultraviolet markings that lead bees to the nectar (textbook)", [18]),
+    ("Plumule", "the shoot tip and first small leaves at the tip of the epicotyl (textbook)", [26, 35]),
+    ("Whorl", "a ring of flower parts (sepals, petals, stamens or carpels) (textbook)", [7]),
+]
+
+INDEX += [
+    ("Aggregate fruit", r"aggregate", s27(27, 30), "(blackberry)"),
+    ("Anther, filament", r"\banthers?\b|filament", s27(7), None),
+    ("Antipodal cells", r"antipodal", s27(14), None),
+    ("Bee, butterfly pollinators", r"\bbees?\b|butterfly", s27(18), None),
+    ("Berry", r"\bberr(y|ies)\b", s27(30), "(tomato)"),
+    ("Callus", r"callus", s27(40, 39), None),
+    ("Carpel (stigma, style, ovary)", r"carpel", s27(7), None),
+    ("Cell suspension culture", r"suspension", s27(40), None),
+    ("Coleoptile, coleorhiza", r"coleopt|coleorhiza", s27(26, 35), None),
+    ("Complete / incomplete flowers", r"complete", s27(10), None),
+    ("Cotyledons", r"cotyledon", s27(21, 25), None),
+    ("Dehiscent / indehiscent", r"dehiscent", s27(29), None),
+    ("Digitalis", r"digitalis", s27(40), "(heart drugs)"),
+    ("Dioecious, monoecious", r"oecious", s27(10, 11), None),
+    ("Dispersal", r"dispers", s27(31, 32), None),
+    ("Dormancy", r"dorman", s27(33), None),
+    ("Double fertilization", r"double fertilization", s27(17), None),
+    ("Drupe", r"drupe", s27(30), "(peach)"),
+    ("Embryo sac", r"embryo sac", s27(5, 14), None),
+    ("Endosperm (3n)", r"endosperm", s27(17, 25), None),
+    ("Epicotyl, hypocotyl, radicle", r"epicotyl|hypocotyl|radicle", s27(22), None),
+    ("Exocarp, mesocarp, endocarp", r"[a-z]*carp\b(?! ?el)", s27(28), None),
+    ("Fruit", r"\bfruits?\b", s27(27), None),
+    ("Generative cell", r"generative cell", s27(12), None),
+    ("Germination", r"germinat", s27(33, 34), None),
+    ("Globular, heart, torpedo stages", r"globular|heart stage|heart-shaped|torpedo", s27(20, 21), None),
+    ("Hummingbird, bat pollinators", r"hummingbird|\bbats?\b", s27(19), None),
+    ("Legume", r"legume", s27(29, 30), "(pea)"),
+    ("Megaspore, megaspore mother cell", r"megaspore", s27(5, 14), None),
+    ("Microspore, microspore mother cell", r"microspore", s27(5, 12), None),
+    ("Micropyle", r"micropyle", s27(17), None),
+    ("Multiple fruit", r"multiple fruit", s27(27, 30), "(pineapple)"),
+    ("Organogenesis", r"organogenesis", s27(39, 40), None),
+    ("Ovary, ovule", r"\bovar(y|ies)\b|\bovules?\b", s27(5, 7), None),
+    ("Peduncle, receptacle", r"peduncle|receptacle", s27(7), None),
+    ("Perfect / imperfect flowers", r"perfect", s27(10), None),
+    ("Pericarp", r"pericarp", s27(28), None),
+    ("Petals, sepals", r"petal|sepal", s27(7), None),
+    ("Plantlet", r"plantlet", s27(40), None),
+    ("Polar nuclei", r"polar nucle", s27(14, 17), None),
+    ("Pollen grain", r"pollen grain", s27(5, 12), None),
+    ("Pollen tube", r"pollen tube", s27(12, 17), None),
+    ("Pollination (self, cross)", r"pollinat", s27(15), None),
+    ("Proembryo, suspensor", r"proembryo|suspensor", s27(20, 23), None),
+    ("Rhizomes, stolons", r"rhizome|stolon", s27(36), None),
+    ("Samara", r"samara", s27(30), "(maple)"),
+    ("Seed coat", r"seed coat", s27(17), None),
+    ("Simple fruit", r"simple fruit", s27(27), None),
+    ("Sporophyte, gametophyte", r"sporophyte|gametophyte", s27(3), None),
+    ("Stamen", r"stamen", s27(7), None),
+    ("Staminate, carpellate", r"staminate|carpellate", s27(10), None),
+    ("Synergids", r"synergid", s27(14), None),
+    ("Tissue culture", r"tissue culture", s27(38, 40), None),
+    ("Totipotent", r"totipoten", s27(38), None),
+    ("Tube cell", r"tube cell", s27(12), None),
+    ("Tuber (potato eyes)", r"tuber|potato", s27(36), None),
+    ("Zygote (2n)", r"zygote", s27(17, 20), None),
 ]
