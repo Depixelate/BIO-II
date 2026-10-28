@@ -230,7 +230,7 @@ class Chapter:
                 parts += [it[1], it[2]]
             else:
                 parts += it[1] + [c for r in it[2] for c in r]
-        parts += [t for _, t in self.figure(n)] + [self.frame(n) or ""]
+        parts += [t for _, t in self.figure(n)] + [self.frame(n) or "", D.CORRECTIONS.get((self.ch, n), "")]
         return " ".join(parts)
 
 

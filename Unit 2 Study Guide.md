@@ -491,7 +491,7 @@ Priority: ★★★ = highest density (opening sections, big tables), ★★ = s
   - **Location:** vascular cylinder (root), vascular bundles (stem), veins (leaf).
 - **Root zones, tip upward:** root cap (protects the root's apical meristem) → zone of cell division → zone of elongation → zone of maturation (root hairs, fully differentiated cells).
 - **Root tissues, outside in:** epidermis → cortex (parenchyma; water and minerals move through it) → **endodermis** + Casparian strip → **pericycle** (makes lateral roots) → vascular cylinder.
-- **Root types:** taproot (eudicots; stores food) vs. fibrous (monocots; anchors). Monocot roots have pith inside a ring of vascular tissue. Slide 30 says they don't undergo secondary growth, but the textbook (p. 437) says they undergo the same secondary growth as eudicot roots: follow the textbook (§11).
+- **Root types:** taproot (eudicots; stores food) vs. fibrous (monocots; anchors). Monocot roots have pith inside a ring of vascular tissue. Monocot roots don't undergo secondary growth (slide 30). Follow the slide here: the textbook contradicts itself (p. 437 says they do, p. 440 says only conifers and woody eudicots do).
 - **Root specializations** (textbook Fig. 24.12; the slide is photos only):
 
 | Type | What it does | Example |
@@ -838,7 +838,7 @@ These are the Module 3–5 learning objectives from Canvas. Unit 1 tested about 
 
 ## 11. Slide errors: learn the correct version
 
-She confirmed on Oct 22: when a slide and the textbook disagree, follow the textbook, and ask her about any conflict you notice.
+She confirmed on Oct 22: when a slide and the textbook disagree, follow the textbook, and ask her about any conflict you notice. Exception (your decision, Oct 28): where the textbook contradicts itself, follow the slide (monocot roots, below). The printed notes show each correction on its slide, marked "Textbook:".
 
 | Slide says | Correct version |
 |---|---|
@@ -851,13 +851,24 @@ She confirmed on Oct 22: when a slide and the textbook disagree, follow the text
 | Ch 26 slide 56 (text alternative) | Mislabeled: titled "Short-Day," but it describes Mimosa's turgor movement (the printed notes show it with slide 35). |
 | Ch 25 slide 4: macronutrients "C, H, O, P, K, S, Ca, Mg" | Nitrogen (N) is missing: the textbook's Table 25.1 lists **C, H, O, N, P, K, S, Ca, Mg**. N is the first number in NPK fertilizer (slide 6). |
 | Ch 25 slide 19: water enters root cells "when their osmotic pressure is lower than that of the soil" | Not an error (the textbook says the same), but confusing: it means water moves in when there's more water outside the root than inside, i.e., from higher to lower water potential. |
-| Ch 24 slide 30: monocot roots "do not undergo secondary growth" | The textbook (p. 437) says monocot roots "have the same growth zones and undergo the same secondary growth as eudicot roots." Follow the textbook. (Its p. 440 says secondary growth occurs only in conifers and woody eudicots, so the book isn't consistent.) |
+| Ch 24 slide 30: monocot roots "do not undergo secondary growth" | **Not corrected: follow the slide.** The textbook contradicts itself (p. 437 says they do; p. 440 says secondary growth occurs only in conifers and woody eudicots), so the slide stands (your decision, Oct 28). |
 | Ch 24 slide 52 (text alternative): "carbon dioxide leaving leaf through stoma" | Carbon dioxide **enters** the leaf through the stoma; oxygen and water vapor leave (textbook Fig. 24.22). |
 | Ch 25 slide 30 (text alternative): tracheids and vessel elements both have perforation plates | Tracheids have **pits**, not perforation plates; vessel elements have perforation plates (slide 35, textbook). |
 | Ch 25 slide 34 (text alternative): inside the wilted cell, "higher pressure potential, and higher osmotic potential" | In the wilted cell all three (water, pressure and osmotic potential) are **lower** inside than outside (textbook Fig. 25B), so water enters. |
 | Ch 26 slide 17: "Abscission is the dropping of leaves…" listed under ABA | The textbook: applying ABA promotes abscission, but ABA is no longer believed to cause it naturally; **ethylene** does (slide 20). |
 | Ch 27 slide 24 (figure): "hypocotyl (root axis)… the hypocotyl will be the root system" | The textbook's text (p. 496) and slide 22: the hypocotyl, below the cotyledons, contributes to **stem** development and ends in the radicle (the embryonic root). |
 | Ch 27 slide 26 (text alternative): part A labeled a monocot | Part A is a **bean seed, a eudicot** (textbook Fig. 27.8a); part B is the corn kernel (monocot). |
+| Ch 24 slide 26: "Root cap contains the root apical meristem" | The root apical meristem is in the **zone of cell division**; the root cap **covers and protects** it (textbook p. 437). |
+| Ch 24 slide 46 (text alternative): "Pith: it consists of layer of primary xylem" | Two separate layers: the **pith** (parenchyma) is at the center, and the **primary xylem** surrounds it (textbook Fig. 24.18). |
+| Ch 25 slide 3: "carbon dioxide (organic compound)" | CO₂ is **inorganic**; it supplies the carbon the plant builds into organic compounds. |
+| Ch 26 slide 10: auxin "binds to plasma membrane receptors" | The textbook (p. 472, Fig. 26.1): auxin **enters the nucleus** of the shady-side cells and attaches to a receptor there; then H⁺ is pumped into the cell wall. |
+| Ch 27 slide 12: "The tube cell divides to produce a pollen tube" | The tube cell **grows into** the pollen tube without dividing; the **generative cell** divides into the 2 sperm (textbook p. 492). |
+| Ch 27 slide 13 (text alternative): the embryo sac "finally leading to mature male gametophyte" | Garbled. Male and female gametophytes develop **separately** (microspore → pollen grain; megaspore → embryo sac) and meet only at double fertilization. |
+| Ch 27 slide 9 (text alternative): azalea with "one stamen… no sepals" | Those are the figure's labels. The point: monocot parts in **threes** (daylily), eudicot parts in **fours or fives** (azalea, five petals). |
+| Ch 23 slide 9: "against the force of water" | Should read **against the force of gravity**. |
+| Ch 23 slide 32: Cooksonia "(and other lycophytes…)" | Cooksonia is **extinct** (a rhyniophyte), **not a lycophyte**: forked stems ending in sporangia, no roots or leaves. Like lycophytes and pteridophytes, it was a seedless vascular plant (textbook p. 414). |
+| Ch 23 slide 78: Archaefructus as the earliest angiosperm fossil, "135 million years… Jurassic" | The textbook names **Nanjinganthus dendrostyla** (174 million years, early Jurassic) instead; 135 million years ago is in the Cretaceous. Low priority (history). |
+| Ch 23 slides 74 and 77: 65 gnetophyte species; 352,000 angiosperm species | The textbook says **95** and **roughly 370,000**. Numbers are low priority. |
 
 ---
 

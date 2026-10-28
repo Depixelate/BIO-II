@@ -109,10 +109,21 @@ PROCESS = {}
 
 # slide errors, printed on the slide as "Textbook: ..."
 CORRECTIONS = {
+    (23, 9): "“Against the force of water” should read “against the force of gravity”, as the slide's first line says "
+             "(textbook p. 409: tracheids “resist gravity”).",
     (23, 22): "The protonema is only the first, thread-like stage of the moss gametophyte (a spore germinates into "
               "a male or female protonema, 23.2.30); it then produces the leafy shoots.",
+    (23, 32): "Cooksonia is extinct, known only from fossils. It belongs to the rhyniophytes, early vascular plants of "
+              "the Silurian period, about 6.5 cm tall, with no roots or leaves: just forked stems ending in sporangia. "
+              "It is not a lycophyte; like the lycophytes and pteridophytes, it was a seedless vascular plant "
+              "(textbook p. 414).",
     (23, 34): "Homosporous means making one type of spore, which grows into a gametophyte that makes both eggs and "
               "sperm. The slide's “one type of gamete” should read “one type of spore.”",
+    (23, 74): "The textbook gives three living genera with 95 species (p. 421).",
+    (23, 77): "The textbook gives roughly 370,000 species (p. 421).",
+    (23, 78): "The textbook doesn't mention Archaefructus. It names Nanjinganthus dendrostyla, with seeds and flowers, "
+              "174 million years old (early Jurassic), as one of the earliest known angiosperm fossils (p. 422). The "
+              "slide's 135 million years is in the Cretaceous (145.5–65.5 million years ago), not the Jurassic.",
 }
 # scanning errors in a slide's text, fixed paragraph by paragraph: (chapter, slide) -> [(wrong, right)].
 # The 23.1.4 table is a scan of textbook Table 23.1 (book p. 408); its rows are restored from the textbook's wording.
@@ -156,8 +167,13 @@ SLIDE_TEXT = {}
 # typos in a figure's text alternative, fixed when printed: (chapter, slide) -> [(wrong, right)]
 FIG_FIX = {}
 
-# page budget per chapter, main file + index file together, in double-sided sheets (the user's choice)
+# page budget per chapter, in double-sided sheets, counting the main and index files as printed separately (each
+# rounded up to whole sheets; the user's choice)
 SHEETS_PER_CHAPTER = 10
+# body font size of the chapter and unit files, in points (whole or half: Word stores half points). None: the largest
+# that fits the budget (build_print_docx.py --fit). Unit 2: 11.5, the user's choice (Oct 28), half a point below the
+# 12 pt that the old page-count budget allowed.
+FONT_SIZE = 11.5
 
 # ---------------------------------------------------------------- lookup pages
 # tables: {"ch", "title", "slides", "head", "rows", "wide"}; a row is cells, or (cells, slides) to cite slides;
@@ -308,8 +324,9 @@ TABLES = [
 SEQUENCES = [
     {"ch": 23, "title": "Plant evolution, in order", "slides": s23(4, 6, 16, 32, 34, 36, 54, 55, 70, 78),
      "note": "freshwater green algae (charophytes protect the zygote) → bryophytes (first on land; no vascular "
-             "tissue; dominant gametophyte) → first vascular plants such as Cooksonia (branched: more sporangia) and "
-             "lycophytes (vascular tissue, roots, microphylls; dominant sporophyte) → pteridophytes (megaphylls; "
+             "tissue; dominant gametophyte) → first vascular plants such as Cooksonia (now extinct: forked stems "
+             "ending in sporangia, no roots or leaves) → lycophytes (still living: roots, microphylls; dominant "
+             "sporophyte) → pteridophytes (megaphylls; "
              "dominant from the late Devonian through the Carboniferous) → gymnosperms (seeds and pollen; no external "
              "water for fertilization; cycads plentiful in the Mesozoic) → angiosperms (flowers, fruit, double "
              "fertilization; Triassic fossil pollen; Amborella is the closest living relative of the first ones)"},
@@ -371,7 +388,8 @@ CLUES = [
         ("horn-like sporophytes that keep growing; one chloroplast per cell; cyanobacteria partners", "hornworts (Anthoceros)", s23(19, 20)),
         ("looks dead and brown when dry, turns green after rain; largest nonvascular group", "mosses", s23(21)),
         ("improves soil's water capacity; old battlefield wound dressing", "peat moss", s23(21)),
-        ("early fossil, a few cm tall, branched, sporangia at the branch tips", "Cooksonia", s23(32, 33)),
+        ("extinct early vascular plant, a few cm tall: forked stems with sporangia at the tips, no roots or leaves",
+         "Cooksonia (a rhyniophyte, not a lycophyte)", s23(32, 33)),
         ("leaves with one vascular strand; ground pines, spike mosses, quillworts", "lycophytes", s23(34)),
         ("dominant from the late Devonian through the Carboniferous; megaphylls; no seeds", "pteridophytes", s23(36)),
         ("silica in the stems; whorls of tiny leaves at the nodes; “spring-loaded” spores", "horsetails (Equisetum)", s23(38, 39)),
@@ -392,6 +410,8 @@ CLUES = [
         ("ovules always enclosed in diploid tissue; flowers and fruit", "angiosperms", s23(56, 77)),
         ("living plant most closely related to the first flowering plants; New Caledonia", "Amborella", s23(78, 79)),
         ("long the earliest known angiosperm fossil, with fruit and flowers", "Archaefructus", s23(78)),
+        ("one of the earliest known angiosperm fossils, 174 million years old (textbook)", "Nanjinganthus dendrostyla",
+         s23(78)),
         ("corn, tulips, pineapples, sugarcane", "monocots", s23(80)),
         ("cacti, strawberries, dandelions, poplars, beans", "eudicots", s23(80)),
     ]),
@@ -479,7 +499,8 @@ INDEX = [
     ("Complete / incomplete flower", r"\bincomplete\b", s23(91), None),
     ("Composite flower", r"composite", s23(91), None),
     ("Conifers", r"conifer", s23(58), None),
-    ("Cooksonia", r"cooksonia", s23(32, 33), "(early vascular plant fossil): branched, sporangia at the tips"),
+    ("Cooksonia", r"cooksonia", s23(32, 33), "(extinct early vascular plant; not a lycophyte): forked stems, "
+                                              "sporangia at the tips"),
     ("Corolla", r"corolla", s23(83), None),
     ("Cotyledons", r"cotyledon", s23(80), None),
     ("Cuticle", r"cuticle", s23(9), None),
@@ -528,6 +549,7 @@ INDEX = [
     ("Monocots", r"monocot", s23(80, 81), None),
     ("Monoecious", r"monoecious", s23(58), None),
     ("Mosses", r"\bmoss(es)?\b", s23(21), None),
+    ("Nanjinganthus", r"nanjinganthus", s23(78), "(fossil, textbook): one of the earliest angiosperms"),
     ("Oedogonium", r"oedogonium", s23(7), "(green alga): unprotected embryo"),
     ("Operculum", r"operculum", s23(30), None),
     ("Ovary", r"\bovar(y|ies)\b", s23(84), None),
@@ -614,11 +636,13 @@ CORRECTIONS.update({
     (24, 27): "Lignin isn't a protein (the textbook uses the same wording): it's a chemical that hardens cell walls, "
               "and suberin is a waxy, waterproof lipid. Together they make the Casparian strip waterproof, so water "
               "and minerals must pass through the endodermal cells.",
-    (24, 30): "Monocot roots have the same growth zones and undergo the same secondary growth as eudicot roots "
-              "(textbook p. 437).",
+    (24, 26): "The root apical meristem is in the zone of cell division; the root cap covers and protects it, and its "
+              "cells are constantly replaced as soil grinds them off (textbook p. 437).",
     (24, 42): "Woody stems are mostly vascular tissue: wood is secondary xylem, and bark contains secondary phloem "
               "(24.4.43–45). The three regions are bark, wood and pith (the slide leaves out wood). The professor "
               "confirmed this slide is wrong (Oct 22).",
+    (24, 46): "The pith and the primary xylem are two separate layers: the pith is the parenchyma tissue at the center, "
+              "and the primary xylem surrounds it, just inside the wood (textbook Fig. 24.18).",
     (24, 52): "Carbon dioxide enters the leaf through the stoma; oxygen and water vapor leave through it (textbook "
               "Fig. 24.22). The description's “carbon dioxide leaving” is a slip.",
 })
@@ -695,7 +719,7 @@ TABLES += [
          (["Wood", "secondary xylem in annual rings; sapwood (outer rings) still carries water"], s24(45, 47)),
          (["Annual ring", "spring wood + summer wood (summer wood has fewer vessels) = one year"], s24(45, 46)),
          (["Heartwood", "inner rings of older trees; no longer carry water"], s24(45, 47)),
-         (["Pith", "the center"], s24(42, 46)),
+         (["Pith", "parenchyma at the center, inside the primary xylem"], s24(42, 46)),
      ]},
     {"ch": 24, "title": "Stems", "head": ["Type", "What it is (example)"],
      "rows": [
@@ -717,8 +741,8 @@ TABLES += [
          (["Stomata", "in the lower epidermis; CO2 in, O2 and water vapor out"], s24(51, 52)),
          (["Simple / compound", "one blade (magnolia) / leaflets: pinnately in pairs (black walnut) or palmately from "
                                 "one point (buckeye)"], s24(53, 54)),
-         (["Alternate / opposite / whorled", "beech / two leaves per node (maple) / several per node (bedstraw)"],
-          s24(53, 54)),
+         (["Alternate / opposite / whorled", "one leaf per node (beech) / two per node (maple) / several per node "
+                                             "(bedstraw)"], s24(53, 54)),
          (["Adapted leaves", "shade leaves; spines (cactus, protect the stem); tendrils (cucumber, climbing); reduced "
                           "leaves; insect-catching leaves (sundew, Venus flytrap)"], s24(53, 55)),
      ]},
@@ -757,7 +781,8 @@ SEQUENCES += [
              "elongation (cells lengthen and start to specialize) → zone of maturation (fully differentiated cells; "
              "root hairs)"},
     {"ch": 24, "title": "Eudicot root tissues, outside in", "slides": s24(27, 28),
-     "note": "epidermis (root hairs) → cortex (parenchyma; water and minerals move through) → endodermis with the "
+     "note": "epidermis (root hairs) → cortex (parenchyma; stores food; water and minerals move through) → "
+             "endodermis with the "
              "Casparian strip (forces water and minerals through its cells) → pericycle (starts branch roots) → "
              "vascular cylinder: star-shaped xylem, phloem between its arms"},
     {"ch": 24, "title": "Secondary growth of a woody stem", "slides": s24(41, 43, 44, 45),
@@ -780,7 +805,7 @@ USES += [
 CLUES += [
     ("Tissues and cells", [
         ("undifferentiated cells that keep dividing all the plant's life", "meristem", s24(6)),
-        ("outer layer that becomes the epidermis / ground tissue / vascular tissue", "protoderm / ground meristem / procambium", s24(3)),
+        ("primary meristem that makes the epidermis / ground tissue / vascular tissue", "protoderm / ground meristem / procambium", s24(3)),
         ("hairs on stems and leaves; protect from sun and moisture loss; discourage plant-eaters", "trichomes", s24(8)),
         ("extensions of root epidermal cells that add surface for absorbing water", "root hairs", s24(7)),
         ("replaces the epidermis of an older woody stem", "periderm (cork)", s24(8)),
@@ -837,7 +862,7 @@ CLUES += [
         ("elongated cells under the upper epidermis", "palisade mesophyll", s24(51)),
         ("irregular cells with air spaces", "spongy mesophyll", s24(51)),
         ("one blade / blade divided into leaflets", "simple / compound leaf", s24(53, 54)),
-        ("two leaves at each node / several at each node", "opposite / whorled", s24(53, 54)),
+        ("one leaf / two leaves / several leaves at each node", "alternate / opposite / whorled", s24(53, 54)),
         ("cactus spines", "modified leaves", s24(53, 55)),
         ("cucumber's coiling climbers", "tendrils (modified leaves)", s24(53, 55)),
     ]),
@@ -994,6 +1019,8 @@ TYPO_FIX.update({
     (25, 41): [("A B A (abscisic", "ABA (abscisic")],
 })
 CORRECTIONS.update({
+    (25, 3): "Carbon dioxide is an inorganic compound: it supplies the carbon that the plant builds into organic "
+             "compounds such as carbohydrates (textbook p. 450).",
     (25, 4): "Nitrogen (N) is missing from the macronutrients: the textbook's Table 25.1 lists C, H, O, N, P, K, S, Ca, "
              "Mg. N is the first number in NPK fertilizer (25.1.6).",
     (25, 19): "Not an error, but confusing: it means that when there is more water outside the root than inside, water "
@@ -1010,8 +1037,10 @@ TABLES += [
      "rows": [
          ["Essential if", "it has an identifiable role; no other nutrient can substitute; a deficiency causes the plant to "
                           "die"],
-         ["Macronutrients", "C, H, O, N, P, K, S, Ca, Mg (large amounts; the slide leaves out N)"],
-         ["Micronutrients", "Fe, B, Mn, Cu, Zn, Cl, Mo (small amounts)"],
+         ["Macronutrients", "C, H, O, N (nitrogen), P (phosphorus), K (potassium), S (sulfur), Ca (calcium), Mg "
+                            "(magnesium); large amounts; the slide leaves out N"],
+         ["Micronutrients", "Fe (iron), B (boron), Mn (manganese), Cu (copper), Zn (zinc), Cl (chlorine), Mo "
+                            "(molybdenum); small amounts"],
          ["C, H, O", "about 95% of dry weight; from CO2 (C) and water (H, O)"],
          ["Roles (textbook)", "N: nucleic acids and proteins; Mg: chlorophyll; Fe: cytochromes"],
          ["NPK fertilizer", "% nitrogen, phosphorus, potassium by weight; N: lush green growth, P: root development, K: "
@@ -1074,7 +1103,8 @@ TABLES += [
                                                                 "rock"], s25(15)),
          (["pathway A vs pathway B", "between cell walls to the Casparian strip vs root hairs, then cell to cell "
                                      "(plasmodesmata)"], s25(19, 23)),
-         (["active vs passive transport", "minerals, uses energy vs water, no energy"], s25(19, 20)),
+         (["active vs passive transport", "uses energy (how roots concentrate minerals) vs no energy (water)"],
+          s25(19, 20)),
          (["channel protein vs carrier protein", "lets K+ in vs brings negative ions in with H+"], s25(21, 23)),
          (["root nodules vs mycorrhizae", "nitrogen-fixing bacteria vs fungus adding surface area"], s25(24)),
          (["pressure potential vs osmotic potential", "effect of pressure vs effect of solutes"], s25(33)),
@@ -1201,7 +1231,8 @@ GLOSSARY[25] = [
                       "(textbook)", [19, 28]),
     ("Runoff", "rainwater running off the soil surface instead of soaking in (textbook)", [11]),
     ("Stylet", "an aphid's needle-like mouthpart, which taps a sieve tube (textbook)", [48]),
-    ("Succession", "larger plants gradually replacing small ones as soil builds up (textbook)", [14]),
+    ("Succession", "gradual change in which species make up a community; here, larger plants gradually replace the "
+                   "small plants that started the soil (textbook)", [14]),
 ]
 
 INDEX += [
@@ -1283,12 +1314,14 @@ PROCESS.update({
               "leaves stay small and yellow. These effects are due to phytochrome.",
 })
 CORRECTIONS.update({
+    (26, 10): "Auxin enters the nuclei of the shady-side cells and attaches to a receptor there, not on the plasma "
+              "membrane (textbook p. 472 and Fig. 26.1); H+ is then pumped into the cell wall.",
     (26, 17): "Abscission isn't ABA's job: applying ABA promotes it, but ABA is no longer believed to cause it "
               "naturally; ethylene brings it about (26.1.20).",
     (26, 29): "Roots, which have root caps, grow downward; stems grow upward.",
-    (26, 41): "The deck's text alternative for this slide describes Mimosa's leaves (printed with 26.2.35). The figure "
-              "is cocklebur, a short-day plant: it flowers when the night is longer than a critical length, and a "
-              "flash of light that interrupts that night stops it flowering (Fig. 26.16a).",
+    (26, 41): "The deck's text alternative for this slide describes the sensitive plant's leaves (printed with "
+              "26.2.35). The figure is cocklebur, a short-day plant: it flowers when the night is longer than a "
+              "critical length, and a flash of light that interrupts that night stops it flowering (Fig. 26.16a).",
 })
 
 TABLES += [
@@ -1366,7 +1399,8 @@ SEQUENCES += [
              "transduction pathway: relay proteins amplify and convert the signal → cellular response, most often a "
              "change in gene expression (stem bending, root growth, defense)"},
     {"ch": 26, "title": "Auxin bends a stem toward light", "slides": s26(10, 11),
-     "note": "light from one side → auxin moves to the shady side → binds receptors → proton pumps push H+ into the cell "
+     "note": "light from one side → auxin moves to the shady side → attaches to a receptor (in the nucleus, textbook) "
+             "→ proton pumps push H+ into the cell "
              "wall → enzymes break cellulose fibers; the wall loosens → water enters, turgor rises → the cell enlarges "
              "and rebuilds a longer wall → shady side elongates; stem bends toward the light"},
     {"ch": 26, "title": "Auxin experiment", "slides": s26(9),
@@ -1544,6 +1578,17 @@ PROCESS.update({
 CORRECTIONS.update({
     (27, 5): "A microspore becomes the male gametophyte (the pollen grain), and a megaspore becomes the female "
              "gametophyte (the embryo sac); the spores themselves aren't gametophytes.",
+    (27, 9): "The counts here are the figure's labels, not the flowers' parts: the daylily (monocot) has flower parts "
+             "in threes, with three petals and three sepals, and the azalea (eudicot) has parts in fours or fives, "
+             "with five petals (textbook Fig. 27.3).",
+    (27, 12): "The tube cell doesn't divide: it produces (grows into) the pollen tube. The generative cell is the one "
+              "that divides, by mitosis, into the two sperm (textbook p. 492).",
+    (27, 13): "This description garbles the cycle. The male and female gametophytes develop separately and never turn "
+              "into each other. Male: microspore mother cell → meiosis → 4 microspores → mitosis → pollen grain, which "
+              "germinates after pollination (mature male gametophyte). Female: megaspore mother cell → meiosis → 4 "
+              "megaspores, 1 survives → mitosis → embryo sac (mature female gametophyte). They meet only at double "
+              "fertilization; the ovule then becomes the seed, which grows into the next sporophyte (textbook pp. "
+              "490–492).",
     (27, 24): "The hypocotyl is the portion below the cotyledons; it contributes to stem development and ends in the "
               "radicle, the embryonic root (textbook p. 496, as on 27.2.22). This figure's \"root axis\" label "
               "doesn't change that.",
@@ -1599,7 +1644,7 @@ TABLES += [
           s27(28)),
          (["Dehiscent / indehiscent", "dry fruit that splits open when ripe (legumes) / doesn't (grains)"], s27(29)),
          (["Drupe", "fleshy; a pit with a single seed; simple ovary (peach)"], s27(30)),
-         (["Berry", "fleshy; seeds and pulp; compound ovary (tomato)"], s27(30)),
+         (["Berry", "fleshy; seeds and pulp; compound ovary, i.e. fused carpels with several chambers (tomato)"], s27(30)),
          (["Legume", "dry, dehiscent; single ovary (pea)"], s27(30)),
          (["Samara", "dry, indehiscent; simple ovary (maple)"], s27(30)),
          (["Dispersal", "wind (hairs, plumes, wings; dandelion); animals eat fleshy fruits; hooks and spines catch fur "
