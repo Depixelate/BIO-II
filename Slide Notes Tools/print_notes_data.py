@@ -951,3 +951,300 @@ INDEX += [
     ("Wood", r"\bwood\b", s24(45), None),
     ("Xylem", r"xylem", s24(13, 14), None),
 ]
+
+
+# ======================================================================== Ch 25
+def s25(*ns):
+    return [(25, n) for n in ns]
+
+
+CHAPTERS.append(25)
+TA_SKIP[25] = {50, 51}   # 50: "Accessibility Content" cover; 51: the title slide's photo
+SLIDE_TEXT.update({
+    # the ions are MathType pictures on the slide: (H+), (K+), (NO3− and HPO4²−), H+, H+
+    (25, 21): [
+        "A plasma-membrane proton pump can transport hydrogen ions (H+) out of the cell.",
+        "An electrochemical gradient drives positively charged ions (K+) into the cell.",
+        "Negatively charged mineral ions (NO3− and HPO4²−) are transported with H+ by carrier proteins.",
+        "No energy is required when H+ is moving down its concentration gradient.",
+        "This model of mineral ion transport is called chemiosmosis, which occurs when an electrochemical gradient is "
+        "used by a cell to do work.",
+        "Minerals move into xylem and then are transported into leaves.",
+    ],
+    # K+, H+, K+ are MathType pictures on the slide
+    (25, 41): [
+        "Each stoma in a leaf epidermis is bordered by guard cells.",
+        (1, "Increased turgor pressure in guard cells opens stoma."),
+        (1, "Active transport of K+ into guard cells causes water to enter by osmosis and stomata to open."),
+        (1, "H+ ions accumulate outside guard cells as K+ moves in."),
+        (1, "Opening and closing of stomata are regulated by light."),
+        (1, "ABA (abscisic acid) can also cause stomata to close."),
+    ],
+    # three one-column tables, each a layer name and its description
+    (25, 16): [
+        "Soil Profile Layers", (1, "Topsoil (A): Top layer, containing the most humus"),
+        (1, "Subsoil (B): Accumulation of leached materials"), (1, "Bedrock (C): Weathered parent material"),
+    ],
+})
+TYPO_FIX.update({
+    (25, 4): [("C a, Mg", "Ca, Mg"), ("F e, B, M n, C u, Z n, C l, M o", "Fe, B, Mn, Cu, Zn, Cl, Mo")],
+    (25, 41): [("A B A (abscisic", "ABA (abscisic")],
+})
+CORRECTIONS.update({
+    (25, 4): "Nitrogen (N) is missing from the macronutrients: the textbook's Table 25.1 lists C, H, O, N, P, K, S, Ca, "
+             "Mg. N is the first number in NPK fertilizer (25.1.6).",
+    (25, 19): "Not an error, but confusing: it means that when there is more water outside the root than inside, water "
+              "moves in by osmosis, i.e. from higher to lower water potential (25.3.32).",
+    (25, 30): "Tracheids have no perforation plates: water passes from one tracheid to the next through pits; vessel "
+              "elements have perforation plates at each end (25.3.35).",
+    (25, 34): "In the wilted cell, water potential, pressure potential and osmotic potential are all lower inside the "
+              "cell than in the fluid outside (textbook Fig. 25B), so water enters; the description's “higher” for the "
+              "inside of the cell is a slip.",
+})
+
+TABLES += [
+    {"ch": 25, "title": "Essential nutrients", "slides": s25(3, 4, 6, 8), "head": ["", "Elements / facts"],
+     "rows": [
+         ["Essential if", "it has an identifiable role; no other nutrient can substitute; a deficiency causes the plant to "
+                          "die"],
+         ["Macronutrients", "C, H, O, N, P, K, S, Ca, Mg (large amounts; the slide leaves out N)"],
+         ["Micronutrients", "Fe, B, Mn, Cu, Zn, Cl, Mo (small amounts)"],
+         ["C, H, O", "about 95% of dry weight; from CO2 (C) and water (H, O)"],
+         ["Roles (textbook)", "N: nucleic acids and proteins; Mg: chlorophyll; Fe: cytochromes"],
+         ["NPK fertilizer", "% nitrogen, phosphorus, potassium by weight; N: lush green growth, P: root development, K: "
+                            "overall vigor"],
+     ]},
+    {"ch": 25, "title": "Soil", "head": ["Part", "What it is / does"],
+     "rows": [
+         (["Weathering", "mechanical (wind, rain, ice, rock grinding on rock) or chemical (acid rain, lichens, mosses)"],
+          s25(9)),
+         (["Sand", "largest particles; water drains readily"], s25(10)),
+         (["Silt", "medium particles"], s25(10)),
+         (["Clay", "smallest particles; small spaces fill with water; negatively charged, binds Ca2+ and K+"],
+          s25(10, 12)),
+         (["Loam", "sand's aeration + the mineral retention of silt and clay"], s25(10)),
+         (["Humus", "decaying organic material; decreases runoff, prevents leaching, makes soil more acidic, retains "
+                    "positive minerals"], s25(9, 11)),
+         (["Cation exchange", "H+ and other positive ions swap places with positive minerals so roots can take them up"],
+          s25(12, 13)),
+         (["Cation exchange capacity", "negative sites that can bind cations; lower in sandy soil"], s25(12)),
+         (["Living organisms", "roots open the soil; earthworms and ants aerate it; microorganisms decompose humus; "
+                               "bacteria make nitrogen available"], s25(14)),
+     ]},
+    {"ch": 25, "title": "Soil profile", "slides": s25(15, 16), "head": ["Horizon", "Contains"],
+     "rows": [
+         ["A (topsoil)", "leaf litter and the most humus (organic matter)"],
+         ["B (subsoil)", "inorganic nutrients: minerals leached from above accumulate"],
+         ["C (parent material)", "weathered rock (bedrock)"],
+     ]},
+    {"ch": 25, "title": "Getting nutrients", "head": ["Partner", "Gives / gets"],
+     "rows": [
+         (["Rhizobium (root nodules)", "fixes atmospheric nitrogen; gets carbohydrates from the plant"], s25(24, 25)),
+         (["Mycorrhizal fungi", "more surface area for water and minerals, break down organic matter; get sugars and "
+                                "amino acids"], s25(24, 26)),
+         (["Parasitic plants", "dodder taps its host's xylem and phloem (haustoria, textbook)"], s25(24, 27)),
+         (["Carnivorous plants", "sundew: sticky hairs trap prey and release digestive enzymes"], s25(24, 27)),
+     ]},
+    {"ch": 25, "title": "Xylem vs phloem", "slides": s25(28, 29, 30, 35, 37, 43, 46),
+     "head": ["", "Xylem", "Phloem"],
+     "rows": [
+         ["Carries", "water and minerals", "sucrose and other organic materials"],
+         ["Direction", "bottom to top", "any direction, source to sink"],
+         ["Cells", "tracheids (pits), vessel elements (perforation plates)",
+          "sieve-tube members (sieve plates, plasmodesmata); companion cells provide proteins"],
+         ["Moved by", "cohesion-tension: transpiration pulls; passive", "pressure flow: sucrose loaded actively, water "
+                                                                       "follows, pressure pushes"],
+         ["Evidence", "root pressure, guttation", "girdling (bark swells above the cut), tracers, aphids"],
+     ]},
+    {"ch": 25, "title": "Water potential", "slides": s25(31, 32, 33, 34), "head": ["", "Effect"],
+     "rows": [
+         ["Water moves", "passively, from higher to lower water potential: soil → root → stem → leaf"],
+         ["More pressure", "higher water potential (pressure potential)"],
+         ["More solutes", "lower water potential (osmotic potential); water moves toward more solute"],
+         ["Turgor pressure", "pressure potential from osmosis; keeps cells firm; a wilted plant has lost it"],
+     ]},
+    {"ch": 25, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["macronutrients vs micronutrients", "needed in larger vs smaller amounts"], s25(4)),
+         (["sand vs clay", "largest, drains readily vs smallest, holds water and minerals"], s25(10)),
+         (["topsoil (A) vs subsoil (B) vs parent material (C)", "litter and humus vs leached minerals vs weathered "
+                                                                "rock"], s25(15)),
+         (["pathway A vs pathway B", "between cell walls to the Casparian strip vs root hairs, then cell to cell "
+                                     "(plasmodesmata)"], s25(19, 23)),
+         (["active vs passive transport", "minerals, uses energy vs water, no energy"], s25(19, 20)),
+         (["channel protein vs carrier protein", "lets K+ in vs brings negative ions in with H+"], s25(21, 23)),
+         (["root nodules vs mycorrhizae", "nitrogen-fixing bacteria vs fungus adding surface area"], s25(24)),
+         (["pressure potential vs osmotic potential", "effect of pressure vs effect of solutes"], s25(33)),
+         (["turgid vs wilted", "full of water, firm vs lost turgor, droops"], s25(34)),
+         (["root pressure vs tension", "push from water entering roots vs pull from transpiration"], s25(35, 39)),
+         (["guttation vs transpiration", "droplets forced out of leaf edges vs evaporation through stomata"],
+          s25(35, 37)),
+         (["cohesion vs adhesion", "water to water vs water to vessel walls"], s25(37)),
+         (["source vs sink", "where sugar comes from vs where it's unloaded"], s25(43)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 25, "title": "Mineral uptake across the membrane", "slides": s25(21, 23),
+     "note": "1. an ATP-driven proton pump pushes H+ out of the cell → 2. the electrochemical gradient lets K+ (and other "
+             "positive ions) in through a channel protein → 3. negative ions (NO3−, HPO4²−) come in with H+ through a "
+             "carrier protein; no energy needed, as H+ moves down its gradient (chemiosmosis) → minerals move into the "
+             "xylem"},
+    {"ch": 25, "title": "Water's path", "slides": s25(19, 23, 32, 38),
+     "note": "soil (higher water potential) → root hair → cortex (between cell walls, pathway A, or cell to cell, pathway "
+             "B) → endodermis (the Casparian strip forces it through the cells) → xylem → stem → leaf → out through the "
+             "stomata (transpiration)"},
+    {"ch": 25, "title": "Cohesion-tension", "slides": s25(37, 38, 39),
+     "note": "transpiration at the leaves creates tension → evaporated water is replaced from the leaf veins → cohesion "
+             "keeps the column continuous and adhesion keeps it in place → the column is pulled up the stem → water "
+             "enters the root xylem by osmosis (passive)"},
+    {"ch": 25, "title": "Stomata", "slides": s25(41, 42),
+     "note": "open: H+ pumped out → K+ actively enters the guard cells → water follows by osmosis → turgor rises → "
+             "stoma opens; close: K+ leaves → water leaves → stoma closes. Light regulates them; ABA closes them."},
+    {"ch": 25, "title": "Pressure flow", "slides": s25(45, 46, 47),
+     "note": "source (leaf): an ATP-driven pump moves H+ out; sucrose enters the sieve tube with H+ (co-transport) → "
+             "water follows by osmosis → high positive pressure → mass flow through the sieve tubes → sink (root): "
+             "sugar unloaded and used for cellular respiration or stored; water exits by osmosis and returns to the "
+             "xylem"},
+]
+
+USES += [
+    {"ch": 25, "title": "", "slides": s25(6, 8, 18, 48), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Fertilizer", "NPK ratio: supplies nitrogen, phosphorus and potassium to avoid deficiencies"], s25(6, 8)),
+         (["Hydroponics", "growing plants in nutrient solution; testing which nutrients are essential"], s25(6, 7)),
+         (["Crop rotation, reduced tillage, companion crops", "reduce farmland erosion"], s25(18)),
+         (["Trees", "prevent coastal erosion"], s25(18)),
+         (["Aphids", "collect phloem sap for study"], s25(43, 48)),
+     ]},
+]
+
+CLUES += [
+    ("Nutrients and soil", [
+        ("about 95% of a plant's dry weight", "carbon, hydrogen and oxygen", s25(3)),
+        ("supplies a plant's carbon / its hydrogen and oxygen", "carbon dioxide / water", s25(3)),
+        ("inorganic substance, usually with two or more elements", "mineral", s25(3)),
+        ("has an identifiable role, can't be replaced, deficiency kills the plant", "essential nutrient", s25(4)),
+        ("needed in large amounts: C, H, O, N, P, K, S, Ca, Mg", "macronutrients", s25(4)),
+        ("needed in small amounts: Fe, B, Mn, Cu, Zn, Cl, Mo", "micronutrients", s25(4)),
+        ("growing plants in nutrient solution to find essential nutrients", "hydroponics", s25(6, 7)),
+        ("the three numbers on a fertilizer bag", "NPK ratio (nitrogen, phosphorus, potassium)", s25(6, 8)),
+        ("light yellow tomato leaves", "nitrogen deficiency", s25(8)),
+        ("rock broken down by wind, rain and ice / by acid rain and lichens", "mechanical / chemical weathering", s25(9)),
+        ("largest soil particles; water drains readily", "sand", s25(10)),
+        ("smallest soil particles; spaces fill with water", "clay", s25(10)),
+        ("ideal soil: aeration plus mineral retention", "loam", s25(10)),
+        ("decaying organic matter; decreases runoff, prevents leaching", "humus", s25(9, 11)),
+        ("root hair releases H+ to free bound K+ and Ca2+", "cation exchange", s25(12, 13)),
+        ("negative sites that hold cations; low in sandy soil", "cation exchange capacity (CEC)", s25(12)),
+        ("topsoil with litter and the most humus", "A horizon", s25(15, 16)),
+        ("subsoil where leached minerals accumulate", "B horizon", s25(15, 16)),
+        ("weathered parent rock", "C horizon", s25(15, 16)),
+        ("earthworm casts; ant colonies", "mix and aerate soil", s25(14)),
+        ("soil carried away by water or wind", "erosion", s25(17)),
+        ("crop rotation, reduced tillage, companion crops", "reduce farmland erosion", s25(18)),
+    ]),
+    ("Uptake", [
+        ("between porous cell walls until the Casparian strip", "pathway A", s25(23)),
+        ("into root hairs, then cell to cell", "pathway B", s25(19, 23)),
+        ("stops minerals flowing back out of the root", "Casparian strip", s25(20)),
+        ("pushes H+ out of the cell using ATP", "proton pump", s25(21, 23)),
+        ("lets K+ into the cell", "channel protein", s25(23)),
+        ("brings nitrate in together with H+", "carrier protein (co-transport)", s25(21, 23)),
+        ("using an H+ gradient to do work", "chemiosmosis", s25(21)),
+        ("nitrogen-fixing bacteria in root nodules", "Rhizobium", s25(24)),
+        ("fungus that adds surface area; gets sugars and amino acids", "mycorrhizae", s25(24, 26)),
+        ("dodder wrapped around a host plant", "parasitic plant", s25(24, 27)),
+        ("sundew digesting insects", "carnivorous plant", s25(24, 27)),
+    ]),
+    ("Transport", [
+        ("water moves from higher to lower", "water potential", s25(31)),
+        ("the higher it is, the higher the water potential", "pressure (pressure potential)", s25(33)),
+        ("the more of them, the lower the water potential", "solutes (osmotic potential)", s25(33)),
+        ("pressure from osmosis that keeps cells firm", "turgor pressure", s25(33, 34)),
+        ("drooping plant whose cells lost turgor", "wilted", s25(34)),
+        ("positive pressure from water entering roots", "root pressure", s25(35)),
+        ("droplets forced out along leaf edges", "guttation", s25(35, 36)),
+        ("water evaporating through stomata", "transpiration", s25(37, 39)),
+        ("water molecules clinging to each other", "cohesion", s25(37)),
+        ("water clinging to vessel walls", "adhesion", s25(37)),
+        ("transpiration pulls a continuous water column up", "cohesion-tension model", s25(37, 38)),
+        ("K+ enters guard cells and water follows", "stoma opens", s25(41, 42)),
+        ("hormone that can close stomata", "ABA (abscisic acid)", s25(41)),
+        ("where sugar comes from / where it's unloaded", "source / sink", s25(43, 44)),
+        ("bark swells just above a girdle", "sugar accumulates (phloem)", s25(43)),
+        ("insects used to collect phloem sap", "aphids", s25(43, 48)),
+        ("sucrose loaded at the source, water follows, pressure pushes sap", "pressure-flow model", s25(46, 47)),
+    ]),
+]
+
+GLOSSARY[25] = [
+    ("Channel protein", "a membrane protein that forms a channel for a particular ion to cross (textbook)", [21, 23]),
+    ("Carrier protein", "a membrane protein that binds a substance and changes shape to move it across (textbook)",
+     [21, 23]),
+    ("Co-transport", "two substances crossing a membrane together through one carrier, e.g. sucrose with H+ "
+                     "(textbook)", [45]),
+    ("Companion crops", "crops that hold and nourish the soil (textbook)", [18]),
+    ("Electrochemical gradient", "a difference in charge and concentration across a membrane, here of H+, that can "
+                                 "drive ions across (textbook)", [21, 23]),
+    ("Haustoria", "root-like projections a parasitic plant pushes into its host's xylem and phloem (textbook)", [27]),
+    ("Leaching", "minerals being washed out of the soil by water (textbook)", [11, 12, 16]),
+    ("Mass (bulk) flow", "a liquid moving as a whole, pushed from high to low pressure (textbook)", [47]),
+    ("Mutualism", "a relationship in which both species benefit (textbook)", [24, 26]),
+    ("Nitrogen fixation", "bacteria converting nitrogen gas from the air into compounds plants can use, such as "
+                          "ammonium (textbook)", [24]),
+    ("Parent material", "the original rock a soil forms from (textbook)", [15, 16]),
+    ("Plasmodesmata", "narrow channels through cell walls connecting the cytoplasm of neighboring plant cells "
+                      "(textbook)", [19, 28]),
+    ("Runoff", "rainwater running off the soil surface instead of soaking in (textbook)", [11]),
+    ("Stylet", "an aphid's needle-like mouthpart, which taps a sieve tube (textbook)", [48]),
+    ("Succession", "larger plants gradually replacing small ones as soil builds up (textbook)", [14]),
+]
+
+INDEX += [
+    ("ABA (abscisic acid)", r"\bA ?B ?A\b|abscisic", s25(41), "(closes stomata)"),
+    ("Adhesion", r"adhesion", s25(37), None),
+    ("Aphids", r"aphid", s25(43, 48), "(phloem sap)"),
+    ("Carnivorous plants (sundew)", r"carnivorous|sundew", s25(24, 27), None),
+    ("Casparian strip", r"casparian", s25(19, 20), None),
+    ("Cation exchange, CEC", r"cation exchange", s25(12, 13), None),
+    ("Chemiosmosis", r"chemiosmosis", s25(21), None),
+    ("Cohesion", r"cohesion", s25(37), None),
+    ("Cohesion-tension model", r"cohesion-tension", s25(37, 38), None),
+    ("Companion cells", r"companion cell", s25(28), None),
+    ("Electrochemical gradient", r"electrochemical", s25(21), None),
+    ("Erosion", r"erosion", s25(17, 18), None),
+    ("Essential nutrients", r"essential", s25(4), None),
+    ("Fertilizer, NPK", r"fertilizer|\bNPK\b", s25(6, 8), None),
+    ("Guard cells", r"guard cell", s25(41, 42), None),
+    ("Guttation", r"guttation", s25(35, 36), None),
+    ("Humus", r"humus", s25(11), None),
+    ("Hydroponics", r"hydroponic", s25(6, 7), None),
+    ("Leaching", r"leach", s25(11, 12), None),
+    ("Loam, sand, silt, clay", r"\bloam\b|\bsand|\bsilt\b|\bclay\b", s25(10), None),
+    ("Macronutrients, micronutrients", r"macronutrient|micronutrient", s25(4), None),
+    ("Mineral", r"\bminerals?\b", s25(3), None),
+    ("Mycorrhizae", r"mycorrhiza", s25(24, 26), None),
+    ("Osmotic potential", r"osmotic potential", s25(33), None),
+    ("Parasitic plants (dodder)", r"parasitic|dodder", s25(24, 27), None),
+    ("Phloem", r"phloem", s25(28, 43), None),
+    ("Plasmodesmata", r"plasmodesmata", s25(19, 28), None),
+    ("Pressure-flow model", r"pressure-flow", s25(46, 47), None),
+    ("Pressure potential", r"pressure potential", s25(33), None),
+    ("Proton pump", r"proton pump|ATP-driven pump", s25(21), None),
+    ("Rhizobium, root nodules", r"rhizobium|nodule", s25(24, 25), None),
+    ("Root pressure", r"root pressure", s25(35), None),
+    ("Sieve-tube members, sieve plates", r"sieve", s25(28), None),
+    ("Source, sink", r"\bsource\b|\bsinks?\b", s25(43, 44), None),
+    ("Soil", r"\bsoil\b", s25(9), None),
+    ("Soil profile, horizons", r"soil profile|horizon|topsoil|subsoil", s25(15, 16), None),
+    ("Stomata", r"stomat|\bstoma\b", s25(41, 42), None),
+    ("Sucrose loading", r"sucrose", s25(45, 46), None),
+    ("Tension", r"\btension\b", s25(38, 39), None),
+    ("Tracheids, vessel elements", r"tracheid|vessel element", s25(28), None),
+    ("Transpiration", r"transpir", s25(37, 39), None),
+    ("Turgor pressure, wilting", r"turgor|wilt", s25(33, 34), None),
+    ("Water potential", r"water potential", s25(31, 33), None),
+    ("Weathering", r"weather", s25(9), None),
+    ("Xylem", r"xylem", s25(28, 29), None),
+]

@@ -44,7 +44,11 @@ if not os.path.exists(FONT_FILE) and FONT_NAME in METRIC_TWIN and os.path.exists
     FONT_FILE = METRIC_TWIN[FONT_NAME][1]
 OUT_DIR = os.path.join(B.HERE, "..", "Printed Exam Notes")
 JUNK = re.compile(r"^(copyright|access the text alternative|see separate flexart|end of main content)"
-                  r"|^(figure|table) \d+\.\w+\b|^table (summarizes|divided)|^\d+$", re.I)
+                  r"|^(figure|table) \d+\.\w+\b|^figure \d+[a-z]$|^table (summarizes|divided)|^\d+$"
+                  r"|^the following content is arranged like a table"   # accessibility note before a table
+                  # photo credits printed on Ch 24-27 slides
+                  r"|getty images$|alamy stock photo$|/superstock$|^©|^steven p\. lynch$|university of florida$"
+                  r"|^\(photo\)", re.I)
 CREDIT = re.compile(r"^\([^)]*\):")             # photo credits: "(a): Steven P. Lynch; (b): ..."
 CODE = re.compile(r"^\d{2}\.\d\.\d+$")
 STOP = set("the a an of in and or to is are be by on at as for with which that this its it from into step".split())
