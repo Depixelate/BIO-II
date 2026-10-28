@@ -149,6 +149,12 @@ TYPO_FIX = {
     ],
 }
 
+# a slide's text rebuilt where the deck splits sentences around pictures of symbols (MathType objects such as "H+"):
+# (chapter, slide) -> [paragraph, or (level, paragraph)]; every original fragment must still appear in it
+SLIDE_TEXT = {}
+# typos in a figure's text alternative, fixed when printed: (chapter, slide) -> [(wrong, right)]
+FIG_FIX = {}
+
 # page budget per chapter, main file + index file together, in double-sided sheets (the user's choice)
 SHEETS_PER_CHAPTER = 10
 
@@ -569,4 +575,379 @@ INDEX = [
     ("Whisk ferns", r"whisk fern", s23(40), None),
     ("Xylem", r"xylem", s23(31), None),
     ("Zygote", r"zygote", s23(13, 88), None),
+]
+
+
+# ======================================================================== Ch 24
+def s24(*ns):
+    return [(24, n) for n in ns]
+
+
+CHAPTERS.append(24)
+TA_SKIP[24] = {57}   # 57: "Accessibility Content" cover slide
+SLIDE_TEXT[(24, 15)] = [   # the slide's "Tracheids" heading is only in its title
+    "Tracheids", (1, "They are long with tapered ends."), (1, "Water moves across pits in end walls and side walls."),
+    (1, "Vascular rays between rows of tracheids conduct water across the width of the plant."), "Vessel Elements",
+    (1, "They are larger, with perforation plates in their end walls."),
+    (1, "They form a continuous vessel for water and mineral transport."),
+]
+FIG_FIX[(24, 49)] = [("rhizone", "rhizome")]
+CAPTIONS.update({
+    (24, 21): "A terminal bud contains an apical meristem and produces new leaves and other tissues during primary "
+              "growth. Lateral branches grow from the lateral bud.",
+    (24, 29): "This cross section of a willow, Salix, shows the origination and growth of a branch root from the "
+              "pericycle.",
+    (24, 31): "In this overall cross section, it is possible to observe that a vascular ring surrounds a central pith.",
+})
+PROCESS.update({
+    (24, 33): "a. Sweet potato plants have food storage roots. b. Prop roots (corn) are specialized for support in high "
+              "winds. c. Pneumatophores (mangrove, bald cypress) extend above the water's surface, so a tree living in "
+              "water can acquire oxygen. d. The aerial roots of orchids offer physical support, water and nutrient "
+              "uptake, and in some cases even photosynthesis; English ivy uses aerial roots to climb.",
+    (24, 55): "a. The spines of a cactus are modified leaves that protect the fleshy stem from animal predation. b. The "
+              "tendrils of a cucumber are modified leaves that attach the plant to a physical support. c. The modified "
+              "leaves of the Venus flytrap trap insect prey: when an insect triggers it, the leaf snaps shut and "
+              "secretes digestive juices that break down the insect's soft parts.",
+})
+CORRECTIONS.update({
+    (24, 27): "Lignin isn't a protein (the textbook uses the same wording): it's a chemical that hardens cell walls, "
+              "and suberin is a waxy, waterproof lipid. Together they make the Casparian strip waterproof, so water "
+              "and minerals must pass through the endodermal cells.",
+    (24, 42): "Woody stems are mostly vascular tissue: wood is secondary xylem, and bark contains secondary phloem "
+              "(24.4.43–45). The three regions are bark, wood and pith (the slide leaves out wood). The professor "
+              "confirmed this slide is wrong (Oct 22).",
+    (24, 52): "Carbon dioxide enters the leaf through the stoma; oxygen and water vapor leave through it (textbook "
+              "Fig. 24.22). The description's “carbon dioxide leaving” is a slip.",
+})
+
+TABLES += [
+    {"ch": 24, "title": "Meristems", "head": ["Meristem", "Where / what it makes"],
+     "rows": [
+         (["Apical meristem", "tips of stems and roots; primary growth (length); makes the three primary meristems"],
+          s24(3, 6, 42)),
+         (["Protoderm", "epidermis (epidermal tissue), the outer protective covering"], s24(3, 35)),
+         (["Ground meristem", "ground tissue, which fills the interior; in stems, the pith and cortex"], s24(3, 35)),
+         (["Procambium", "vascular tissue: primary xylem and phloem (and vascular cambium)"], s24(3, 35, 37)),
+         (["Vascular cambium", "lateral meristem; secondary xylem and secondary phloem each year; secondary growth "
+                               "(girth)"], s24(43, 45)),
+         (["Cork cambium", "cork (periderm), which replaces the epidermis of woody stems"], s24(8, 44)),
+     ]},
+    {"ch": 24, "title": "Cell and tissue types", "head": ["Tissue / cell", "Features and job"],
+     "rows": [
+         (["Epidermis", "closely packed cells; waxy cuticle where exposed to air; root hairs (absorb water); "
+                        "trichomes (protect from sun and moisture loss; discourage herbivory); stomata on the lower "
+                        "leaf surface"], s24(7, 8)),
+         (["Periderm (cork)", "replaces the epidermis in older woody stems; cork made by cork cambium; suberin; gas "
+                              "exchange only at lenticels"], s24(8, 44)),
+         (["Parenchyma", "least specialized, most abundant, in all organs; can divide; with chloroplasts, "
+                         "photosynthesize"], s24(10)),
+         (["Collenchyma", "living; thicker primary walls; bundles under the epidermis; flexible support of young "
+                          "regions (celery strings)"], s24(10, 12)),
+         (["Sclerenchyma", "thick secondary walls with lignin; mostly dead at maturity; support of mature regions; "
+                           "fibers (long: hemp, rope) and sclereids (short: seed coats, nutshells)"], s24(11, 12)),
+         (["Tracheids (xylem)", "long, tapered ends; water crosses pits in end and side walls"], s24(15)),
+         (["Vessel elements (xylem)", "larger; perforation plates in end walls; form a continuous vessel"], s24(15)),
+         (["Sieve-tube members (phloem)", "conducting cells; cytoplasm but no nucleus; sieve plate (cluster of "
+                                          "pores)"], s24(16)),
+         (["Companion cells (phloem)", "have a nucleus; joined to a sieve-tube member by plasmodesmata; help "
+                                       "transport"], s24(16)),
+     ]},
+    {"ch": 24, "title": "Xylem vs phloem", "slides": s24(13, 15, 16, 44, 45), "head": ["", "Xylem", "Phloem"],
+     "rows": [
+         ["Carries", "water and minerals, roots to leaves", "sucrose and other organic compounds"],
+         ["Conducting cells", "tracheids, vessel elements", "sieve-tube members (with companion cells)"],
+         ["Location", "vascular cylinder (root), vascular bundles (stem), leaf veins (both)", "same, beside the xylem"],
+         ["In a woody stem", "wood (secondary xylem); heartwood no longer carries water",
+          "in the bark; girdling removes it and kills the tree"],
+     ]},
+    {"ch": 24, "title": "Monocots vs eudicots", "slides": s24(22, 23, 24, 32, 38), "head": ["", "Monocots", "Eudicots"],
+     "rows": [
+         ["Cotyledons", "one; transfer tissue (nutrients come from the endosperm)", "two; supply nutrients to the seedling"],
+         ["Root vascular tissue", "in a ring (around a pith)", "phloem between the arms of the xylem"],
+         ["Stem vascular bundles", "scattered", "in a distinct ring"],
+         ["Leaf veins", "parallel", "netted"],
+         ["Flower parts", "threes", "fours or fives"],
+         ["Pollen", "one pore or slit", "three pores or slits"],
+         ["Root system", "fibrous", "taproot (textbook)"],
+     ]},
+    {"ch": 24, "title": "Roots", "head": ["Type", "What it does (example)"],
+     "rows": [
+         (["Taproot", "one long, fleshy root growing straight down; stores food (eudicots; carrot)"], s24(32)),
+         (["Fibrous root system", "slender roots and lateral branches; anchors the plant (monocots; grasses)"],
+          s24(32)),
+         (["Storage roots", "store large amounts of carbohydrate (sweet potato)"], s24(32, 33)),
+         (["Prop roots", "support in high wind (corn)"], s24(33)),
+         (["Pneumatophores", "get oxygen for trees growing in water (mangrove, bald cypress)"], s24(33)),
+         (["Aerial roots", "support, climbing, water and nutrient uptake, some photosynthesis (orchids, English ivy)"],
+          s24(32, 33)),
+         (["Mycorrhizae", "fungus partners that help extract water and minerals"], s24(34)),
+         (["Root nodules", "nitrogen-fixing bacteria; plant gets nitrogen, bacteria get carbohydrates"], s24(34)),
+     ]},
+    {"ch": 24, "title": "Woody stem, outside in", "head": ["Region", "Contains / does"],
+     "rows": [
+         (["Bark", "everything outside the vascular cambium: cork, cork cambium, cortex, phloem; girdling it kills the "
+                   "tree"], s24(44, 46)),
+         (["Vascular cambium", "lateral meristem; makes secondary xylem and secondary phloem each year; dormant in "
+                               "winter"], s24(43, 45)),
+         (["Wood", "secondary xylem in annual rings; sapwood (outer rings) still carries water"], s24(45, 47)),
+         (["Annual ring", "spring wood + summer wood (summer wood has fewer vessels) = one year"], s24(45, 46)),
+         (["Heartwood", "inner rings of older trees; no longer carry water"], s24(45, 47)),
+         (["Pith", "the center"], s24(42, 46)),
+     ]},
+    {"ch": 24, "title": "Stems", "head": ["Type", "What it is (example)"],
+     "rows": [
+         (["Herbaceous stem", "nonwoody; primary growth only; waxy cuticle; bundles in a ring (eudicot) or scattered "
+                              "(monocot)"], s24(38)),
+         (["Woody stem", "primary + secondary growth; bark, wood, pith"], s24(41, 42)),
+         (["Stolon", "above-ground horizontal stem; new plants where nodes touch the ground (strawberry)"], s24(48, 49)),
+         (["Rhizome", "underground horizontal stem; asexual reproduction (iris)"], s24(48, 49)),
+         (["Tuber", "enlarged storage part of a rhizome (potato)"], s24(48, 49)),
+         (["Corm", "underground stem that makes new plants the next season (gladiolus)"], s24(48, 49)),
+     ]},
+    {"ch": 24, "title": "Leaves", "head": ["Term", "Meaning (example)"],
+     "rows": [
+         (["Blade / petiole", "the wide part / the stalk attaching it to the stem"], s24(50)),
+         (["Leaf axil", "upper angle between petiole and stem; holds the axillary bud"], s24(50)),
+         (["Evergreen / deciduous", "keeps leaves all year / loses all its leaves"], s24(50)),
+         (["Palisade mesophyll", "elongated cells under the upper epidermis; most of the photosynthesis"], s24(51)),
+         (["Spongy mesophyll", "irregular cells bounded by air spaces"], s24(51)),
+         (["Stomata", "in the lower epidermis; CO2 in, O2 and water vapor out"], s24(51, 52)),
+         (["Simple / compound", "one blade (magnolia) / leaflets: pinnately in pairs (black walnut) or palmately from "
+                                "one point (buckeye)"], s24(53, 54)),
+         (["Alternate / opposite / whorled", "beech / two leaves per node (maple) / several per node (bedstraw)"],
+          s24(53, 54)),
+         (["Adapted leaves", "shade leaves; spines (cactus, protect the stem); tendrils (cucumber, climbing); reduced "
+                          "leaves; insect-catching leaves (sundew, Venus flytrap)"], s24(53, 55)),
+     ]},
+    {"ch": 24, "title": "Look-alikes", "head": ["These", "The difference"],
+     "rows": [
+         (["apical vs lateral meristem", "tips, length (primary growth) vs vascular and cork cambium, girth "
+                                         "(secondary growth)"], s24(6, 41, 43)),
+         (["tracheids vs vessel elements", "tapered, water through pits vs larger, perforation plates, continuous "
+                                           "vessel"], s24(15)),
+         (["sieve-tube member vs companion cell", "conducts, no nucleus vs has a nucleus, helps it"], s24(16)),
+         (["collenchyma vs sclerenchyma", "living, flexible support of young parts vs mostly dead, lignin, support of "
+                                          "mature parts"], s24(10, 11)),
+         (["fibers vs sclereids", "long and slender (hemp, rope) vs short (seed coats, nutshells)"], s24(11)),
+         (["root cap vs root hairs", "protects the root apical meristem vs absorb water (zone of maturation)"],
+          s24(7, 26)),
+         (["endodermis vs pericycle", "boundary with the Casparian strip vs dividing cells that start branch roots"],
+          s24(27)),
+         (["taproot vs fibrous roots", "one main root, stores food vs many slender roots, anchor"], s24(32)),
+         (["mycorrhizae vs root nodules", "fungi (water, minerals) vs nitrogen-fixing bacteria"], s24(34)),
+         (["herbaceous vs woody stem", "primary growth only vs primary + secondary growth"], s24(38, 41)),
+         (["bark vs wood", "outside the vascular cambium, contains phloem vs secondary xylem"], s24(44, 45)),
+         (["spring wood vs summer wood", "more vessels vs fewer vessels"], s24(45)),
+         (["sapwood vs heartwood", "outer rings, still carry water vs inner rings, no longer do"], s24(45, 47)),
+         (["stolon vs rhizome", "above-ground vs underground horizontal stem"], s24(48)),
+         (["tuber vs corm", "enlarged storage part of a rhizome vs underground stem making new plants next season"],
+          s24(48)),
+         (["palisade vs spongy mesophyll", "elongated, packed cells vs irregular cells with air spaces"], s24(51)),
+         (["simple vs compound leaf", "one blade vs divided into leaflets"], s24(53)),
+         (["annual vs perennial", "one growing season vs three or more"], s24(25)),
+     ]},
+]
+
+SEQUENCES += [
+    {"ch": 24, "title": "Root zones, from the tip up", "slides": s24(26, 28),
+     "note": "root cap (protects the root apical meristem) → zone of cell division (primary meristems) → zone of "
+             "elongation (cells lengthen and start to specialize) → zone of maturation (fully differentiated cells; "
+             "root hairs)"},
+    {"ch": 24, "title": "Eudicot root tissues, outside in", "slides": s24(27, 28),
+     "note": "epidermis (root hairs) → cortex (parenchyma; water and minerals move through) → endodermis with the "
+             "Casparian strip (forces water and minerals through its cells) → pericycle (starts branch roots) → "
+             "vascular cylinder: star-shaped xylem, phloem between its arms"},
+    {"ch": 24, "title": "Secondary growth of a woody stem", "slides": s24(41, 43, 44, 45),
+     "note": "vascular cambium (lateral meristem) makes secondary xylem and secondary phloem each year → the xylem "
+             "builds up as wood in annual rings (spring wood, then summer wood); inner rings become heartwood → cork "
+             "cambium makes cork, which replaces the epidermis (periderm) → bark = everything outside the vascular "
+             "cambium"},
+]
+
+USES += [
+    {"ch": 24, "title": "", "slides": s24(11, 48), "head": ["Source", "Use (and why)"],
+     "rows": [
+         (["Sugar cane", "table sugar (its stem stores sugar)"], s24(48)),
+         (["Bark", "cinnamon and quinine"], s24(48)),
+         (["Wood", "paper and building materials (wood is secondary xylem)"], s24(48)),
+         (["Hemp fibers", "rope (fibers are long sclerenchyma cells)"], s24(11)),
+     ]},
+]
+
+CLUES += [
+    ("Tissues and cells", [
+        ("undifferentiated cells that keep dividing all the plant's life", "meristem", s24(6)),
+        ("outer layer that becomes the epidermis / ground tissue / vascular tissue", "protoderm / ground meristem / procambium", s24(3)),
+        ("hairs on stems and leaves; protect from sun and moisture loss; discourage plant-eaters", "trichomes", s24(8)),
+        ("extensions of root epidermal cells that add surface for absorbing water", "root hairs", s24(7)),
+        ("replaces the epidermis of an older woody stem", "periderm (cork)", s24(8)),
+        ("least specialized, most abundant cells; can divide; may photosynthesize", "parenchyma", s24(10)),
+        ("the strings in celery; flexible support for young parts", "collenchyma", s24(10)),
+        ("dead cells with lignin walls that support mature parts", "sclerenchyma", s24(11)),
+        ("long, slender sclerenchyma cells used for rope", "fibers (hemp)", s24(11)),
+        ("short sclerenchyma cells in nutshells and seed coats", "sclereids", s24(11)),
+        ("water-conducting cells with tapered ends and pits", "tracheids", s24(15)),
+        ("wider water-conducting cells with perforation plates, joined into a pipe", "vessel elements", s24(15)),
+        ("carry water sideways across the plant", "vascular rays", s24(15)),
+        ("sugar-conducting cell with cytoplasm but no nucleus", "sieve-tube member", s24(16)),
+        ("cell with a nucleus that serves a sieve-tube member", "companion cell", s24(16)),
+        ("cluster of pores in the wall of a sieve-tube member", "sieve plate", s24(16)),
+    ]),
+    ("Roots", [
+        ("cap that protects the root apical meristem", "root cap", s24(26)),
+        ("region where cells lengthen and begin to specialize", "zone of elongation", s24(26)),
+        ("region with fully differentiated cells and root hairs", "zone of maturation", s24(26)),
+        ("waterproof band (lignin and suberin) that forces water through cells", "Casparian strip (endodermis)", s24(27)),
+        ("dividing layer where branch roots start", "pericycle", s24(27, 29)),
+        ("ground tissue in the center of a monocot root", "pith", s24(30)),
+        ("one thick root that stores food (carrot)", "taproot", s24(32)),
+        ("many slender roots that anchor the plant (grasses)", "fibrous root system", s24(32)),
+        ("roots growing from the base of a corn stem for support", "prop roots", s24(33)),
+        ("roots that stick up out of swamp water to get oxygen", "pneumatophores", s24(33)),
+        ("orchid roots hanging in the air", "aerial roots", s24(33)),
+        ("fungi that help roots take up water and minerals", "mycorrhizae", s24(34)),
+        ("swellings on roots holding nitrogen-fixing bacteria", "root nodules", s24(34)),
+    ]),
+    ("Stems", [
+        ("where a leaf attaches / the stem between two of them", "node / internode", s24(20)),
+        ("bud at the stem tip with the shoot apical meristem", "terminal bud", s24(20, 21)),
+        ("each ring of bud-scale scars on a twig", "one year of growth", s24(35)),
+        ("vascular bundles scattered through the stem", "monocot stem", s24(38, 40)),
+        ("vascular bundles in a ring", "herbaceous eudicot stem", s24(38, 39)),
+        ("increases a stem's girth", "secondary growth (vascular and cork cambium)", s24(42, 43)),
+        ("makes secondary xylem and secondary phloem", "vascular cambium", s24(43)),
+        ("removing a ring of bark kills the tree", "girdling (the phloem is in the bark)", s24(44)),
+        ("waterproof substance in cork cells", "suberin", s24(44)),
+        ("the only spots where a woody stem exchanges gases", "lenticels", s24(44)),
+        ("secondary xylem built up year after year", "wood", s24(45)),
+        ("wood with fewer vessels, made late in the season", "summer wood", s24(45)),
+        ("inner rings that no longer carry water", "heartwood", s24(45, 47)),
+        ("strawberry runners: new plants where nodes touch the ground", "stolons", s24(48)),
+        ("underground horizontal stem (iris)", "rhizome", s24(48, 49)),
+        ("potato", "tuber (a stem, not a root)", s24(48, 49)),
+        ("gladiolus: underground stem that makes new plants next season", "corm", s24(48, 49)),
+    ]),
+    ("Leaves", [
+        ("the wide part of a leaf / its stalk", "blade / petiole", s24(50)),
+        ("upper angle between petiole and stem, where the axillary bud is", "leaf axil", s24(50)),
+        ("loses all its leaves", "deciduous", s24(50)),
+        ("elongated cells under the upper epidermis", "palisade mesophyll", s24(51)),
+        ("irregular cells with air spaces", "spongy mesophyll", s24(51)),
+        ("one blade / blade divided into leaflets", "simple / compound leaf", s24(53, 54)),
+        ("two leaves at each node / several at each node", "opposite / whorled", s24(53, 54)),
+        ("cactus spines", "modified leaves", s24(53, 55)),
+        ("cucumber's coiling climbers", "tendrils (modified leaves)", s24(53, 55)),
+    ]),
+    ("Processes and terms", [
+        ("lives one growing season, then dies after making seeds", "annual", s24(25)),
+        ("lives three or more seasons", "perennial", s24(25)),
+        ("genes that switch a plant between annual and perennial", "LEAFY and Apetala 1", s24(25)),
+        ("one cotyledon, parallel veins, parts in threes", "monocot", s24(22, 24)),
+        ("two cotyledons, netted veins, parts in fours or fives", "eudicot", s24(23, 24)),
+        ("all plant parts except flowers, seeds and fruits", "vegetative organs", s24(18)),
+    ]),
+]
+
+GLOSSARY[24] = [
+    ("Adventitious roots", "roots that grow from a stem, e.g. at the nodes of stolons and rhizomes (textbook)", [49]),
+    ("Cotyledon", "a seed leaf of the embryo; provides nutrients before photosynthesis begins (textbook)", [22, 23]),
+    ("Differentiated cell", "a cell that has specialized in structure and job (textbook)", [5, 6, 26]),
+    ("Endosperm", "the seed's food-storage tissue, made when a sperm joins the polar nuclei (textbook)", [22]),
+    ("Guard cells", "the two cells around each stoma; changes in their turgor open and close it (textbook)", [9, 52]),
+    ("Herbivory", "animals eating plants (textbook)", [8]),
+    ("Leaf primordia", "immature leaves wrapped around the shoot apical meristem in the terminal bud (textbook)",
+     [35, 37]),
+    ("Leaf scar, bundle scars", "marks on a twig where a leaf dropped and where its vascular bundles were "
+                               "(textbook)", [36]),
+    ("Lenticels", "loose patches of cork cells without suberin, where gases pass in and out of a woody stem "
+                  "(textbook)", [9, 36, 44]),
+    ("Lignin", "a chemical that hardens the cell walls of land plants (textbook); not a protein", [11, 27]),
+    ("Mutualism", "a relationship in which both species benefit (textbook)", [34]),
+    ("Nitrogen fixation", "bacteria converting nitrogen gas from the air into compounds plants can use, such as "
+                          "ammonium (textbook)", [34]),
+    ("Perforation plate", "the end wall of a vessel element, with openings that water flows through (textbook)",
+     [14, 15]),
+    ("Pith", "parenchyma tissue in the center of some stems and roots (textbook)", [30, 42]),
+    ("Pits", "thin spots in a tracheid's wall, where no secondary wall forms, that let water pass (textbook)", [15]),
+    ("Plasmodesmata", "narrow channels through cell walls that connect the cytoplasm of neighboring plant cells "
+                      "(textbook)", [16]),
+    ("Primary / secondary cell wall", "every plant cell has a primary wall; some build a thicker secondary wall "
+                                      "inside it, often with lignin (textbook)", [10, 11]),
+    ("Suberin", "a waxy, waterproof lipid in cork cells and the Casparian strip (textbook)", [27, 44]),
+    ("Tendril", "a slender structure (often a modified leaf) that attaches a climbing plant to a support (textbook)",
+     [53, 55]),
+]
+
+INDEX += [
+    ("Annual / perennial", r"\bannual\b(?! ring)|perennial", s24(25), None),
+    ("Annual ring", r"annual\s+ring", s24(45, 46), None),
+    ("Apical meristem", r"apical meristem", s24(6, 3), None),
+    ("Axillary (lateral) bud", r"axillary bud|lateral bud", s24(50, 21), None),
+    ("Bark", r"\bbark\b", s24(44), None),
+    ("Blade, petiole", r"\bblade\b|petiole", s24(50), None),
+    ("Branch (lateral) roots", r"branch root|lateral roots", s24(27, 29), None),
+    ("Bud scales", r"bud ?scale", s24(35, 36), None),
+    ("Casparian strip", r"casparian", s24(27), None),
+    ("Collenchyma", r"collenchyma", s24(10), None),
+    ("Companion cell", r"companion cell", s24(16), None),
+    ("Cork, cork cambium", r"\bcork\b", s24(8, 44), None),
+    ("Corm", r"\bcorms?\b", s24(48), "(gladiolus)"),
+    ("Cortex", r"cortex", s24(27), None),
+    ("Cuticle", r"cuticle", s24(7), None),
+    ("Deciduous, evergreen", r"deciduous|evergreen", s24(50), None),
+    ("Endodermis", r"endodermis", s24(27), None),
+    ("Epidermis, epidermal tissue", r"epiderm", s24(7), None),
+    ("Eudicots", r"eudicot", s24(23, 24), None),
+    ("Fibers, sclereids", r"\bfibers?\b|sclereid", s24(11), None),
+    ("Fibrous root system", r"fibrous", s24(32), None),
+    ("Girdling", r"girdling", s24(44), None),
+    ("Ground meristem", r"ground meristem", s24(3, 35), None),
+    ("Ground tissue", r"ground tissue", s24(10), None),
+    ("Heartwood, sapwood", r"heartwood|sapwood", s24(45, 47), None),
+    ("Herbaceous stems", r"herbaceous|nonwoody", s24(38), None),
+    ("LEAFY, Apetala 1", r"leafy|apetala", s24(25), "(flower-inducing genes)"),
+    ("Leaf axil", r"axil\b", s24(50), None),
+    ("Leaf veins", r"\bveins?\b|venation", s24(13, 52), None),
+    ("Meristem", r"meristem", s24(6), None),
+    ("Mesophyll (palisade, spongy)", r"mesophyll", s24(51), None),
+    ("Monocots", r"monocot", s24(22, 24), None),
+    ("Mycorrhizae", r"mycorrhiza", s24(34), None),
+    ("Node, internode", r"\bnodes?\b|internode", s24(20), None),
+    ("Organs (vegetative)", r"\borgans?\b", s24(4, 18), None),
+    ("Parenchyma", r"parenchyma", s24(10), None),
+    ("Pericycle", r"pericycle", s24(27), None),
+    ("Periderm", r"periderm", s24(8), None),
+    ("Phloem", r"phloem", s24(13, 16), None),
+    ("Pneumatophores, prop roots, aerial roots", r"pneumatophore|prop root|aerial root", s24(33), None),
+    ("Primary / secondary growth", r"primary growth|secondary growth", s24(42), None),
+    ("Procambium", r"procambium", s24(3, 35), None),
+    ("Protoderm", r"protoderm", s24(3, 35), None),
+    ("Rhizome", r"rhizome", s24(48), "(iris)"),
+    ("Root cap", r"root cap", s24(26), None),
+    ("Root hairs", r"root hair", s24(7), None),
+    ("Root nodules", r"nodule", s24(34), None),
+    ("Root system, shoot system", r"root system|shoot system", s24(18, 19), None),
+    ("Root zones (division, elongation, maturation)", r"zone of", s24(26, 28), None),
+    ("Sclerenchyma", r"sclerenchyma", s24(11), None),
+    ("Sieve plate, sieve-tube members", r"sieve", s24(16), None),
+    ("Simple / compound leaves", r"\bcompound\b", s24(53, 54), None),
+    ("Spines, tendrils", r"\bspines?\b|tendril", s24(53, 55), "(modified leaves)"),
+    ("Spring wood, summer wood", r"spring wood|summer wood", s24(45), None),
+    ("Stolon", r"stolon", s24(48), "(strawberry runners)"),
+    ("Stomata", r"stomat|\bstoma\b", s24(8, 51), None),
+    ("Sundew, Venus flytrap", r"sundew|flytrap", s24(53), "(insect-catching leaves)"),
+    ("Taproot", r"taproot", s24(32), None),
+    ("Terminal bud", r"terminal bud", s24(20, 35), None),
+    ("Tissue", r"\btissues?\b", s24(4), None),
+    ("Tracheids", r"tracheid", s24(15), None),
+    ("Trichomes", r"trichome", s24(8), None),
+    ("Tuber", r"\btubers?\b", s24(48), "(potato)"),
+    ("Vascular bundles", r"vascular bundle", s24(13, 38), None),
+    ("Vascular cambium", r"vascular cambium", s24(43), None),
+    ("Vascular cylinder", r"vascular cylinder", s24(13, 27), None),
+    ("Vascular rays", r"vascular rays?", s24(15), None),
+    ("Vessel elements", r"vessel element", s24(15), None),
+    ("Whorled, alternate, opposite leaves", r"whorled", s24(53, 54), None),
+    ("Wood", r"\bwood\b", s24(45), None),
+    ("Xylem", r"xylem", s24(13, 14), None),
 ]

@@ -139,6 +139,7 @@ class Chapter:
         extra = getattr(self.spec, "EXTRA_TEXT_ALT", {}) if self.spec else {}
         self.links = B.text_alt_links(self.deck, extra)
         self.links.update(D.TEXT_ALT_MATCH.get(ch, {}))
+        self.links = {n: h for n, h in self.links.items() if h}   # None: a mislabeled text alternative is unlinked
         self.both = set(getattr(self.spec, "IMG_BOTH", set()) if self.spec else set())
         self.both |= {n for c, n in D.PRINT_BOTH if c == ch}
         self.slides = [n for n in self.deck.titles if self.content(n)]
@@ -158,6 +159,8 @@ class Chapter:
 
     def items(self, n):
         """("p", level, text), ("table", head, rows) or ("cell", heading, text) for one-column tables."""
+        if (self.ch, n) in D.SLIDE_TEXT:   # text split around pictures of symbols, rebuilt (see the data file)
+            return [("p", 0, t) if isinstance(t, str) else ("p",) + t for t in D.SLIDE_TEXT[(self.ch, n)]]
         slide = self.deck.prs.slides[n - 1]
         raw = [it for sh in sorted_shapes(slide_shapes(slide)) for it in shape_items(sh, slide.shapes.title)]
         title = self.title(n).lower()
@@ -198,7 +201,8 @@ class Chapter:
             return []
         if self.frame(n):
             return [("Fig", D.FRAME_EXTRA[(self.ch, n)])] if (self.ch, n) in D.FRAME_EXTRA else []
-        lines = [clean(t) for t in B.image_lines(self.deck, n, self.links, self.both)]
+        fixes = D.FIG_FIX.get((self.ch, n), [])
+        lines = [fix(clean(t), fixes) for t in B.image_lines(self.deck, n, self.links, self.both)]
         out = [("Fig", " ".join(t for t in lines if keep(t)))]
         if (self.ch, n) in D.CAPTIONS:
             out.append(("Textbook caption", D.CAPTIONS[(self.ch, n)]))
@@ -456,6 +460,8 @@ def term_index(chapters, gloss):
     base = lambda t: t.split(" (")[0].lower()
     names = set()
     for term, pattern, main, note in D.INDEX:
+        if not any(h[0] in printed for h in main):   # each entry belongs to its main slides' chapter
+            continue
         rx = re.compile(pattern, re.I)
         first = [h for h in main if h[0] in printed]
         rest = [h for h in texts if rx.search(texts[h]) and h not in first]

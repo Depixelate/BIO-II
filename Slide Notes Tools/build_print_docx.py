@@ -695,7 +695,8 @@ def check_layout(pdf_path, main=True):
             if main:
                 codes = body_codes(p)
                 head = " ".join(b[4] for b in p.get_text("blocks") if b[3] < 0.5 * 72)
-                shown = re.findall(r"\d{2}\.\d\.\d+", head)   # guide pages show section names instead
+                first = head.split(" – ")[0]   # a page that starts in the guide starts with a guide part's name
+                shown = re.findall(r"\d{2}\.\d\.\d+", first)
                 if codes and shown and codes[0] not in shown:
                     problems.append(f"page {i}: running header doesn't show its first slide {codes[0]}")
     return problems
