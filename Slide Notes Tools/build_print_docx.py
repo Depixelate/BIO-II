@@ -3,22 +3,26 @@
 usage: python build_print_docx.py [--only CH] [--fit | --font PT [--cols N]] [--outdir DIR]
        python build_print_docx.py --guides [--font PT]     (only the quick-guides file)
 
-For each chapter it builds two files (see PRINTED_NOTES.md), each headed "Ch. NN: <chapter name>":
+It builds the whole unit as one main file and one index file, for printing in one go (Unit 2 Printed Notes.docx,
+Unit 2 Index.docx; each chapter starts on a new right-hand page), then each chapter's two files (see PRINTED_NOTES.md),
+each headed "Ch. NN: <chapter name>":
   Printed Exam Notes/Ch NN Printed Notes.docx  every slide, lookup tables (the how-to box: the unit's first chapter)
   Printed Exam Notes/Ch NN Index.docx          contents, clue index, glossary, term index
-A full build (no --only) also writes the whole unit as one main file and one index file, for printing in one go
-(Unit 2 Printed Notes.docx, Unit 2 Index.docx; each chapter starts on a new right-hand page), and the copy of all the
-quick guides (Unit 2 Quick Guides.docx), the only file with them.
+and the copy of all the quick guides (Unit 2 Quick Guides.docx), the only file with them. --only CH writes only that
+chapter's files (the unit files are still laid out, in a scratch folder, for their page numbers).
+One page numbering per unit: the main notes run 1..N from the first chapter's first page, the index files 1..M; each
+chapter file is page for page its slice of the unit file and carries the same page numbers (first_page). In the index
+files every slide code is chapter.page.slide (page_codes): the page of the slide's heading in the main notes.
 Content comes from build_print_notes.py's functions, print_notes_data.py, index_data.py and quick_guides.py. The font
-is set once, in the Normal style. An index file's contents gives pages in its main file as fixed numbers from
-LibreOffice's layout of that file (checked against it); its own pages are PAGEREF fields to bookmarks: LibreOffice
-recalculates them; Word shows the stored values (from LibreOffice's layout) until you select all and press F9.
+is set once, in the Normal style. An index file's contents pages and codes are fixed numbers from LibreOffice's layout
+of the unit main notes (checked against it); its own pages are PAGEREF fields to bookmarks: LibreOffice recalculates
+them; Word shows the stored values (from LibreOffice's layout) until you select all and press F9.
 One body font size is used for every file except the quick-guides copy: print_notes_data.FONT_SIZE, or with --fit
-(or when FONT_SIZE is None) the largest size, in half points, at which each chapter's main and index files, printed
-separately, fit print_notes_data.SHEETS_PER_CHAPTER double-sided sheets with a page to spare (LibreOffice's layout).
-Headings and the page header are fixed steps above or below the body size (SIZE_STEP). The whole-unit Printed Notes and
-Index files (the ones that get printed) use print_notes_data.UNIT_FILE_FONT, the user's handwriting font, for all text;
-every build warns about characters a file's font has no glyph for.
+(or when FONT_SIZE is None) the largest size, in half points, at which each chapter's part of the unit's main notes and
+index, printed separately, fits print_notes_data.SHEETS_PER_CHAPTER double-sided sheets with a page to spare
+(LibreOffice's layout). Headings and the page header are fixed steps above or below the body size (SIZE_STEP). Every
+chapter and unit file uses print_notes_data.UNIT_FILE_FONT, the user's handwriting font, for all text (only the
+quick-guides copy uses Arial Narrow); every build warns about characters a file's font has no glyph for.
 LibreOffice runs headless with SAL_USE_VCLPLUGIN=osx on the Mac; without it, it can't see the Mac's fonts. Elsewhere
 (Linux) it uses `soffice` from the PATH, and Liberation Sans Narrow stands in for Arial Narrow (same letter widths).
 """
@@ -68,11 +72,14 @@ HOW_TO = [   # printed once per unit, at the start of its first chapter
     "Look it up in that chapter's Index file: the contents (topic → page), the term index (term → slides; "
     "(def.) marks the slide that defines it), the glossary (key term → meaning) or the clue index (description → "
     "answer).",
-    "Go to that slide in the main notes: slides are in order, and every page header shows its slide codes.",
+    "Go to that page and slide in the main notes. Index codes are chapter.page.slide (the page number at the "
+    "bottom of the main notes, then the slide); in the main notes each slide is headed chapter.section.slide.",
     "Check the look-alike table: the believable wrong answer is usually the look-alike from the same slide.",
     "Rule out answers with absolute words (only, all, always, exclusively, must, every): wrong every time on Unit 1.",
 ]
 CODE_IN_TEXT = re.compile(r"\b(\d{2})\.(\d)\.(\d+)\b")
+SECTION_CODES = re.compile(r"\b(\d{2})\.(\d)\.(\d+)(?:–(\d+))?\b")   # 23.2.17 or 23.2.23–30, as the data writes them
+PAGE_CODES = re.compile(r"\b(\d{2})\.(\d+)\.(\d+)(?:–(?:(\d{2})\.(\d+)\.)?(\d+))?\b")   # as an index prints them
 PPR_AFTER_BDR = {qn(f"w:{t}") for t in ("shd", "tabs", "suppressAutoHyphens", "kinsoku", "wordWrap", "overflowPunct",
                                          "topLinePunct", "autoSpaceDE", "autoSpaceDN", "bidi", "adjustRightInd",
                                          "snapToGrid", "spacing", "ind", "contextualSpacing", "mirrorIndents",
@@ -137,6 +144,10 @@ def bm_slide(code):
     return f"s{ch}{sec}{int(n):03d}"
 
 
+def chapter_start(ch):
+    return f"t{ch}"
+
+
 def bm_guide(ch, part):
     return f"g{ch}{part}"
 
@@ -164,12 +175,14 @@ def narrow_blocks(t):
 
 # ---------------------------------------------------------------- document
 class Builder:
-    def __init__(self, chapters, fs, cols, pages, kind, font=None, main_pages=None):
+    def __init__(self, chapters, fs, cols, pages, kind, font=None, main_pages=None, first_page=1):
         """kind: "main", "index" or "guides". pages: bookmark name -> stored page number for PAGEREF fields.
-        font: (name, file) for every bit of text in the file; the chapter files' font (P.FONT_NAME) by default.
-        main_pages (index files): bookmark name -> page in the matching main file, for the contents."""
+        font: (name, file) for every bit of text in the file; P.FONT_NAME (the quick-guides copy's) by default.
+        main_pages (index files): bookmark name -> page in the unit's main notes, for the contents and the codes.
+        first_page: the number of the file's first page (a chapter file carries its pages' numbers in the unit file)."""
         self.chapters, self.fs, self.cols, self.pages, self.kind = chapters, fs, cols, pages, kind
-        self.main_pages = main_pages or {}
+        self.main_pages, self.first_page = main_pages or {}, first_page
+        self.unmapped = set()   # slide codes an index mentions that have no page in main_pages
         if fs * 2 != int(fs * 2):
             raise SystemExit(f"{fs} pt: Word stores font sizes in half points; use a size like 11 or 11.5")
         self.steps = SIZE_STEP["guides" if kind == "guides" else "notes"]
@@ -193,6 +206,11 @@ class Builder:
         s.left_margin = s.right_margin = Inches(MARGIN_LR)
         s.top_margin, s.bottom_margin = Inches(0.55), Inches(0.5)
         s.header_distance, s.footer_distance = Inches(0.3), Inches(0.25)
+        if self.first_page != 1:   # pgNumType goes before cols in the section properties
+            num = OxmlElement("w:pgNumType")
+            num.set(qn("w:start"), str(self.first_page))
+            later = [e for e in s._sectPr if e.tag in (qn("w:cols"), qn("w:docGrid"))]
+            later[0].addprevious(num) if later else s._sectPr.append(num)
 
     def _styles(self):
         st = self.doc.styles
@@ -288,9 +306,12 @@ class Builder:
 
     # -------------------------------------------------------- pieces
     def para(self, style, *runs):
-        """runs: (text, fmt); fmt has "b" bold, "i" italic, "code" the running-header marker style."""
+        """runs: (text, fmt); fmt has "b" bold, "i" italic, "code" the running-header marker style.
+        In an index file, slide codes become chapter.page.slide (page_codes)."""
         p = self.doc.add_paragraph(style=style)
         for text, fmt in runs:
+            if self.kind == "index":
+                text = self.page_codes(text)
             if "code" in fmt:
                 r = p.add_run(text, style="Slide code")
                 r.bold = "b" in fmt.replace("code", "") or None
@@ -299,6 +320,24 @@ class Builder:
                 r.bold = "b" in fmt or None
                 r.italic = "i" in fmt or None
         return p
+
+    def page_codes(self, text):
+        """23.2.17 -> 23.5.17: chapter.page.slide, the page of the slide's heading in the unit's main notes.
+        A run of slides on one page stays 23.5.23–25; across pages it becomes 23.5.23–23.6.30."""
+        def page(ch, sec, n):
+            pg = self.main_pages.get(bm_slide(f"{ch}.{sec}.{n}"))
+            if pg is None:
+                self.unmapped.add(f"{ch}.{sec}.{n}")
+            return pg or "0"
+
+        def sub(m):
+            ch, sec, a, b = m.groups()
+            pa = page(ch, sec, a)
+            if not b:
+                return f"{ch}.{pa}.{a}"
+            pb = page(ch, sec, b)
+            return f"{ch}.{pa}.{a}–{b}" if pa == pb else f"{ch}.{pa}.{a}–{ch}.{pb}.{b}"
+        return SECTION_CODES.sub(sub, text)
 
     def mark(self, p, name):
         self.bid += 1
@@ -393,30 +432,41 @@ class Builder:
         for run in hp.runs:
             run.font.size = Pt(self.fs + self.steps["header"])
         r.font.size = Pt(self.fs + self.steps["header label"])
-        if footer:   # later sections share the first section's footer
-            fp = section.footer.paragraphs[0]
-            fp.alignment = 1
-            field(fp, "PAGE", "1")
+        # a chapter's first page (its title) gets no header, in every file: LibreOffice drops it there anyway after a
+        # right-hand-page break, so this keeps a chapter file's pages identical to its slice of the unit file
+        section.different_first_page_header_footer = True
+        section.first_page_header.is_linked_to_previous = False
+        if footer:   # later sections share the first section's footers
+            for f in (section.footer, section.first_page_footer):
+                f.is_linked_to_previous = False
+                fp = f.paragraphs[0]
+                fp.alignment = 1
+                field(fp, "PAGE", str(self.first_page))
 
     # -------------------------------------------------------- documents
     def build(self):
         {"main": self._main, "index": self._index, "guides": self._guides}[self.kind]()
         return self.doc
 
-    def _start(self, i, text):
-        """A chapter's title, in one column; in a combined file each later chapter starts on a new right-hand page,
-        so the chapters can be separated after double-sided printing."""
+    def _start(self, i, text, ch=None):
+        """A chapter's title, in one column, bookmarked (chapter_start) so its page can be read from the PDF; in a
+        combined file each later chapter starts on a new right-hand page, so the chapters can be separated after
+        double-sided printing."""
         if i:
             self.doc.add_section(WD_SECTION.ODD_PAGE)
             set_columns(self.doc.sections[-1], 1)
-        self.para("Notes title", (text, ""))
+        elif self.kind != "guides":   # the first chapter starts like the others (on a right-hand page): LibreOffice
+            self.doc.sections[0].start_type = WD_SECTION.ODD_PAGE   # sets such a page's top 4 pt higher
+        p = self.para("Notes title", (text, ""))
+        if ch:
+            self.mark(p, chapter_start(ch))
         self._header(self.doc.sections[-1], text, footer=not i)
 
     def _main(self):
         """Title (and, for the unit's first chapter only, the how-to box), then every slide, then the lookup tables.
         The contents is at the start of the chapter's index file; the quick guides are only in the reading copy."""
         for i, c in enumerate(self.chapters):
-            self._start(i, chapter_title(c))
+            self._start(i, chapter_title(c), c.ch)
             if c.ch == D.CHAPTERS[0]:
                 self.para("How to", ("How to use these notes in the exam", "b"))
                 for k, t in enumerate(HOW_TO, 1):
@@ -543,7 +593,7 @@ class Builder:
     def _index(self):
         titles = dict(P.LOOKUP)
         for i, c in enumerate(self.chapters):
-            self._start(i, chapter_title(c, "index"))
+            self._start(i, chapter_title(c, "index"), c.ch)
             self.section(self.cols)
             self._contents(c)
             p = self.para("Lookup heading", (titles["lk-clues"], "code"))
@@ -590,10 +640,11 @@ def to_pdf(docx_path, outdir):
     return pdf
 
 
-def bookmark_pages(pdf_path):
-    """Page (as text, 1-based) of every bookmark, from LibreOffice's PDF destinations."""
+def bookmark_pages(pdf_path, first=1):
+    """Printed page number (as text) of every bookmark, from LibreOffice's PDF destinations; `first` is the number
+    of the file's first page."""
     with pymupdf.open(pdf_path) as pdf:
-        return {name: str(d["page"] + 1) for name, d in pdf.resolve_names().items() if d.get("page", -1) >= 0}
+        return {name: str(d["page"] + first) for name, d in pdf.resolve_names().items() if d.get("page", -1) >= 0}
 
 
 def column_lefts():
@@ -616,21 +667,23 @@ def body_codes(page):
     return [t for _, _, t in sorted(found)]
 
 
-def build_one(chapters, kind, size, tmp, out, font=None, main_pages=None):
-    """Build one file with stored page numbers that match LibreOffice's layout; returns (docx, pdf, pages).
-    main_pages: for an index file, the bookmark pages of the matching main file (for its contents)."""
+def build_one(chapters, kind, size, tmp, out, font=None, main_pages=None, first_page=1):
+    """Build one file with stored page numbers that match LibreOffice's layout; returns (docx, pdf, pages, unmapped
+    slide codes). main_pages: for an index file, the bookmark pages of the unit's main notes (contents and codes).
+    first_page: the number of the file's first page."""
     path = out
     pages = {}
     for _ in range(4):   # store LibreOffice's page numbers in the fields until they stop changing
-        Builder(chapters, size[0], size[1], pages, kind, font, main_pages).build().save(path)
+        b = Builder(chapters, size[0], size[1], pages, kind, font, main_pages, first_page)
+        b.build().save(path)
         pdf = to_pdf(path, tmp)
-        new = bookmark_pages(pdf)
+        new = bookmark_pages(pdf, first_page)
         if new == pages:
             break
         pages = new
     with pymupdf.open(pdf) as d:
         n = len(d)
-    return path, pdf, n
+    return path, pdf, n, b.unmapped
 
 
 def sheets(*pages):
@@ -638,28 +691,24 @@ def sheets(*pages):
     return sum((n + 1) // 2 for n in pages)
 
 
-def fit_size(chapters, budget, tmp):
-    """Largest font (half-point steps; Word stores no finer) at which every chapter's main and index files, printed
-    separately, fit `budget` double-sided sheets with a page to spare in the main file (Word and other programs
-    can lay a page out a line or two longer than LibreOffice)."""
+def fit_size(chapters, budget, tmp, font=None):
+    """Largest font (half-point steps; Word stores no finer) at which every chapter's part of the unit's main notes
+    and index, printed separately, fits `budget` double-sided sheets with a page to spare in the main notes (Word and
+    other programs can lay a page out a line or two longer than LibreOffice). The chapter files are slices of these."""
     cache = {}
 
     def fits(h):
         if h not in cache:
             fs = h / 2
             cols = 2 if fs >= 9 else 3
-            ok = True
-            for c in chapters:
-                n, main_pages = {}, {}
-                for kind in ("main", "index"):
-                    path = os.path.join(tmp, f"fit{kind}{c.ch}.docx")
-                    Builder([c], fs, cols, {}, kind, main_pages=main_pages).build().save(path)
-                    pdf = to_pdf(path, tmp)
-                    main_pages = bookmark_pages(pdf)
-                    with pymupdf.open(pdf) as d:
-                        n[kind] = len(d)
-                ok = ok and sheets(n["main"] + 1, n["index"]) <= budget
-            cache[h] = ok
+            n = {}
+            for kind in ("main", "index"):
+                path = os.path.join(tmp, f"fit{kind}.docx")
+                Builder(chapters, fs, cols, {}, kind, font, n.get("main_pages")).build().save(path)
+                pdf = to_pdf(path, tmp)
+                n["main_pages"] = n.get("main_pages") or bookmark_pages(pdf)
+                n[kind] = chapter_sheets(pdf)
+            cache[h] = all(sheets(n["main"][ch][0] + 1, n["index"][ch][0]) <= budget for ch in n["main"])
         return cache[h]
 
     lo, hi = 14, 32   # half points: 7 pt .. 16 pt
@@ -738,9 +787,10 @@ def check_guides(chapters):
     return problems
 
 
-def check_layout(pdf_path, main=True, font=None, missing=""):
+def check_layout(pdf_path, main=True, font=None, missing="", first=1):
     """LibreOffice's layout: no pictures, Letter pages, all text in the chosen font (apart from characters the font
-    lacks, `missing`, which check_glyphs reports), running headers (main file)."""
+    lacks, `missing`, which check_glyphs reports), printed page numbers counting from `first`, running headers (main
+    file)."""
     problems = []
     name = font[0] if font else P.FONT_NAME
     names = [name] + ([P.METRIC_TWIN[name][0]] if not MAC and name in P.METRIC_TWIN else [])
@@ -767,13 +817,14 @@ def check_layout(pdf_path, main=True, font=None, missing=""):
             if (round(p.rect.width), round(p.rect.height)) != (612, 792):
                 problems.append(f"page {i}: not Letter size")
             foot = [b[4].strip() for b in p.get_text("blocks") if b[1] > p.rect.height - 0.5 * 72]
-            if foot and foot[-1].isdigit() and int(foot[-1]) != i:   # stored page numbers assume they match
-                problems.append(f"page {i}: its printed page number is {foot[-1]}")
+            if foot and foot[-1].isdigit() and int(foot[-1]) != i + first - 1:   # stored page numbers rely on it
+                problems.append(f"{os.path.basename(pdf_path)}, page {i}: its printed page number is {foot[-1]}, "
+                                f"not {i + first - 1}")
             if main:
                 codes = body_codes(p)
                 head = " ".join(b[4] for b in p.get_text("blocks") if b[3] < 0.5 * 72)
-                first = head.split(" – ")[0]   # a page that starts in the guide starts with a guide part's name
-                shown = re.findall(r"\d{2}\.\d\.\d+", first)
+                lead = head.split(" – ")[0]   # the header's first slide code
+                shown = re.findall(r"\d{2}\.\d\.\d+", lead)
                 if codes and shown and codes[0] not in shown:
                     problems.append(f"page {i}: running header doesn't show its first slide {codes[0]}")
     return problems
@@ -842,43 +893,90 @@ def install_font(name, path):
         subprocess.run(["fc-cache", "-f", folder], capture_output=True)
 
 
-def check_stored_pages(docx_path, pdf_path):
+def check_stored_pages(docx_path, pdf_path, first=1):
     """The page numbers stored in the fields (what Word shows) match LibreOffice's layout."""
-    actual = bookmark_pages(pdf_path)
+    actual = bookmark_pages(pdf_path, first)
     xml = Document(docx_path).element.xml
     stored = re.findall(r"PAGEREF (\w+) \\h.*?<w:t>([^<]*)</w:t>", xml, re.S)
     return [f"stored page for {name} is {pg}, LibreOffice has {actual.get(name)}" for name, pg in stored
             if actual.get(name) != pg]
 
 
-def check_contents(index_docx, main_pdf):
-    """Every main-notes page number in an index file's contents is the first page of the main file (its PDF) whose
-    body shows that slide group's first slide code, or that lookup table's heading, in the right chapter. Read from
-    the files themselves, not from the bookmark map that produced the numbers."""
+def check_index_file(index_docx, main_pdf):
+    """Every slide code in an index file is chapter.page.slide with the page (both ends of a range) on which that
+    slide's heading is in the unit's main notes (`main_pdf`), and every main-notes page in its contents is where that
+    slide group or lookup table starts. Read from the files themselves, not from the bookmark map that made them.
+    Returns (problems, number of codes checked)."""
+    name = os.path.basename(index_docx)
     with pymupdf.open(main_pdf) as pdf:
-        chapter, codes, heads, ch = [], [], [], None
-        for p in pdf:
+        chapter, heads, first, ch = [], [], {}, None
+        for i, p in enumerate(pdf, 1):
             m = TITLE_LABEL.search(p.get_text()[:300])
             ch = int(m.group(1)) if m else ch
             chapter.append(ch)
-            codes.append(set(body_codes(p)))
+            for code in body_codes(p):
+                first.setdefault(code, i)
             heads.append({sp["text"].strip() for b in p.get_text("dict")["blocks"] for line in b.get("lines", [])
                           for sp in line["spans"] if sp["bbox"][1] > 0.5 * 72})
-    problems, ch, in_main = [], None, False
+
+    def where(c, n):   # page of slide n's heading (found by its chapter.section.slide code)
+        try:
+            return first.get(P.code_of(int(c), int(n)))
+        except KeyError:
+            return None
+
+    problems, count, ch, in_main = [], 0, None, False
     for par in Document(index_docx).paragraphs:
         style, text = par.style.name, par.text
+        for m in PAGE_CODES.finditer(text):
+            c, pa, a, c2, pb, b = m.groups()
+            count += 1
+            for cc, pg, n in [(c, pa, a)] + ([(c2 or c, pb or pa, b)] if b else []):
+                if str(where(cc, n)) != pg:
+                    problems.append(f"{name}: {m.group(0)} ({text[:50]!r}): slide {cc}/{n}'s heading is on page "
+                                    f"{where(cc, n)} of the main notes")
         if style == "Notes title":
             ch = int(TITLE_LABEL.search(text + " ").group(1))
         elif style == "Map section":
             in_main = text != "In this index" and (in_main or text.startswith("Contents"))
         elif style == "Map entry" and in_main:
             label, _, page = text.rpartition("\t")
-            m = re.match(r"(\d{2}\.\d\.\d+)", label)
-            want = (lambda i: m.group(1) in codes[i]) if m else (lambda i: chapter[i] == ch and label in heads[i])
-            first = next((i + 1 for i in range(len(codes)) if want(i)), None)
-            if str(first) != page:
-                problems.append(f"{os.path.basename(index_docx)}, Ch {ch} contents: {label!r} says page {page}, "
-                                f"the main file has it on page {first}")
+            m = PAGE_CODES.match(label)
+            want = where(m.group(1), m.group(3)) if m else next(
+                (i + 1 for i in range(len(heads)) if chapter[i] == ch and label in heads[i]), None)
+            if str(want) != page:
+                problems.append(f"{name}, Ch {ch} contents: {label!r} says page {page}, the main notes have it on "
+                                f"page {want}")
+    return problems, count
+
+
+def body_text(page):
+    """A page's lines with their positions (header included), without the page number at the bottom: two pages laid
+    out alike give the same result."""
+    h, out = page.rect.height, []
+    for b in page.get_text("dict")["blocks"]:
+        for line in b.get("lines", []):
+            t = "".join(sp["text"] for sp in line["spans"]).strip()
+            if t and line["bbox"][1] < h - 0.4 * 72:
+                out.append(f"{round(line['bbox'][0])},{round(line['bbox'][1])} {t}")
+    return "\n".join(sorted(out))
+
+
+def check_slice(part_pdf, first, unit_pdf):
+    """A chapter file is its slice of the unit file: page by page the same text under the same printed page number,
+    and nothing more of that chapter after it (a blank page or the next chapter follows)."""
+    name, problems = os.path.basename(part_pdf), []
+    with pymupdf.open(part_pdf) as part, pymupdf.open(unit_pdf) as unit:
+        for i, p in enumerate(part):
+            k = first - 1 + i
+            if k >= len(unit) or body_text(p) != body_text(unit[k]):
+                problems.append(f"{name}: page {first + i} differs from page {first + i} of the unit file")
+                break
+        k = first - 1 + len(part)
+        if not problems and k < len(unit):
+            nxt = unit[k].get_text().strip()
+            if nxt and not TITLE_LABEL.match(nxt):
+                problems.append(f"{name}: the unit file's page {k + 1} still belongs to this chapter")
     return problems
 
 
@@ -920,58 +1018,75 @@ def main():
             print("checks passed: every cited slide exists and mentions a key word of the statement; valid Word file")
             return
         only = int(arg("--only")) if "--only" in sys.argv else None
-        chapters = [P.Chapter(ch) for ch in D.CHAPTERS if only is None or ch == only]
+        everything = [P.Chapter(ch) for ch in D.CHAPTERS]
+        chapters = [c for c in everything if only is None or c.ch == only]
         budget = D.SHEETS_PER_CHAPTER
-        if "--font" in sys.argv:
-            size = (float(arg("--font")), int(arg("--cols", 2)))
-        elif "--fit" in sys.argv or D.FONT_SIZE is None:
-            size = fit_size(chapters, budget, tmp)
-        else:
-            size = (D.FONT_SIZE, 2)
-        problems = P.check_citations(chapters) + check_guides(chapters)
-        report, warnings = [], []
-        # the whole-unit files (the ones that get printed) can have their own font: the user's handwriting
+        # every chapter and unit file is in the unit font (the user's handwriting); only the guides copy isn't
         unit_font = (D.UNIT_FILE_FONT[0], os.path.join(HERE, D.UNIT_FILE_FONT[1])) if D.UNIT_FILE_FONT else None
         if unit_font:
             install_font(*unit_font)
+        if "--font" in sys.argv:
+            size = (float(arg("--font")), int(arg("--cols", 2)))
+        elif "--fit" in sys.argv or D.FONT_SIZE is None:
+            size = fit_size(everything, budget, tmp, unit_font)
+        else:
+            size = (D.FONT_SIZE, 2)
+        problems = P.check_citations(chapters) + check_guides(chapters)
+        report, warnings, codes = [], [], [0]
 
-        def one(chs, kind, name, font=None, main_pdf=None):
-            """Build and check one file; an index file gets the layout (PDF) of its main file, for its contents."""
-            out = os.path.join(outdir, name)
-            lock = os.path.join(outdir, "~$" + name[2:])
+        def one(chs, kind, folder, name, main_pdf=None, first=1, unit_pdf=None):
+            """Build and check one file. An index file gets the unit main notes' PDF: its contents pages and slide
+            codes are pages there. A chapter file gets its first page number and the unit file it is a slice of."""
+            out = os.path.join(folder, name)
+            lock = os.path.join(folder, "~$" + name[2:])
             if os.path.exists(lock) and "--force" not in sys.argv:
                 print(f"note: {lock} exists (Word lock file); if the file is open in Word, close it first")
-            path, pdf, n = build_one(chs, kind, size, tmp, out, font, main_pdf and bookmark_pages(main_pdf))
-            report.append(f"  {name}: {n} pages" + (f" ({font[0]})" if font else ""))
-            missing = check_glyphs(path, font[1] if font else P.FONT_FILE)
-            warnings.extend(glyph_warnings(name, font[0] if font else P.FONT_NAME, missing))
+            path, pdf, n, unmapped = build_one(chs, kind, size, tmp, out, unit_font,
+                                               main_pdf and bookmark_pages(main_pdf), first)
+            if folder == outdir:
+                report.append(f"  {name}: pages {first}–{first + n - 1}" + (f" ({unit_font[0]})" if unit_font else ""))
+            missing = check_glyphs(path, unit_font[1] if unit_font else P.FONT_FILE)
+            warnings.extend(glyph_warnings(name, unit_font[0] if unit_font else P.FONT_NAME, missing))
             problems.extend((sum((check_main(c, path) for c in chs), []) if kind == "main" else [])
-                            + check_layout(pdf, kind == "main", font, "".join(missing))
-                            + check_stored_pages(path, pdf) + validate(path)
-                            + (check_contents(path, main_pdf) if kind == "index" else []))
+                            + check_layout(pdf, kind == "main", unit_font, "".join(missing), first)
+                            + check_stored_pages(path, pdf, first) + validate(path)
+                            + (check_slice(pdf, first, unit_pdf) if unit_pdf else [])
+                            + [f"{name}: slide code {c} has no page in the main notes" for c in sorted(unmapped)])
+            if kind == "index":
+                more, count = check_index_file(path, main_pdf)
+                problems.extend(more)
+                codes[0] += count
             return n, pdf
 
+        # 1. the unit files, which set the page numbers (in a scratch folder when only one chapter is wanted)
+        unit_dir = outdir if only is None else tmp
+        _, main_pdf = one(everything, "main", unit_dir, f"{D.UNIT} Printed Notes.docx")
+        _, index_pdf = one(everything, "index", unit_dir, f"{D.UNIT} Index.docx", main_pdf)
+        starts = (bookmark_pages(main_pdf), bookmark_pages(index_pdf))
+        per_ch = {}
+        for pdf in (main_pdf, index_pdf):
+            for ch, (n, sh) in chapter_sheets(pdf).items():
+                per_ch.setdefault(ch, []).append((n, sh))
+        # 2. each chapter's files: its slices of the unit files, with the same page numbers
         for c in chapters:
-            n_main, main_pdf = one([c], "main", f"Ch {c.ch} Printed Notes.docx")
-            n = [n_main, one([c], "index", f"Ch {c.ch} Index.docx", main_pdf=main_pdf)[0]]
-            used = sheets(*n)
-            report.append(f"  Ch {c.ch}: {used} double-sided sheets ({n[0]} + {n[1]} pages, printed separately; "
+            first_main, first_index = (int(st[chapter_start(c.ch)]) for st in starts)
+            n_main, _ = one([c], "main", outdir, f"Ch {c.ch} Printed Notes.docx", None, first_main, main_pdf)
+            n_index, _ = one([c], "index", outdir, f"Ch {c.ch} Index.docx", main_pdf, first_index, index_pdf)
+            used = sheets(n_main, n_index)
+            report.append(f"  Ch {c.ch}: {used} double-sided sheets ({n_main} + {n_index} pages, printed separately; "
                           f"budget {budget})")
             if used > budget:
                 problems.append(f"Ch {c.ch}: {used} sheets; the budget is {budget}")
-        if only is None and len(chapters) > 1:   # the whole unit in one main file and one index file
-            per_ch = {}
-            _, main_pdf = one(chapters, "main", f"{D.UNIT} Printed Notes.docx", unit_font)
-            _, index_pdf = one(chapters, "index", f"{D.UNIT} Index.docx", unit_font, main_pdf)
-            for pdf in (main_pdf, index_pdf):
-                for ch, (n, sh) in chapter_sheets(pdf).items():
-                    per_ch.setdefault(ch, []).append((n, sh))
-            for ch, parts in sorted(per_ch.items()):   # these are the files that get printed: check them too
-                used = sum(sh for _, sh in parts)
-                report.append(f"    in the {D.UNIT} files, Ch {ch}: {used} sheets "
-                              f"({' + '.join(str(n) for n, _ in parts)} pages)")
-                if used > budget:
-                    problems.append(f"{D.UNIT} files, Ch {ch}: {used} sheets; the budget is {budget}")
+        for ch, parts in sorted(per_ch.items()):   # the files that get printed: check them too
+            if only is not None and ch != only:
+                continue
+            used = sum(sh for _, sh in parts)
+            report.append(f"    in the {D.UNIT} files, Ch {ch}: {used} sheets "
+                          f"({' + '.join(str(n) for n, _ in parts)} pages)")
+            if used > budget:
+                problems.append(f"{D.UNIT} files, Ch {ch}: {used} sheets; the budget is {budget}")
+        report.append(f"  index slide codes checked against the main notes' pages: {codes[0]}")
+        if only is None:
             out, n, more, warn = build_guides(outdir, tmp, GUIDES_FONT)
             report.append(f"  {os.path.basename(out)}: {n} pages ({GUIDES_FONT:g} pt)")
             problems += more
@@ -983,8 +1098,9 @@ def main():
         sys.exit(1)
     print("checks passed: all slide text, figure text and corrections present; every cited slide exists and "
           "mentions a key word of what it's cited for (meaning still needs a read-through); term index and glossary "
-          "rules met; page numbers (and the index files' contents pages) match LibreOffice's layout; sheet budget "
-          "met; all text in the chosen font; no pictures; valid Word files")
+          "rules met; one page numbering for the unit, and each chapter file is its slice of the unit file; every "
+          "index code and contents page matches the main notes' pages; sheet budget met; all text in the chosen "
+          "font; no pictures; valid Word files")
 
 
 if __name__ == "__main__":

@@ -231,6 +231,13 @@ For each chapter:
   - The index's first-page header now names the contents.
   - Result: Ch 23 9 sheets (12 + 6), Ch 24 7 (7 + 5), Ch 25 6 (7 + 4), Ch 26 5 (6 + 3), Ch 27 6 (7 + 4). Unit 2 Index 24 pages; per chapter in the unit files 9, 7, 5, 5, 5 sheets.
   - Independent check: 518 contents entries and 5,182 printed slide codes, all correct.
+- 2026-10-29, one page numbering and page-based index codes (user's choice):
+  - Every slide code in the index files is now chapter.page.slide: the main-notes page with that slide's heading (23.2.17 on page 5 → 23.5.17). Ranges across pages print as 23.5.17–23.6.18. The main notes keep chapter.section.slide.
+  - One continuous numbering per unit: main notes pages 1–38, index pages 1–24. The chapter files are exact slices of the unit files with the same numbers (e.g. Ch 24 Printed Notes = pages 13–19), so they now use the handwriting font too.
+  - The build lays out the unit files first, then the chapter files, each with its starting page number. Every chapter's first page is a right-hand-page section with no running header, in every file. LibreOffice puts a document's first page 4 pt lower than a later chapter's first page, which moved a line, so this keeps the slices identical.
+  - New checks: every index code and contents page against the main notes' PDF; each chapter file page by page against the unit file.
+  - Independent check, from fresh PDFs: 3,314 index codes correct; each chapter file's pages and printed numbers match the unit file; chapter index text = its part of the unit index.
+  - `--fit` now says 12.5 pt would fit; kept at the user's 11.5 pt.
 
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices

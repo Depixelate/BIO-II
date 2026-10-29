@@ -226,6 +226,7 @@ The printed notes in `Printed Exam Notes/` (built by `Slide Notes Tools/build_pr
 - slide errors corrected on the slide (§11);
 - comparison and look-alike tables, sequences, an n/2n/3n list and uses, at the end of each chapter;
 - in each chapter's index: the contents (with pages in the main notes), a clue index (description → answer), a glossary of key terms and a term index (each term's defining slide, marked "def.", plus a few other far-apart places with a keyword; organisms come with a short note).
+- one page numbering for the whole unit (the chapter files use the same page numbers); the index files write slides as chapter.page.slide, so 23.5.17 means page 5 of the main notes, slide 17 (headed 23.2.17 there).
 
 The quick guides (a plain-language crash course per chapter) are in `Unit 2 Quick Guides.docx`, for reading, not in the printed notes.
 

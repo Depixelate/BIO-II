@@ -8,7 +8,9 @@ GLOSSARY[chapter] = [(term, definition, slide), ...]
     (only, all, always, every, never) unless the slide itself uses them.
 TERM_INDEX[chapter] = [(term, regex, note, places), ...]
     places: "17 def. | 22 mosses | 52 fern prothallus": slide numbers in this chapter, each with a 1-4-word keyword
-    saying what the term is about there; printed as "23.2.17 (def.), 23.2.22 (mosses), 23.4.52 (fern prothallus)".
+    saying what the term is about there; printed as "23.2.17 (def.), 23.2.22 (mosses), 23.4.52 (fern prothallus)",
+    except that every code in an index file prints as chapter.page.slide (the page of the slide's heading in the
+    unit's main notes; the builder converts them, including codes typed in definitions).
     The first place is the main one: where the term is defined or explained (keyword "def."), else its main use.
     Then 2-3 other places where it matters for the exam, spread out: none within 2 slides of a place already listed
     (you'd see those anyway while there), the farthest preferred unless a nearer one is more important; a 3rd extra
