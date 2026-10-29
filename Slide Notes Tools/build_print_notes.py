@@ -29,6 +29,7 @@ import tempfile
 import pymupdf
 
 import build_slide_notes as B
+import index_data as I
 import print_notes_data as D
 
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -364,7 +365,7 @@ def map_html(chapters, pages):
 
 LOOKUP = [("lk-tables", "Comparison tables"), ("lk-seq", "Sequences"),
           ("lk-ploidy", "n / 2n / 3n and where meiosis happens"), ("lk-uses", "Uses"),
-          ("lk-clues", "Clue index: description → answer"), ("lk-gloss", "Glossary: terms no slide explains"),
+          ("lk-clues", "Clue index: description → answer"), ("lk-gloss", "Glossary: key terms"),
           ("lk-index", "Term index")]
 
 
@@ -430,52 +431,34 @@ def lookup_html(chapters):
 
 
 def glossary(chapters):
-    """Terms no printed slide explains: the spec's ANY entries, plus YET entries whose home isn't printed."""
-    printed = {c.ch for c in chapters}
-    seen = {}
-    for c in chapters:
-        sp = c.spec
-        if not sp:
-            continue
-        for n in c.slides:
-            entries = list(sp.ANY.get(n, []))
-            entries += [t for k, t in sp.YET.get(n, []) if sp.CONCEPTS[k][1][0] not in printed]
-            for e in entries:
-                term, _, definition = e.partition(": ")
-                key = D.GLOSSARY_SAME.get(term.lower(), term.lower())
-                if key not in seen:
-                    seen[key] = [term, definition, []]
-                elif term.lower() == key:   # the entry named like the merged one supplies its wording
-                    seen[key][:2] = [term, definition]
-                if (c.ch, n) not in seen[key][2]:
-                    seen[key][2].append((c.ch, n))
-    for c in chapters:
-        for term, definition, slides in D.GLOSSARY.get(c.ch, []):
-            seen.setdefault(term.lower(), [term, definition, [(c.ch, n) for n in slides]])
-    return sorted(((v[0], v[1], v[2][:4], " …" if len(v[2]) > 4 else "") for v in seen.values()),
-                  key=lambda e: e[0].lower())
+    """Each chapter's key terms (index_data.GLOSSARY), alphabetical: (term, definition, [(ch, slide)], "")."""
+    out = [(t, d, [(c.ch, n)], "") for c in chapters for t, d, n in I.GLOSSARY.get(c.ch, [])]
+    return sorted(out, key=lambda e: e[0].lower())
+
+
+def places(ch, spec):
+    """A term-index entry's places, "17 def. | 22 mosses": [([(ch, 17)], "def."), ([(ch, 22)], "mosses")];
+    "23-30 moss cycle" is a run of slides."""
+    out = []
+    for part in spec.split(" | "):
+        m = re.fullmatch(r"(\d+)(?:-(\d+))? (.+)", part.strip())
+        a, b = int(m.group(1)), int(m.group(2) or m.group(1))
+        out.append(([(ch, n) for n in range(a, b + 1)], m.group(3)))
+    return out
 
 
 def term_index(chapters, gloss):
-    """(term, note, where): main slides first, then every other printed slide that mentions it (up to 6 in all)."""
-    out = []
-    texts = {(c.ch, n): c.text(n) for c in chapters for n in c.slides}
-    printed = {c.ch for c in chapters}
+    """(term, note, where), alphabetical: each term's main place, then 2-3 far-apart places, each with a keyword
+    (index_data.TERM_INDEX); glossary terms that no entry covers point to the glossary."""
+    out, regexes = [], []
     base = lambda t: t.split(" (")[0].lower()
-    names = set()
-    for term, pattern, main, note in D.INDEX:
-        if not any(h[0] in printed for h in main):   # each entry belongs to its main slides' chapter
-            continue
-        rx = re.compile(pattern, re.I)
-        first = [h for h in main if h[0] in printed]
-        rest = [h for h in texts if rx.search(texts[h]) and h not in first]
-        refs = first + rest
-        if refs:
-            names.add(base(term))
-            out.append((term, note, fmt_refs(sorted(refs[:6], key=lambda h: (h not in first, h)))
-                        + (" …" if len(refs) > 6 else "")))
-    for term, _, refs, _ in gloss:   # glossary terms: point to the glossary
-        if base(term) not in names:
+    for c in chapters:
+        for term, rx, note, spec in I.TERM_INDEX.get(c.ch, []):
+            regexes.append(re.compile(rx, re.I))
+            out.append((term, note, ", ".join(f"{fmt_refs(refs)} ({kw})" for refs, kw in places(c.ch, spec))))
+    names = {base(t) for t, _, _ in out}
+    for term, _, _, _ in gloss:
+        if base(term) not in names and not any(r.search(term) for r in regexes):
             out.append((term, None, "see Glossary"))
     return sorted(out, key=lambda e: e[0].lower())
 
@@ -709,10 +692,58 @@ def check_citations(chapters):
                 problems.append(f"{t['title']} row {row[0][0]!r}: {r}")
         problems += [f"{t['title']}: cites {s}, not a printed content slide"
                      for s in t.get("slides", []) if s[0] in chs and s not in texts]
-    for term, pattern, main, note in D.INDEX:
-        for ref in main:
-            if ref[0] in chs and (ref not in texts or not re.search(pattern, texts[ref], re.I)):
-                problems.append(f"term index {term}: its main slide {ref} doesn't mention it")
+    for c in chapters:
+        problems += check_index_data(c.ch, texts, hit)
+    return problems
+
+
+ABSOLUTE = re.compile(r"\b(only|all|always|every|never|exclusively|must)\b", re.I)
+
+
+def check_index_data(ch, texts, hit):
+    """The rules for the glossary and the term index (index_data.py)."""
+    problems, terms = [], set()
+    absolute = lambda text, refs: [w for w in ABSOLUTE.findall(text)
+                                   if not any(re.search(rf"\b{w}\b", texts.get(r, ""), re.I) for r in refs)]
+    for term, rx, note, spec in I.TERM_INDEX.get(ch, []):
+        name = f"term index {term!r}"
+        if term.lower() in terms:
+            problems.append(f"{name}: listed twice")
+        terms.add(term.lower())
+        pl = places(ch, spec)
+        if len(pl) > 4:
+            problems.append(f"{name}: {len(pl)} places; the most is the main one + 3")
+        for k, (refs, kw) in enumerate(pl):
+            if any(r not in texts for r in refs):
+                problems.append(f"{name}: {fmt_refs(refs)} isn't a printed content slide")
+            elif not any(re.search(rx, texts[r], re.I) for r in refs):
+                problems.append(f"{name}: {fmt_refs(refs)} doesn't mention it")
+            if len(kw.split()) > 4:
+                problems.append(f"{name}: keyword {kw!r} is over 4 words")
+            if k and kw.startswith("def."):
+                problems.append(f"{name}: (def.) belongs on the main (first) place")
+            if absolute(kw, refs):
+                problems.append(f"{name}: absolute word in {kw!r}")
+        nums = [[n for _, n in refs] for refs, _ in pl]
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                if min(abs(a - b) for a in nums[i] for b in nums[j]) < 3:
+                    problems.append(f"{name}: {fmt_refs(pl[i][0])} and {fmt_refs(pl[j][0])} are within 2 slides")
+        if note and absolute(note, pl[0][0]):
+            problems.append(f"{name}: absolute word in its note")
+    terms = set()
+    for term, definition, n in I.GLOSSARY.get(ch, []):
+        name = f"glossary {term!r}"
+        if term.lower() in terms:
+            problems.append(f"{name}: listed twice")
+        terms.add(term.lower())
+        if (ch, n) not in texts:
+            problems.append(f"{name}: slide {n} isn't a printed content slide")
+            continue
+        if "(textbook)" not in definition and (r := hit(term, [(ch, n)])):
+            problems.append(f"{name}: {r}")
+        if absolute(definition, [(ch, n)]):
+            problems.append(f"{name}: absolute word not on its slide: {absolute(definition, [(ch, n)])}")
     return problems
 
 
