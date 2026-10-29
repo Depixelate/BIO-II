@@ -220,11 +220,15 @@ For each chapter, in this order:
 
 **Printed notes are allowed now.** She said so on a video call (by Oct 25): the exam is basically open-book, so you can bring the whole PowerPoint printed, but **no pictures** and no computer.
 
-The printed notes in `Printed Exam Notes/` (built by `Slide Notes Tools/build_print_notes.py`; at most 8 double-sided sheets per chapter, at the largest font that fits; Ch 23 is done, Ch 24–27 come next) already have:
-- every slide's text in slide order, with the slide codes on each page in the page header;
+The printed notes in `Printed Exam Notes/` (built by `Slide Notes Tools/build_print_docx.py`; at most 10 double-sided sheets per chapter; all five chapters, also as one `Unit 2 Printed Notes.docx` and one `Unit 2 Index.docx`) already have:
+- in the main notes: every slide's text in slide order, with the slide codes on each page in the page header;
 - every figure in words: the deck's text alternative, otherwise its alt text plus the textbook caption, or the textbook's description of the process;
 - slide errors corrected on the slide (§11);
-- comparison and look-alike tables, sequences, an n/2n/3n list, uses, a clue index (description → answer), a glossary and a term index (organisms come with a short note).
+- comparison and look-alike tables, sequences, an n/2n/3n list and uses, at the end of each chapter;
+- in each chapter's index: the contents (with pages in the main notes), a clue index (description → answer), a glossary of key terms and a term index (each term's defining slide, marked "def.", plus a few other far-apart places with a keyword; organisms come with a short note).
+- one page numbering for the whole unit (the chapter files use the same page numbers); the index files write slides as chapter.page.slide, so 23.5.17 means page 5 of the main notes, slide 17 (headed 23.2.17 there).
+
+The quick guides (a plain-language crash course per chapter) are in `Unit 2 Quick Guides.docx`, for reading, not in the printed notes.
 
 So the job is to **know where things are**, not to copy them.
 

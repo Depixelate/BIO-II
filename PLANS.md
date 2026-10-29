@@ -212,6 +212,32 @@ For each chapter:
   - AGENTS.md now holds all the user's printed-notes preferences from this thread; PRINTED_NOTES.md has the guide writing rules and the deeper verification steps.
 - 2026-10-28, handwriting font: the files the user prints (Unit 2 Printed Notes.docx, Unit 2 Index.docx) now use the user's Handwriting Final font (`Slide Notes Tools/fonts/HandwritingFinal.otf`, `UNIT_FILE_FONT`) for all text, at the same sizes; the chapter files and the Quick Guides copy keep Arial Narrow. The first version of the font lacked the minus sign "−" (U+2212, in NO3− and HPO4²−); the user supplied an updated font that has it. Builds now warn about any character a file's font lacks, check that all text in each file is in its font, and check the sheet budget per chapter in the whole-unit files. Result: Unit 2 Printed Notes 48 pages, Index 14; per chapter in those files, Ch 23 9 sheets (14 + 4 pages), Ch 24 7 (10 + 4), Ch 25 5, Ch 26 5, Ch 27 5.
 - 2026-10-28, final review: figure-description typos fixed (23.1.13 "(2)" → 2n, 23.4.41 "fernroot", 23.5.59 "needless leaves", 24.4.36 "budscale", 25.2.23 "breaking own ATP"); Ch 25's text alternatives now write ions as the slides do (K+, Ca2+, H+, NO3−, Zn, Cu) instead of "K plus", "C a 2 plus"; new correction 24.1.9 (periderm = cork + cork cambium); three guide sentences that were stronger than their slides reworded ("only the shady-side cells", "every cell", "every plant"); study guide: Cooksonia line, hypocotyl answer and key term, 24.1.9 row. Checked and left: LibreOffice drops the running header on each later chapter's first page in the whole-unit files (a right-hand-page-break quirk; Word shows it; that page has no slides). Print note added: keep "Export automatically inserted blank pages" on when making a PDF from LibreOffice.
+- 2026-10-29, new layout (user's request, Oct 28):
+  - Main files: just the slides and lookup tables. The quick guides and their pointer lines are gone (they're only in `Unit 2 Quick Guides.docx`), and so is the contents.
+  - Titles are `Ch. NN: <chapter name>` (index: `... (index)`), with no repeated chapter heading.
+  - The how-to box appears once, at the start of Ch 23 (the unit's first chapter).
+  - Each chapter's index starts with the contents: pages in the matching main file, fixed numbers checked against that file's PDF.
+  - Glossary rewritten as key terms for every chapter, and term index rewritten as main place (def.) + 2–3 far-apart places with short keywords. Both are now in `Slide Notes Tools/index_data.py`; the old `INDEX`/`GLOSSARY` blocks are gone from `print_notes_data.py`.
+  - Slide codes stay chapter.section.slide (page-based codes were considered and dropped).
+  - Checker gap fixed: the handwriting font's PDF doesn't flag bold, so the running-header check had silently skipped the unit files. Slide headings are now found by position.
+  - Result: Ch 23 9 sheets (12 + 5 pages), Ch 24 6 (7 + 4), Ch 25 6 (7 + 3), Ch 26 5 (6 + 3), Ch 27 6 (7 + 3). Unit 2 Printed Notes 38 pages, Index 21; per chapter in those files 9, 6, 5, 5, 5 sheets.
+  - Independent check: all 518 contents entries match the slide headings in fresh PDFs, and all 4,818 printed slide codes match the decks.
+- 2026-10-29, final review of the new layout, evening chapters out:
+  - Term index: Ch 24–27 now list every named organism or example, as Ch 23 already did: cocklebur, clover, Jatropha, celery, mangrove, grapes and others, each with what it illustrates. Every glossary term that appears on a slide now has its own entry.
+  - Key topics that had no entry were added in all chapters (e.g. osmosis, receptors, flowers, leaves, stems, adaptations to land).
+  - The builder now writes "see" lines for the other terms in an entry's name ("Petiole see Blade, petiole"), so each half of a look-alike pair can be found alphabetically.
+  - A new check fails the build when a glossary term that appears on a slide only says "see Glossary".
+  - Glossary additions: the group lists in Ch 23 (bryophyte, pteridophyte and gymnosperm groups); ground and vascular tissue (Ch 24); biological clock (Ch 26); ovary / ovule, pollen tube and polar nuclei (Ch 27).
+  - The index's first-page header now names the contents.
+  - Result: Ch 23 9 sheets (12 + 6), Ch 24 7 (7 + 5), Ch 25 6 (7 + 4), Ch 26 5 (6 + 3), Ch 27 6 (7 + 4). Unit 2 Index 24 pages; per chapter in the unit files 9, 7, 5, 5, 5 sheets.
+  - Independent check: 518 contents entries and 5,182 printed slide codes, all correct.
+- 2026-10-29, one page numbering and page-based index codes (user's choice):
+  - Every slide code in the index files is now chapter.page.slide: the main-notes page with that slide's heading (23.2.17 on page 5 → 23.5.17). Ranges across pages print as 23.5.17–23.6.18. The main notes keep chapter.section.slide.
+  - One continuous numbering per unit: main notes pages 1–38, index pages 1–24. The chapter files are exact slices of the unit files with the same numbers (e.g. Ch 24 Printed Notes = pages 13–19), so they now use the handwriting font too.
+  - The build lays out the unit files first, then the chapter files, each with its starting page number. Every chapter's first page is a right-hand-page section with no running header, in every file. LibreOffice puts a document's first page 4 pt lower than a later chapter's first page, which moved a line, so this keeps the slices identical.
+  - New checks: every index code and contents page against the main notes' PDF; each chapter file page by page against the unit file.
+  - Independent check, from fresh PDFs: 3,314 index codes correct; each chapter file's pages and printed numbers match the unit file; chapter index text = its part of the unit index.
+  - `--fit` now says 12.5 pt would fit; kept at the user's 11.5 pt.
 
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices

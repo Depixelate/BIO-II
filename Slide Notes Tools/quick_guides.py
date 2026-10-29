@@ -1,4 +1,4 @@
-"""Quick guides: a plain-language crash course at the front of each chapter's printed notes.
+"""Quick guides: a plain-language crash course on each chapter, printed only in the Unit N Quick Guides.docx copy.
 
 QUICK_GUIDE[chapter] = {
     "intro": [paragraph, ...],                      # the big picture
