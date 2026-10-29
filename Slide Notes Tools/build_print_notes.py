@@ -447,20 +447,43 @@ def places(ch, spec):
     return out
 
 
-def term_index(chapters, gloss):
-    """(term, note, where), alphabetical: each term's main place, then 2-3 far-apart places, each with a keyword
-    (index_data.TERM_INDEX); glossary terms that no entry covers point to the glossary."""
-    out, regexes = [], []
-    base = lambda t: t.split(" (")[0].lower()
-    for c in chapters:
-        for term, rx, note, spec in I.TERM_INDEX.get(c.ch, []):
-            regexes.append(re.compile(rx, re.I))
-            out.append((term, note, ", ".join(f"{fmt_refs(refs)} ({kw})" for refs, kw in places(c.ch, spec))))
-    names = {base(t) for t, _, _ in out}
-    for term, _, _, _ in gloss:
-        if base(term) not in names and not any(r.search(term) for r in regexes):
-            out.append((term, None, "see Glossary"))
+def name_parts(name):
+    """The terms an index or glossary name holds: "Blade, petiole" -> ["Blade", "petiole"]; parentheses are dropped,
+    "2,4-D" stays whole."""
+    return [p.strip() for p in re.split(r", | / |: ", re.sub(r"\s*\([^)]*\)", "", name)) if p.strip()]
+
+
+def listed(term, names):
+    """A term can be found alphabetically: some line's name starts with the first 5 letters of its first word."""
+    word = re.sub(r"[^a-z0-9+,-]", "", term.lower().split()[0])[:5]
+    return any(n.lower().startswith(word) for n in names)
+
+
+def index_lines(ch):
+    """A chapter's term index as (term, note, where) lines, alphabetical: each entry's main place and 2-3 far-apart
+    places with keywords (index_data.TERM_INDEX); a "see" line for each other term an entry's name holds
+    ("Petiole see Blade, petiole"); and "see Glossary" for glossary terms with no line of their own."""
+    out = [(term, note, ", ".join(f"{fmt_refs(refs)} ({kw})" for refs, kw in places(ch, spec)))
+           for term, _, note, spec in I.TERM_INDEX.get(ch, [])]
+    names = [t for t, _, _ in out]
+    see = {}
+    for term in list(names):
+        for part in name_parts(term)[1:]:
+            if not listed(part, names):
+                see.setdefault(part[0].upper() + part[1:], []).append(term)
+    out += [(alias, None, "see " + "; ".join(terms)) for alias, terms in see.items()]
+    names += list(see)
+    for term, _, _ in I.GLOSSARY.get(ch, []):
+        for part in name_parts(term):
+            if not listed(part, names):
+                out.append((part[0].upper() + part[1:], None, "see Glossary"))
+                names.append(part)
     return sorted(out, key=lambda e: e[0].lower())
+
+
+def term_index(chapters, gloss=None):
+    """The term index of the given chapters (see index_lines)."""
+    return sorted((line for c in chapters for line in index_lines(c.ch)), key=lambda e: e[0].lower())
 
 
 def document(chapters, size, pages):
@@ -731,6 +754,10 @@ def check_index_data(ch, texts, hit):
                     problems.append(f"{name}: {fmt_refs(pl[i][0])} and {fmt_refs(pl[j][0])} are within 2 slides")
         if note and absolute(note, pl[0][0]):
             problems.append(f"{name}: absolute word in its note")
+    text = " ".join(t for (c, _), t in texts.items() if c == ch)
+    for term, _, where in index_lines(ch):
+        if where == "see Glossary" and re.search(rf"\b{re.escape(term.lower())}", text):
+            problems.append(f"term index: {term!r} is on a slide, so it needs an entry of its own, not \"see Glossary\"")
     terms = set()
     for term, definition, n in I.GLOSSARY.get(ch, []):
         name = f"glossary {term!r}"

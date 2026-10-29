@@ -222,6 +222,15 @@ For each chapter:
   - Checker gap fixed: the handwriting font's PDF doesn't flag bold, so the running-header check had silently skipped the unit files. Slide headings are now found by position.
   - Result: Ch 23 9 sheets (12 + 5 pages), Ch 24 6 (7 + 4), Ch 25 6 (7 + 3), Ch 26 5 (6 + 3), Ch 27 6 (7 + 3). Unit 2 Printed Notes 38 pages, Index 21; per chapter in those files 9, 6, 5, 5, 5 sheets.
   - Independent check: all 518 contents entries match the slide headings in fresh PDFs, and all 4,818 printed slide codes match the decks.
+- 2026-10-29, final review of the new layout, evening chapters out:
+  - Term index: Ch 24–27 now list every named organism or example, as Ch 23 already did: cocklebur, clover, Jatropha, celery, mangrove, grapes and others, each with what it illustrates. Every glossary term that appears on a slide now has its own entry.
+  - Key topics that had no entry were added in all chapters (e.g. osmosis, receptors, flowers, leaves, stems, adaptations to land).
+  - The builder now writes "see" lines for the other terms in an entry's name ("Petiole see Blade, petiole"), so each half of a look-alike pair can be found alphabetically.
+  - A new check fails the build when a glossary term that appears on a slide only says "see Glossary".
+  - Glossary additions: the group lists in Ch 23 (bryophyte, pteridophyte and gymnosperm groups); ground and vascular tissue (Ch 24); biological clock (Ch 26); ovary / ovule, pollen tube and polar nuclei (Ch 27).
+  - The index's first-page header now names the contents.
+  - Result: Ch 23 9 sheets (12 + 6), Ch 24 7 (7 + 5), Ch 25 6 (7 + 4), Ch 26 5 (6 + 3), Ch 27 6 (7 + 4). Unit 2 Index 24 pages; per chapter in the unit files 9, 7, 5, 5, 5 sheets.
+  - Independent check: 518 contents entries and 5,182 printed slide codes, all correct.
 
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices

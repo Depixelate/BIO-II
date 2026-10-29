@@ -434,7 +434,7 @@ class Builder:
         """The chapter's contents, at the start of its index: the main notes' slide groups and lookup tables with
         their pages in the matching main file (fixed numbers, from LibreOffice's layout of that file), then this
         file's parts (page fields)."""
-        self.para("Map section", ("Contents (pages in the main notes)", ""))
+        self.para("Map section", ("Contents", "code"), (" (pages in the main notes)", ""))   # "code": page header
         sec = None
         for grp in P.groups(c):
             if grp["sec"] != sec:

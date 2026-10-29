@@ -33,7 +33,8 @@ No quick guide and no contents in the main files.
    - The other places are the ones that matter for the exam, spread out. None is within 2 slides of a place already listed, because you see those anyway while you're there: for rhizoids, 23.1.15 and 23.2.18 are left out. Prefer the farthest, unless a nearer one is more important.
    - List a 3rd extra place only if it is still worth asking about. Fewer places when the term has no such places.
    - Organisms get a short note saying what they are, e.g. `Marchantia (liverwort)`.
-   - Glossary terms that no entry covers get a `see Glossary` line.
+   - Cover every chapter alike: its key terms, every glossary term that appears on a slide (the build fails otherwise), and every named organism or example on the slides (cocklebur, celery, Jatropha...), so a question that names one can be looked up.
+   - The builder writes the cross-references: each other term in an entry's name gets a `see` line (`Petiole see Blade, petiole`; text in parentheses doesn't count, so name an entry "Pollination, self-pollination, cross-pollination", not "Pollination (self, cross)"). A glossary term that is on no slide gets `see Glossary`.
 
 **Whole-unit files** (written by every full build, i.e. without `--only`): `Unit N Printed Notes.docx` and `Unit N Index.docx`, all chapters in one file each, for printing in one go. Each chapter starts on a new right-hand page (an odd-page section break), so after double-sided printing the chapters come apart; page numbers run through the whole file, and the unit index's contents give pages in the unit main file. Also `Unit N Quick Guides.docx`, every chapter's quick guide at 11 pt, for reading: the quick guides are only in this file. Superseded outputs go in `Printed Exam Notes/Old/`.
 
