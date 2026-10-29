@@ -6,7 +6,7 @@ According to the professor (in her email), what appears on the tests will come f
 
 ## Concept and definition questions
 
-Whenever I ask to understand a concept or ask for the definition of a term, first check the PowerPoints (`Chapter PPTs and Other Study Materials/`) for an existing definition or explanation. If one exists, tell me the chapter and slide number where it is found, and base the explanation on it.
+Whenever I ask to understand a concept or ask for the definition of a term, first check the PowerPoints (`Chapter PPTs and Other Study Materials/`) for an existing definition or explanation. If one exists, tell me the chapter and slide number where it is found, and base the explanation on it. Add background, mechanisms, examples, and other reliable information beyond the course material whenever needed to make the concept understandable; do not limit the explanation to what the slides or textbook say. Distinguish important corrections or elaborations from what the course material states.
 
 ## Printed exam notes ("do the printed notes for chapter N" / "for Unit N")
 
