@@ -239,6 +239,13 @@ For each chapter:
   - Independent check, from fresh PDFs: 3,314 index codes correct; each chapter file's pages and printed numbers match the unit file; chapter index text = its part of the unit index.
   - `--fit` now says 12.5 pt would fit; kept at the user's 11.5 pt.
 
+- 2026-11-04, Unit 3 (Ch 28–30), the user's request: "generate Unit 3 notes", figure descriptions as bullet points, fuller quick guides with diagrams, and a printable guide:
+  - Multi-unit build: each later unit has `unitN_data.py`, `unitN_index.py`, `unitN_guides.py`; `--unit N` picks the unit (default the latest). Unit 2's files are unchanged and weren't rebuilt.
+  - Every slide compared with the textbook (pp. 504–574). 23 corrections ("Textbook:" notes), three garbled figure descriptions replaced by the textbook figure's (`FIG_TEXT`: 29.1.8, 29.5.34, 29.6.43), typo fixes; all listed in the new `Unit 3 Study Guide.md`.
+  - Figure descriptions print as bullet points (`fig_points`; `FIG_SPLIT` for long timelines). Fixed a splitter bug (the "p." abbreviation also matched word endings like "group.").
+  - Quick guides written fuller than Unit 2's, with 39 diagrams (38 from the slides, the animal family tree from textbook p. 510) in a one-column reading copy, and a printable copy without pictures whose slide codes point to main-notes pages.
+  - `--fit` gives 13 pt. Result: Ch 28 9 sheets (12 + 6 pages), Ch 29 6 (8 + 4), Ch 30 7 (9 + 3). Unit 3 Printed Notes 29 pages, Index 13; guides reading copy 36 pages, printable 11 pages (6 sheets). Term index: organisms in an entry name get their own "see" lines (e.g. Clams see Bivalves: clams, oysters...).
+
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices
 - OpenAI, "Using GPT-6": autonomy and follow-through, when to ask, reasoning effort, testing. https://developers.openai.com/api/docs/guides/latest-model

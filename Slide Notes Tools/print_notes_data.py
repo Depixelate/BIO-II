@@ -2,9 +2,13 @@
 
 Slides are (chapter, slide number), like the specs; the tool turns them into codes (23.2.17). Every entry must trace
 to a slide (or its text alternative) or, where marked, to the textbook (PDF page = book page + 19).
+This file holds Unit 2's data (Ch 23-27) and the shared settings; each later unit has its own file (unit3_data.py),
+merged in at the end. Everything is keyed by chapter, so all units load together; UNIT and CHAPTERS (set at the end)
+say which unit the tools build.
 """
+import os
 
-UNIT = "Unit 2"   # names the combined files: "Unit 2 Printed Notes.docx", "Unit 2 Index.docx", "Unit 2 Quick Guides.docx"
+UNIT = "Unit 2"   # names the combined files ("Unit 2 Printed Notes.docx", ...); select_unit() at the end sets it
 CHAPTERS = [23]
 CHAPTER_NAMES = {
     23: "Plant Evolution and Diversity",
@@ -70,6 +74,9 @@ FIG_SKIP = {
 }
 # slides whose short alt text is printed as well as the full text alternative, because it says something useful
 PRINT_BOTH = {(23, 13)}
+# figure descriptions are printed as bullet points (build_print_notes.fig_points): one per sentence, panel or step.
+# Extra places where a new point starts, for long sentences: (chapter, slide) -> [start of the point's text]
+FIG_SPLIT = {}
 
 
 def cycle_of(ch, n):
@@ -164,6 +171,9 @@ TYPO_FIX = {
 # a slide's text rebuilt where the deck splits sentences around pictures of symbols (MathType objects such as "H+"):
 # (chapter, slide) -> [paragraph, or (level, paragraph)]; every original fragment must still appear in it
 SLIDE_TEXT = {}
+# a figure description so garbled that it's replaced as a whole by the textbook figure's (printed as "Fig (textbook
+# version)"; each one is on the study guide's slide-errors list): (chapter, slide) -> text
+FIG_TEXT = {}
 # typos in a figure's text alternative, fixed when printed: (chapter, slide) -> [(wrong, right)]
 FIG_FIX = {
     (23, 13): [("sporangium (2).", "sporangium (2n).")],
@@ -1467,3 +1477,32 @@ CLUES += [
         ("Digitalis heart drugs from cells in liquid", "cell suspension culture", s27(40)),
     ]),
 ]
+
+
+# ======================================================================== units
+# All units' data is loaded together (it's keyed by chapter); UNIT and CHAPTERS say which unit the tools build:
+# build_print_docx.py --unit N, or the environment variable BIO_UNIT ("Unit 3"); the latest unit by default.
+UNITS = {"Unit 2": CHAPTERS}
+FONT_SIZES = {"Unit 2": FONT_SIZE}   # each unit's body font size (the largest that fits, or the user's choice)
+
+import unit3_data as _u3   # noqa: E402  Ch 28-30
+for _name, _value in vars(_u3).items():   # its tables join the ones above
+    if _name in ("CHAPTER_NAMES", "TEXT_ALT_MATCH", "TA_SKIP", "CYCLES", "FRAMES", "FRAME_EXTRA", "FIG_SKIP",
+                 "CAPTIONS", "PROCESS", "CORRECTIONS", "TYPO_FIX", "SLIDE_TEXT", "FIG_FIX", "FIG_SPLIT", "FIG_TEXT"):
+        globals()[_name].update(_value)
+    elif _name == "PRINT_BOTH":
+        PRINT_BOTH |= _value
+    elif _name in ("TABLES", "SEQUENCES", "PLOIDY", "USES", "CLUES"):
+        globals()[_name] += _value
+UNITS["Unit 3"], FONT_SIZES["Unit 3"] = _u3.CHAPTERS, _u3.FONT_SIZE
+
+
+def select_unit(name):
+    """Build `name` ("Unit 3"): sets UNIT, CHAPTERS and FONT_SIZE."""
+    global UNIT, CHAPTERS, FONT_SIZE
+    if name not in UNITS:
+        raise SystemExit(f"no data for {name}; units: {', '.join(UNITS)}")
+    UNIT, CHAPTERS, FONT_SIZE = name, UNITS[name], FONT_SIZES[name]
+
+
+select_unit(os.environ.get("BIO_UNIT", list(UNITS)[-1]))
