@@ -41,11 +41,23 @@ The professor said on a video call (by Oct 25, 2026) that printed notes are allo
   - `Unit N Quick Guides.docx`, the **illustrated reading copy**: one column, Arial Narrow 11 pt, with the **diagrams** the concepts need, cut from the slides (or rendered from the textbook when no slide has the figure, e.g. the animal family tree, Fig. 28.3), each with a caption saying what to see in it and where it comes from. Include every relevant diagram, even if it makes the file longer.
   - `Unit N Quick Guides (print).docx`, the **printable copy**, because many exam questions came from the guides: the same text with **no pictures**, in the unit files' font and size, two columns, and every slide reference as **chapter.page.slide in the main notes** (like the index), so I can find the details there; each section heading gives its main-notes pages, and where the reading copy has a slide diagram it says where that figure's description is in the main notes.
 - **Easy to understand above all** (my request, Nov 4). The test: someone who hasn't read the chapter can follow every sentence without the slides or diagrams in front of them.
+- **As pedagogical as possible** (my request, Nov 4): write them by the research-based rules in `Slide Notes Tools/PRINTED_NOTES.md` ("Writing the quick guides"):
+  - each section opens with its big idea;
+  - describe the concept in plain words before naming it (key terms in bold where they're defined);
+  - give the word roots that make a term memorable;
+  - pair each idea with a concrete example, and give the "why";
+  - use analogies only where they fit, and say where they break down;
+  - put look-alikes side by side;
+  - state common mistakes and correct them;
+  - use short plain sentences;
+  - put diagrams next to the text they explain, with captions that say what to look at;
+  - end each section with a few "Check yourself" questions with answers (reading copy only).
+  Keep researching and updating these rules when you learn a better way.
 - Written for someone who hasn't gone through the chapter: simple, clear language, short sentences, every term explained in plain words where it first appears. It must cover every important concept and the terms needed to understand the chapter and answer its exam questions, so I'm not lost during the exam. From Unit 3 on, **fuller than Unit 2's** (my request, Nov 4: some Unit 2 guides were too concise to follow without having read the chapter, and each chapter gets more questions now): give the context and the "why" a newcomer needs, not just the term.
 - Concise: no filler and no repetition (don't re-explain an earlier chapter or repeat the intro in the first section). Uses, history, exact numbers, extra examples and textbook-only extras go to the lookup tables, not the guide.
 - Say what each organism or example is, so contrasts make sense: living or extinct, and which group it belongs to (e.g. Cooksonia is an extinct early vascular plant, not a lycophyte).
 - Don't make a slide's claim stronger: never add absolute words ("only", "all", "always", "every"); on Unit 1 they marked the wrong answers.
-- Length follows from a deep review of each chapter, not a target: explain every high-priority concept, give organism-by-organism lists one line per item, and end each section with its look-alike traps. Every chapter gets the same depth (questions are spread evenly across chapters).
+- Length follows from a deep review of each chapter, not a target: explain every high-priority concept, give organism-by-organism lists one line per item, and end each section with its look-alike traps (then its self-test). Every chapter gets the same depth (questions are spread evenly across chapters).
 
 **Layout**
 - Two columns, a column line, borders on all table cells (black is fine), no pictures, no shaded fills. No boxes around text in the columns: the only box is the how-to box at the start of the unit's first chapter (it and the titles span the page). The quick guides are plain text, apart from the reading copy's diagrams.

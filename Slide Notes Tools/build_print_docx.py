@@ -69,7 +69,7 @@ SIZE_STEP = {
     "notes": {"Notes title": 3, "Chapter heading": 4.5, "Lookup heading": 4.5, "Section heading": 2,
               "Guide heading": 3, "Guide part": 1.5, "Group heading": 0.5, "header": -3, "header label": -4},
     "guides": {"Notes title": 2.5, "Chapter heading": 3.5, "Guide heading": 2.5, "Guide part": 1, "header": -2,
-               "header label": -3, "Guide caption": -1},
+               "header label": -3, "Guide caption": -1, "Guide answers": -1},
 }
 HOW_TO = [   # printed once per unit, at the start of its first chapter
     "Find the key term or the clue (a description) in the question.",
@@ -272,6 +272,9 @@ class Builder:
         para("Guide subheading", bold=True, before=0.25, keep=True)
         para("Guide text", after=0.25)
         para("Guide bullet")
+        para("Guide big idea", before=0.1, after=0.3)
+        para("Guide question", hang=1.2)
+        para("Guide answers", italic=True, after=0.3)
         para("Guide figure", before=0.4, keep=True)
         para("Guide caption", italic=True, after=0.5)
         st.add_style("Slide code", WD_STYLE_TYPE.CHARACTER)   # the running header reads this style:
@@ -546,14 +549,24 @@ class Builder:
 
     def _guide_items(self, items):
         for it in items:
-            if isinstance(it, dict):
+            if isinstance(it, dict) and "big" in it:   # the section's main idea, first (advance organizer)
+                self.para("Guide big idea", ("Big idea: ", "b"), *rich(it["big"]))
+            elif isinstance(it, dict) and "check" in it:   # self-test, reading copy only (the exam copy stays lean)
+                if self.paged:
+                    continue
+                self.para("Guide subheading", ("Check yourself", ""))
+                for k, (q, _) in enumerate(it["check"], 1):
+                    self.para("Guide question", (f"{k}.\t", ""), *rich(q))
+                self.para("Guide answers", ("Answers: ", ""),
+                          *[r for k, (_, a) in enumerate(it["check"], 1) for r in [(f"{k}. ", "")] + rich(a + " ")])
+            elif isinstance(it, dict):
                 self._guide_figure(it)
             elif isinstance(it, tuple):
-                self.para("Guide subheading", (it[0], ""))
+                self.para("Guide subheading", *rich(it[0]))
                 for b in it[1]:
-                    self.bullet(0, (b, ""), style="Guide bullet")
+                    self.bullet(0, *rich(b), style="Guide bullet")
             else:
-                self.para("Guide text", (it, ""))
+                self.para("Guide text", *rich(it))
 
     def _guide_figure(self, it):
         """A diagram from a slide or the textbook, with its caption (illustrated reading copy). The printable copy
@@ -561,6 +574,8 @@ class Builder:
         if not self.figures:
             if self.paged and "fig" in it:
                 self.para("Guide caption", (f"Diagram: {it['caption']} See {P.code_of(*it['fig'])}.", ""))
+            elif self.paged:   # a textbook figure: no main-notes page to point to
+                self.para("Guide caption", (f"Diagram: {it['caption']} (textbook p. {it['book']})", ""))
             return
         if "fig" in it:
             path, ratio = self.figures.slide(*it["fig"])
@@ -795,6 +810,16 @@ def check_main(c, docx_path):
     return problems
 
 
+def rich(text, fmt=""):
+    """Runs for a guide string: **term** is printed bold (a key term where it's defined)."""
+    parts = re.split(r"\*\*(.+?)\*\*", text)
+    return [(t, fmt + ("b" if k % 2 else "")) for k, t in enumerate(parts) if t]
+
+
+def plain(text):
+    return text.replace("**", "")
+
+
 def guide_texts(ch):
     g = QUICK_GUIDE.get(ch)
     if not g:
@@ -802,9 +827,12 @@ def guide_texts(ch):
     out = list(g["look_up"])
     for items in [g["intro"]] + list(g["sections"].values()):
         for it in items:
-            out += ([it["caption"]] if isinstance(it, dict) else [it[0]] + list(it[1]) if isinstance(it, tuple)
-                    else [it])
-    return out
+            if isinstance(it, dict):
+                out += ([it["caption"]] if "caption" in it else [it["big"]] if "big" in it
+                        else [x for qa in it["check"] for x in qa])
+            else:
+                out += [it[0]] + list(it[1]) if isinstance(it, tuple) else [it]
+    return [plain(t) for t in out]
 
 
 def check_guides(chapters):
@@ -1041,8 +1069,8 @@ def validate(path):
 
 def has_figures(ch):
     g = QUICK_GUIDE.get(ch, {})
-    return any(isinstance(it, dict) for items in [g.get("intro", [])] + list(g.get("sections", {}).values())
-               for it in items)
+    return any(isinstance(it, dict) and ("fig" in it or "book" in it)
+               for items in [g.get("intro", [])] + list(g.get("sections", {}).values()) for it in items)
 
 
 def build_guides(outdir, tmp, fs, main_pdf=None, unit_font=None, unit_fs=None):
