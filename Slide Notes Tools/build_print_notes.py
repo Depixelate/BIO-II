@@ -130,6 +130,35 @@ def shape_items(shape, title):
     return []
 
 
+LABEL = r"(?:\(?[A-Ga-g]\)|[A-Ga-g]\.|\d{1,2}\.|Step \d+[.:]?)"   # a panel or step label: A) (b) c. 2. Step 3
+ABBREV = re.compile(r"\b(?:[A-Za-z]|\d{1,2}|sp|spp|e\.g|i\.e|vs|approx|ca|Fig|No|St|Dr|Mt|cf|etc|p|pp)\.$")
+
+
+def fig_points(text, splits=()):
+    """A figure description as bullet points: a new point at each sentence, at each panel or step label after a
+    full stop, colon or semicolon ("...: 1. ...", "...; b) ..."), and where a text in `splits` (FIG_SPLIT) starts. Joined with single spaces, the points
+    give back the text exactly. A single letter or an abbreviation before a full stop (H. erectus, sp., e.g.) ends
+    no sentence, and neither does a step number (1.)."""
+    words = text.split(" ")
+    starts = {0}
+    for i in range(1, len(words)):
+        prev, cur = words[i - 1], words[i]
+        if not cur:
+            continue
+        sentence_end = re.search(r"[.!?][)”\"]?$", prev) and not ABBREV.search(prev) and (
+            cur[0].isupper() or cur[0].isdigit() or cur[0] in "(“\"")
+        label = re.search(r"[.;:]$", prev) and re.match(LABEL + r"$", cur)   # "...: 1. ...", "...; b) ..."
+        if sentence_end or label:
+            starts.add(i)
+    for s in splits:   # extra split points, given as the text the point starts with
+        k = text.find(s)
+        if k <= 0 or text[k - 1] != " ":
+            raise SystemExit(f"FIG_SPLIT: {s!r} doesn't start a word in {text[:60]!r}")
+        starts.add(text[:k].count(" "))
+    cuts = sorted(starts) + [len(words)]
+    return [" ".join(words[a:b]) for a, b in zip(cuts, cuts[1:]) if a < b]
+
+
 def fix(text, fixes):
     for a, b in fixes:
         text = text.replace(a, b)
@@ -206,9 +235,12 @@ class Chapter:
             return []
         if self.frame(n):
             return [("Fig", D.FRAME_EXTRA[(self.ch, n)])] if (self.ch, n) in D.FRAME_EXTRA else []
-        fixes = D.FIG_FIX.get((self.ch, n), [])
-        lines = [fix(clean(t), fixes) for t in B.image_lines(self.deck, n, self.links, self.both)]
-        out = [("Fig", " ".join(t for t in lines if keep(t)))]
+        if (self.ch, n) in D.FIG_TEXT:   # a garbled description, replaced by the textbook figure's
+            out = [("Fig (textbook version)", D.FIG_TEXT[(self.ch, n)])]
+        else:
+            fixes = D.FIG_FIX.get((self.ch, n), [])
+            lines = [fix(clean(t), fixes) for t in B.image_lines(self.deck, n, self.links, self.both)]
+            out = [("Fig", " ".join(t for t in lines if keep(t)))]
         if (self.ch, n) in D.CAPTIONS:
             out.append(("Textbook caption", D.CAPTIONS[(self.ch, n)]))
         if (self.ch, n) in D.PROCESS:
@@ -665,8 +697,10 @@ def check_text(chapters, doc_html):
                 if cyc:
                     own = own | printed.get(anchor(c.code(cyc["final"])), set())
                 skip = D.FIG_SKIP.get((c.ch, n), {})
-                # the description the printing rule says to print (frames: their own, covered by the final one)
-                for line in B.image_lines(c.deck, n, c.links, set() if cyc else c.both):
+                # the description the printing rule says to print (frames: their own, covered by the final one);
+                # a description replaced by FIG_TEXT is checked by hand (slide-errors list) instead
+                for line in [] if (c.ch, n) in D.FIG_TEXT else B.image_lines(c.deck, n, c.links,
+                                                                             set() if cyc else c.both):
                     for s in re.split(r"(?<=[.!?])\s+", clean(line)):
                         if keep(s) and not covered(s, own) and not any(s.startswith(p) for p in skip):
                             problems.append(f"{c.code(n)}: figure text not printed: {s[:90]}")
@@ -822,6 +856,8 @@ def dump_text(chapters):
 
 def main():
     arg = lambda flag, default=None: sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv else default
+    if "--unit" in sys.argv:
+        D.select_unit(f"Unit {arg('--unit')}")
     only = int(arg("--only")) if "--only" in sys.argv else None
     chapters = [Chapter(ch) for ch in D.CHAPTERS if only is None or ch == only]
     if "--dump" in sys.argv:
@@ -831,7 +867,7 @@ def main():
         size = (float(arg("--font")), int(arg("--cols", 2)))
     else:
         size = fit_size(chapters, 2 * D.SHEETS_PER_CHAPTER * len(chapters))
-    name = ("Unit 2" if len(chapters) == 5 else "Ch " + ", ".join(str(c.ch) for c in chapters)) + " Printed Notes"
+    name = (D.UNIT if only is None else f"Ch {only}") + " Printed Notes"
     out = os.path.abspath(arg("--out", os.path.join(OUT_DIR, name + ".pdf")))
     os.makedirs(os.path.dirname(out), exist_ok=True)
     pages, doc_html = build_pdf(chapters, size, out, arg("--html"))

@@ -1,7 +1,8 @@
 """Build the printed exam notes as editable Word documents (.docx), for Word or LibreOffice.
 
-usage: python build_print_docx.py [--only CH] [--fit | --font PT [--cols N]] [--outdir DIR]
-       python build_print_docx.py --guides [--font PT]     (only the quick-guides file)
+usage: python build_print_docx.py [--unit N] [--only CH] [--fit | --font PT [--cols N]] [--outdir DIR]
+       python build_print_docx.py [--unit N] --guides [--font PT]     (only the quick-guides file)
+--unit N picks the unit (print_notes_data.UNITS); the latest unit by default.
 
 It builds the whole unit as one main file and one index file, for printing in one go (Unit 2 Printed Notes.docx,
 Unit 2 Index.docx; each chapter starts on a new right-hand page), then each chapter's two files (see PRINTED_NOTES.md),
@@ -48,6 +49,7 @@ from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, Twips
 
 import build_print_notes as P
+import guide_figures
 import print_notes_data as D
 from quick_guides import QUICK_GUIDE
 
@@ -56,6 +58,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SOFFICE = "/Applications/LibreOffice.app/Contents/MacOS/soffice" if MAC else "soffice"
 PROFILE = os.path.join(tempfile.gettempdir(), "bio2_libreoffice_profile")   # a private LibreOffice profile
 PAGE_W, MARGIN_LR, GAP = 8.5, 0.4, 0.2   # inches; the HL-2240 can't print within 0.25 in of the edge
+READING_MARGIN = 0.9   # the illustrated guides copy is one column: wider margins keep its lines readable
+FIG_MAX_W, FIG_MAX_H = 6.2, 6.5   # inches, a guide figure's largest size
 BULLETS = 90                             # numbering id of the bullet list
 VALIDATOR = glob.glob(os.path.expanduser("~/.claude/skills/synced/*/docx/scripts/office/validate.py"))
 GUIDES_FONT = 11                         # the quick-guides file is for reading, so it gets its own, larger size
@@ -65,7 +69,7 @@ SIZE_STEP = {
     "notes": {"Notes title": 3, "Chapter heading": 4.5, "Lookup heading": 4.5, "Section heading": 2,
               "Guide heading": 3, "Guide part": 1.5, "Group heading": 0.5, "header": -3, "header label": -4},
     "guides": {"Notes title": 2.5, "Chapter heading": 3.5, "Guide heading": 2.5, "Guide part": 1, "header": -2,
-               "header label": -3},
+               "header label": -3, "Guide caption": -1},
 }
 HOW_TO = [   # printed once per unit, at the start of its first chapter
     "Find the key term or the clue (a description) in the question.",
@@ -175,20 +179,25 @@ def narrow_blocks(t):
 
 # ---------------------------------------------------------------- document
 class Builder:
-    def __init__(self, chapters, fs, cols, pages, kind, font=None, main_pages=None, first_page=1):
+    def __init__(self, chapters, fs, cols, pages, kind, font=None, main_pages=None, first_page=1, figures=None,
+                 paged=False):
         """kind: "main", "index" or "guides". pages: bookmark name -> stored page number for PAGEREF fields.
         font: (name, file) for every bit of text in the file; P.FONT_NAME (the quick-guides copy's) by default.
         main_pages (index files): bookmark name -> page in the unit's main notes, for the contents and the codes.
-        first_page: the number of the file's first page (a chapter file carries its pages' numbers in the unit file)."""
+        first_page: the number of the file's first page (a chapter file carries its pages' numbers in the unit file).
+        figures (guides): a guide_figures.Figures, to put the guides' diagrams in (the illustrated reading copy).
+        paged (guides): the printable copy, whose slide codes become chapter.page.slide like an index file's."""
         self.chapters, self.fs, self.cols, self.pages, self.kind = chapters, fs, cols, pages, kind
         self.main_pages, self.first_page = main_pages or {}, first_page
+        self.figures, self.paged = figures, paged
         self.unmapped = set()   # slide codes an index mentions that have no page in main_pages
         if fs * 2 != int(fs * 2):
             raise SystemExit(f"{fs} pt: Word stores font sizes in half points; use a size like 11 or 11.5")
         self.steps = SIZE_STEP["guides" if kind == "guides" else "notes"]
         self.doc = Document()
         self.em = fs * 20                       # one em in twips
-        self.text_w = PAGE_W - 2 * MARGIN_LR    # inches
+        self.margin = READING_MARGIN if kind == "guides" and cols == 1 else MARGIN_LR
+        self.text_w = PAGE_W - 2 * self.margin    # inches
         self.col_w = (self.text_w - GAP * (cols - 1)) / cols
         self.bid = 0
         self.font_name, font_file = font or (P.FONT_NAME, P.FONT_FILE)
@@ -203,7 +212,7 @@ class Builder:
     def _page_setup(self):
         s = self.doc.sections[0]
         s.page_width, s.page_height = Inches(PAGE_W), Inches(11)
-        s.left_margin = s.right_margin = Inches(MARGIN_LR)
+        s.left_margin = s.right_margin = Inches(self.margin)
         s.top_margin, s.bottom_margin = Inches(0.55), Inches(0.5)
         s.header_distance, s.footer_distance = Inches(0.3), Inches(0.25)
         if self.first_page != 1:   # pgNumType goes before cols in the section properties
@@ -251,6 +260,7 @@ class Builder:
         para("Slide heading", before=0.3, keep=True)
         para("Bullet")
         para("Figure", hang=0.75)
+        para("Figure bullet")
         para("Correction", hang=0.75)
         para("Table text", after=0.12)
         para("Lookup heading", bold=True, before=0.4, after=0.2, keep=True)
@@ -262,6 +272,8 @@ class Builder:
         para("Guide subheading", bold=True, before=0.25, keep=True)
         para("Guide text", after=0.25)
         para("Guide bullet")
+        para("Guide figure", before=0.4, keep=True)
+        para("Guide caption", italic=True, after=0.5)
         st.add_style("Slide code", WD_STYLE_TYPE.CHARACTER)   # the running header reads this style:
         # slide codes and section names use it, so the header names what's on each page. It sets no bold:
         # bold in a character style flips the paragraph's bold, so slide codes get bold directly instead.
@@ -310,7 +322,7 @@ class Builder:
         In an index file, slide codes become chapter.page.slide (page_codes)."""
         p = self.doc.add_paragraph(style=style)
         for text, fmt in runs:
-            if self.kind == "index":
+            if self.kind == "index" or self.paged:
                 text = self.page_codes(text)
             if "code" in fmt:
                 r = p.add_run(text, style="Slide code")
@@ -517,11 +529,13 @@ class Builder:
             return
         p = self.para("Guide heading", ("Quick guide: the big picture", "code"))
         self.mark(p, bm_guide(c.ch, 0))
-        for text in g["intro"]:
-            self.para("Guide text", (text, ""))
+        self._guide_items(g["intro"])
         for sec, items in g["sections"].items():
             ns = [n for n in c.slides if c.deck.section[n] == sec]
             span = f" (slides {ns[0]}–{ns[-1]})" if ns else ""
+            if ns and self.paged:   # where the section is in the printed main notes
+                a, b = (self.main_pages.get(bm_slide(c.code(n)), "0") for n in (ns[0], ns[-1]))
+                span = f" (main notes p. {a})" if a == b else f" (main notes pp. {a}–{b})"
             p = self.para("Guide part", (f"{c.ch}.{sec} {c.section_name(sec)}", "code"), (span, ""))
             self.mark(p, bm_guide(c.ch, sec))
             self._guide_items(items)
@@ -532,12 +546,33 @@ class Builder:
 
     def _guide_items(self, items):
         for it in items:
-            if isinstance(it, tuple):
+            if isinstance(it, dict):
+                self._guide_figure(it)
+            elif isinstance(it, tuple):
                 self.para("Guide subheading", (it[0], ""))
                 for b in it[1]:
                     self.bullet(0, (b, ""), style="Guide bullet")
             else:
                 self.para("Guide text", (it, ""))
+
+    def _guide_figure(self, it):
+        """A diagram from a slide or the textbook, with its caption (illustrated reading copy). The printable copy
+        gets the caption and where the slide's figure description is in the main notes instead."""
+        if not self.figures:
+            if self.paged and "fig" in it:
+                self.para("Guide caption", (f"Diagram: {it['caption']} See {P.code_of(*it['fig'])}.", ""))
+            return
+        if "fig" in it:
+            path, ratio = self.figures.slide(*it["fig"])
+            source = "slide " + P.code_of(*it["fig"])
+        else:
+            path, ratio = self.figures.book(it["book"], it["clip"])
+            source = f"textbook p. {it['book']}"
+        w = min(FIG_MAX_W, self.col_w, FIG_MAX_H * ratio)
+        p = self.para("Guide figure")
+        p.alignment = 1
+        p.add_run().add_picture(path, width=Inches(w))
+        self.para("Guide caption", (f"{it['caption']} ({source})", ""))
 
     def _slide(self, c, n, sec_name):
         code, title = c.code(n), c.title(n)
@@ -557,8 +592,14 @@ class Builder:
                 self.bullet(0, (it[1], "b"), (f": {it[2]}" if it[2] else "", ""))
             else:
                 self.table(it[1], it[2], self.col_w)
-        for label, text in c.figure(n):
-            self.para("Figure", (f"{label}: ", "i"), (text, ""))
+        for label, text in c.figure(n):   # a description of more than one sentence becomes bullet points
+            points = P.fig_points(text, D.FIG_SPLIT.get((c.ch, n), ()) if label.startswith("Fig") else ())
+            if len(points) == 1:
+                self.para("Figure", (f"{label}: ", "i"), (text, ""))
+                continue
+            self.para("Figure", (f"{label}:", "i")).paragraph_format.keep_with_next = True
+            for point in points:
+                self.bullet(1, (point, ""), style="Figure bullet")
         if (c.ch, n) in D.CORRECTIONS:
             self.para("Correction", ("Textbook: ", "bi"), (D.CORRECTIONS[(c.ch, n)], ""))
 
@@ -615,7 +656,7 @@ class Builder:
                 self.para("Entry", (t, "b"), (f"{(' ' + note) if note else ''} {where}", ""))
 
     def _guides(self):
-        self._start(0, f"BIO II {D.UNIT} quick guides")
+        self._start(0, f"BIO II {D.UNIT} quick guides" + (" (print)" if self.paged else ""))
         self.section(self.cols)
         for c in self.chapters:
             self.para("Chapter heading", (f"Chapter {c.ch}: {D.CHAPTER_NAMES[c.ch]}", "code"))
@@ -758,10 +799,11 @@ def guide_texts(ch):
     g = QUICK_GUIDE.get(ch)
     if not g:
         return []
-    out = list(g["intro"]) + list(g["look_up"])
-    for items in g["sections"].values():
+    out = list(g["look_up"])
+    for items in [g["intro"]] + list(g["sections"].values()):
         for it in items:
-            out += [it[0]] + list(it[1]) if isinstance(it, tuple) else [it]
+            out += ([it["caption"]] if isinstance(it, dict) else [it[0]] + list(it[1]) if isinstance(it, tuple)
+                    else [it])
     return out
 
 
@@ -787,7 +829,7 @@ def check_guides(chapters):
     return problems
 
 
-def check_layout(pdf_path, main=True, font=None, missing="", first=1):
+def check_layout(pdf_path, main=True, font=None, missing="", first=1, pictures=False):
     """LibreOffice's layout: no pictures, Letter pages, all text in the chosen font (apart from characters the font
     lacks, `missing`, which check_glyphs reports), printed page numbers counting from `first`, running headers (main
     file)."""
@@ -812,7 +854,7 @@ def check_layout(pdf_path, main=True, font=None, missing="", first=1):
         if "Reference source not found" in text or "Error: Reference" in text:
             problems.append("a page number shows a reference error")
         for i, p in enumerate(pdf, 1):
-            if p.get_images():
+            if p.get_images() and not pictures:
                 problems.append(f"page {i}: has a picture")
             if (round(p.rect.width), round(p.rect.height)) != (612, 792):
                 problems.append(f"page {i}: not Letter size")
@@ -997,33 +1039,69 @@ def validate(path):
                                                              + res.stdout[-1500:] + res.stderr[-500:]]
 
 
-def build_guides(outdir, tmp, fs):
-    """The convenience copy of every chapter's quick guide, in one file."""
-    chapters = [P.Chapter(ch) for ch in sorted(QUICK_GUIDE)]
+def has_figures(ch):
+    g = QUICK_GUIDE.get(ch, {})
+    return any(isinstance(it, dict) for items in [g.get("intro", [])] + list(g.get("sections", {}).values())
+               for it in items)
+
+
+def build_guides(outdir, tmp, fs, main_pdf=None, unit_font=None, unit_fs=None):
+    """The quick guides, in two files. The reading copy (Unit N Quick Guides.docx): every chapter's guide in Arial
+    Narrow; when the guides have diagrams (Unit 3 on), one column with the diagrams in it. The printable copy
+    (Unit N Quick Guides (print).docx, from Unit 3 on): no pictures, the unit files' font and size, two columns, and
+    every slide code as chapter.page.slide in the unit's main notes (main_pdf). Returns [(file, pages, note)],
+    problems, warnings."""
+    chapters = [P.Chapter(ch) for ch in D.CHAPTERS if ch in QUICK_GUIDE]
+    illustrated = any(has_figures(c.ch) for c in chapters)
+    files, problems, warnings = [], check_guides(chapters), []
     out = os.path.join(outdir, f"{D.UNIT} Quick Guides.docx")
-    Builder(chapters, fs, 2, {}, "guides").build().save(out)
+    figures = guide_figures.Figures(tmp, SOFFICE, PROFILE) if illustrated else None
+    Builder(chapters, fs, 1 if illustrated else 2, {}, "guides", figures=figures).build().save(out)
     pdf = to_pdf(out, tmp)
     with pymupdf.open(pdf) as d:
-        n = len(d)
+        files.append((out, len(d), f"{fs:g} pt" + (", with diagrams" if illustrated else "")))
     missing = check_glyphs(out, P.FONT_FILE)
-    return (out, n, check_guides(chapters) + check_layout(pdf, False, None, "".join(missing)) + validate(out),
-            glyph_warnings(os.path.basename(out), P.FONT_NAME, missing))
+    problems += check_layout(pdf, False, None, "".join(missing), pictures=illustrated) + validate(out)
+    warnings += glyph_warnings(os.path.basename(out), P.FONT_NAME, missing)
+    if illustrated and main_pdf:
+        out = os.path.join(outdir, f"{D.UNIT} Quick Guides (print).docx")
+        b = Builder(chapters, unit_fs, 2, {}, "guides", unit_font, bookmark_pages(main_pdf), paged=True)
+        b.build().save(out)
+        pdf = to_pdf(out, tmp)
+        with pymupdf.open(pdf) as d:
+            files.append((out, len(d), f"{unit_fs:g} pt, {sheets(len(d), 0)} double-sided sheets"))
+        font_file = unit_font[1] if unit_font else P.FONT_FILE
+        missing = check_glyphs(out, font_file)
+        problems += (check_layout(pdf, False, unit_font, "".join(missing)) + validate(out)
+                     + [f"{os.path.basename(out)}: slide code {k} has no page in the main notes"
+                        for k in sorted(b.unmapped)])
+        warnings += glyph_warnings(os.path.basename(out), unit_font[0] if unit_font else P.FONT_NAME, missing)
+    return files, problems, warnings
 
 
 def main():
     arg = lambda flag, default=None: sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv else default
+    if "--unit" in sys.argv:
+        D.select_unit(f"Unit {arg('--unit')}")
     outdir = os.path.abspath(arg("--outdir", P.OUT_DIR))
     os.makedirs(outdir, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
-        if "--guides" in sys.argv:   # only the guides file
-            out, n, problems, warnings = build_guides(outdir, tmp, float(arg("--font", GUIDES_FONT)))
-            print(f"{n} pages in LibreOffice -> {out}")
+        if "--guides" in sys.argv:   # only the guides files; the printable one takes its pages from the unit's
+            main = os.path.join(outdir, f"{D.UNIT} Printed Notes.docx")   # existing main notes
+            unit_font = (D.UNIT_FILE_FONT[0], os.path.join(HERE, D.UNIT_FILE_FONT[1])) if D.UNIT_FILE_FONT else None
+            if unit_font:
+                install_font(*unit_font)
+            files, problems, warnings = build_guides(outdir, tmp, float(arg("--font", GUIDES_FONT)),
+                                                     to_pdf(main, tmp) if os.path.exists(main) else None,
+                                                     unit_font, D.FONT_SIZE)
+            for out, n, note in files:
+                print(f"{n} pages ({note}) -> {out}")
             if warnings:
                 print("\n".join(warnings))
             if problems:
                 print("\n".join(problems))
                 sys.exit(1)
-            print("checks passed: every cited slide exists and mentions a key word of the statement; valid Word file")
+            print("checks passed: every cited slide exists and mentions a key word of the statement; valid Word files")
             return
         only = int(arg("--only")) if "--only" in sys.argv else None
         everything = [P.Chapter(ch) for ch in D.CHAPTERS]
@@ -1095,8 +1173,8 @@ def main():
                 problems.append(f"{D.UNIT} files, Ch {ch}: {used} sheets; the budget is {budget}")
         report.append(f"  index slide codes checked against the main notes' pages: {codes[0]}")
         if only is None:
-            out, n, more, warn = build_guides(outdir, tmp, GUIDES_FONT)
-            report.append(f"  {os.path.basename(out)}: {n} pages ({GUIDES_FONT:g} pt)")
+            files, more, warn = build_guides(outdir, tmp, GUIDES_FONT, main_pdf, unit_font, size[0])
+            report += [f"  {os.path.basename(out)}: {n} pages ({note})" for out, n, note in files]
             problems += more
             warnings += warn
     print(f"{size[0]:g} pt, {size[1]} columns:")
@@ -1108,7 +1186,7 @@ def main():
           "mentions a key word of what it's cited for (meaning still needs a read-through); term index and glossary "
           "rules met; one page numbering for the unit, and each chapter file is its slice of the unit file; every "
           "index code and contents page matches the main notes' pages; sheet budget met; all text in the chosen "
-          "font; no pictures; valid Word files")
+          "font; no pictures (except in the illustrated guides copy); valid Word files")
 
 
 if __name__ == "__main__":

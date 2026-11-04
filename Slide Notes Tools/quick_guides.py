@@ -828,3 +828,7 @@ QUICK_GUIDE[27] = {
         "Pollinators and their flowers: the Pollinators table.",
     ],
 }
+
+
+from unit3_guides import QUICK_GUIDE as _guides   # noqa: E402  Unit 3 (Ch 28-30)
+QUICK_GUIDE.update(_guides)

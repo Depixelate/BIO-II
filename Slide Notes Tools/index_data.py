@@ -914,3 +914,8 @@ TERM_INDEX[27] = [
     ("Nodes", r"\bnodes?\b", None, "36 new plants"),
     ("Pollen sacs", r"pollen sac", None, "12 microspore mother cells"),
 ]
+
+
+from unit3_index import GLOSSARY as _glossary, TERM_INDEX as _term_index   # noqa: E402  Unit 3 (Ch 28-30)
+GLOSSARY.update(_glossary)
+TERM_INDEX.update(_term_index)
