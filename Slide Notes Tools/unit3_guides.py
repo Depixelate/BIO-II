@@ -19,7 +19,8 @@ QUICK_GUIDE[28] = {
         "in evolutionary order, from the simplest (sponges) to the sea stars, the invertebrates most closely related "
         "to us.",
         "Animals are multicellular and heterotrophic: they must get food from outside, and unlike fungi (which digest "
-        "food outside the body and absorb it), animals eat their food and digest it inside (28.1.3). Many reproduce "
+        "food outside the body and absorb it), animals eat their food and digest it inside (28.1.3). Animal cells have "
+        "no cell walls, and most animals can move, using nerves and muscles (28.1.4; textbook Fig. 28.1). Many reproduce "
         "sexually, some asexually, some both; many have a diploid life cycle (28.1.3). Animals descend from a single "
         "common ancestor; they split into invertebrates and vertebrates, animals that at some stage have a spinal "
         "cord (backbone) (28.1.3).",
@@ -133,6 +134,8 @@ QUICK_GUIDE[28] = {
                 "True jellyfish: the medusa is the main stage and the polyp stays small (28.2.20). The Portuguese "
                 "man-of-war looks like a jellyfish but is a colony of polyps and medusae (28.2.19).",
             ]),
+            {"fig": (28, 19), "caption": "Cnidarian diversity: a sea anemone (solitary polyp), corals (colonial "
+                                         "polyps), the Portuguese man-of-war (a colony) and a jellyfish (medusa)."},
             {"fig": (28, 21), "caption": "Hydra: a polyp with tentacles (a), a bud (b), and its two tissue layers "
                                          "with mesoglea between them and cnidocytes (c)."},
             ("Traps", [
@@ -219,11 +222,14 @@ QUICK_GUIDE[28] = {
                 "Blood fluke Schistosoma: larvae burrow through human skin, mature in the liver, and adults live in "
                 "blood vessels of the gut; eggs leave in feces, hatch in water, develop in a snail (secondary host), "
                 "and swim off to find a human (28.3.45).",
+                "Clonorchis sinensis, the Chinese liver fluke, is the other fluke named; textbook: humans usually "
+                "catch it by eating raw fish (28.3.44; textbook p. 523).",
                 "Tapeworms have a scolex, a head with hooks and suckers, followed by proglottids, segments each with "
                 "male and female sex organs that fill with eggs (28.3.46).",
                 "Pork tapeworm Taenia solium: humans (primary host) eat undercooked pork with bladder worms (larvae "
                 "in cysts); the tapeworm grows in the intestine; eggs leave in feces; pigs (secondary host) eat "
-                "them, and the larvae encyst in muscle (28.3.46, 28.3.47).",
+                "them, and the larvae encyst in muscle. Tapeworms interfere with the host's nutrient absorption "
+                "(28.3.46, 28.3.47).",
             ]),
             {"fig": (28, 45), "caption": "Blood fluke life cycle: human (primary host) and snail (secondary host)."},
             {"fig": (28, 47), "caption": "Pork tapeworm life cycle: human (primary host) and pig (secondary host)."},
@@ -231,6 +237,8 @@ QUICK_GUIDE[28] = {
                 "Microscopic animals named for the corona, a crown of cilia that looks like a turning wheel; it "
                 "moves the animal and sweeps food to the mouth. About 2,000 species, mostly freshwater (28.3.48).",
             ]),
+            {"fig": (28, 49), "caption": "A rotifer: the corona of cilia at the front end, the digestive tract and "
+                                         "flame bulbs."},
             ("Traps", [
                 "Lophophore = feeding crown; trochophore = larva.",
                 "Mollusks have open circulation and a reduced coelom; annelids have closed circulation and a large, "
@@ -256,6 +264,8 @@ QUICK_GUIDE[28] = {
                 "Wuchereria, carried by mosquitoes, which blocks lymph vessels so the limbs swell (elephantiasis) "
                 "(28.4.52, 28.4.53).",
             ]),
+            {"fig": (28, 53), "caption": "Roundworm parasites: Ascaris, Trichinella larvae encysted in muscle, and "
+                                         "elephantiasis caused by a filarial worm."},
             ("Arthropods (phylum Arthropoda): five keys to success", [
                 "Exoskeleton: a rigid, jointed outer skeleton of chitin (a tough polysaccharide); it can't grow, so "
                 "they molt (28.4.54, 28.4.55).",
@@ -274,8 +284,9 @@ QUICK_GUIDE[28] = {
                 "Decapods (“ten feet”: crabs, crayfish, lobsters, shrimp) are the most familiar. Copepods and krill "
                 "are small swimmers that eat algae. Barnacles live attached to things like wharf pilings (28.4.56).",
                 "Crayfish: the head and thorax are fused into a cephalothorax under a carapace (shield); five pairs "
-                "of walking legs, the first with claws; swimmerets on the abdomen; gills; open circulation; green "
-                "glands excrete wastes (28.4.58, 28.4.59).",
+                "of walking legs, the first with claws; swimmerets on the abdomen; gills; open circulation; a reduced "
+                "coelom; green glands excrete wastes; a well-developed nervous system; separate sexes (28.4.58, "
+                "28.4.59).",
             ]),
             {"fig": (28, 59), "caption": "Male crayfish: cephalothorax with five pairs of walking legs; abdomen with "
                                          "swimmerets, uropods and telson."},
@@ -290,19 +301,25 @@ QUICK_GUIDE[28] = {
                 "Three body parts: the head (sense organs, mouthparts), the thorax (three pairs of legs and, in "
                 "many, one or two pairs of wings), and the abdomen (most internal organs) (28.4.63).",
                 "Complete metamorphosis (butterflies): larva → pupa → adult, with the body completely reorganized. "
-                "Incomplete metamorphosis (grasshoppers): a gradual change (28.4.63, 28.4.64).",
+                "Incomplete metamorphosis (grasshoppers): a gradual change (28.4.63, 28.4.64; textbook p. 528 for the "
+                "pupa).",
                 "Grasshopper: jumping third legs; a tympanum (eardrum) on the first abdominal segment; the female's "
                 "ovipositor lays eggs; food stored in the crop, then ground in the gizzard; Malpighian tubules "
                 "excrete; air enters spiracles (openings) and flows through tracheae; a tubular heart (28.4.64).",
                 "Insect orders differ in wings and mouthparts: beetles (hard forewings, chewing), wasps (narrow "
                 "waist, stinger), lice (wingless, piercing-sucking), dragonflies (28.4.65).",
             ]),
-            {"fig": (28, 66), "caption": "Female grasshopper: outside (a) and inside (b)."},
+            {"fig": (28, 65), "caption": "Insect orders differ in wings and mouthparts (mealybug, beetle, "
+                                         "leafhopper, head louse, wasp, dragonfly)."},
+            {"fig": (28, 66), "caption": "Female grasshopper: outside (a), with the legs and wings on the thorax and "
+                                         "the tympanum on the abdomen, and inside (b)."},
             ("Chelicerates", [
-                "Spiders, scorpions, ticks, mites and horseshoe crabs. The appendages are on the cephalothorax, none on "
-                "the abdomen: the first pair, chelicerae, for feeding and defense; the second, pedipalps, for feeding or sensing "
-                "(28.4.67, 28.4.68).",
+                "Spiders, scorpions, ticks, mites and horseshoe crabs. The appendages are on the cephalothorax, "
+                "none on the abdomen: the first pair, chelicerae, for feeding and defense; the second, pedipalps, "
+                "for feeding or sensing (28.4.67, 28.4.68).",
             ]),
+            {"fig": (28, 68), "caption": "Chelicerates: horseshoe crab, scorpion (chelicerae, pedipalps, stinger) "
+                                         "and black widow spider (cephalothorax, abdomen, four pairs of legs)."},
             ("Traps", [
                 "Cuticle = the covering that is molted; chitin = what the arthropod exoskeleton is made of.",
                 "Pseudocoelom (roundworms) is incompletely lined by mesoderm; a true coelom is lined completely.",
@@ -366,7 +383,7 @@ QUICK_GUIDE[29] = {
         1: [
             ("The four chordate characteristics (at some stage of life)", [
                 "Notochord: a stiff supporting rod along the back, just below the nerve cord (29.1.3).",
-                "Dorsal tubular nerve cord: a hollow nerve cord along the back (insects' cord runs along the belly); "
+                "Dorsal tubular nerve cord: a hollow nerve cord along the back (an arthropod's runs along the belly); "
                 "its front end becomes the brain in most chordates, and in vertebrates the vertebrae protect it "
                 "(29.1.3).",
                 "Pharyngeal pouches: pockets in the throat region; they become gills in aquatic vertebrates, appear "
@@ -388,6 +405,8 @@ QUICK_GUIDE[29] = {
             ]),
             {"fig": (29, 6), "caption": "Lancelet: notochord, dorsal tubular nerve cord, gill slits; water exits by "
                                         "the atriopore."},
+            {"fig": (29, 7), "caption": "Adult sea squirt: incurrent and excurrent siphons, tunic; the gill slits are "
+                                        "its only chordate trait left."},
             ("Traps", [
                 "Notochord (the rod) vs nerve cord (the nerves above it).",
                 "Lancelets = cephalochordates; sea squirts = urochordates (tunicates).",
@@ -401,7 +420,8 @@ QUICK_GUIDE[29] = {
                 "A skull that encloses the brain, with a high degree of cephalization and complex sense organs "
                 "(29.2.9).",
                 "An endoskeleton (inside skeleton) of living tissue that grows with the animal, protects organs, "
-                "anchors muscles, and bears paired appendages (fins or limbs) (29.2.9).",
+                "anchors muscles, and bears paired appendages: fins (a shark's pectoral and pelvic fins) or limbs "
+                "(29.2.9, 29.3.18).",
                 "A large coelom, a complete digestive tract (mouth and anus), closed circulation, gills or lungs, "
                 "kidneys that regulate water, and separate sexes with sexual reproduction (29.2.10).",
             ]),
@@ -435,6 +455,8 @@ QUICK_GUIDE[29] = {
                 "Placoderms: extinct, armored jawed fishes of the Devonian, thought to be the ancestors of sharks "
                 "and bony fishes (29.3.15).",
             ]),
+            {"fig": (29, 14), "caption": "A lamprey, a jawless fish: a toothed oral disk instead of jaws, and seven "
+                                         "pairs of gill slits."},
             {"fig": (29, 16), "caption": "Jaws evolved from gill arches."},
             ("Cartilaginous fishes (Chondrichthyes)", [
                 "Sharks, rays, skates and chimaeras: a skeleton of cartilage, not bone, and no gill cover (29.3.17).",
@@ -443,6 +465,8 @@ QUICK_GUIDE[29] = {
                 "Some are filter feeders, some predators. Rays and skates have huge winglike pectoral fins and "
                 "bodies flattened top to bottom (29.3.17, 29.3.19).",
             ]),
+            {"fig": (29, 19), "caption": "Blue-spotted stingray: pectoral fins enlarged into wings along a flattened "
+                                         "body; spiracles behind the eyes; a spined tail."},
             ("Bony fishes (Osteichthyes)", [
                 "A skeleton of bone; the majority of living vertebrates (29.3.20; textbook p. 542).",
                 "Most are ray-finned fishes, with fins held up by thin bony rays (29.3.20, 29.3.21).",
@@ -535,12 +559,14 @@ QUICK_GUIDE[29] = {
                 "Birds evolved from dinosaurs, as a plentiful fossil record shows (29.5.37).",
                 "Feathers, modified reptilian scales; a skeleton with fused bones (the collarbone included) and a "
                 "keel on the sternum (breastbone) for the flight muscles; lungs connected to air sacs; endothermy "
-                "(the body makes its own heat); acute vision (29.5.37, 29.5.38).",
+                "(the body makes its own heat); acute vision and instinctual behavior (29.5.37, 29.5.38).",
                 "Most fly (eagles, geese); some are flightless (emus, penguins, kiwis, ostriches). Birds are "
                 "classified by beak and foot type, habitat and behavior (29.5.39, 29.5.40).",
             ]),
             {"fig": (29, 38), "caption": "Bird anatomy (air sacs, crop, gizzard) and an eagle skeleton with the keeled "
                                          "sternum."},
+            {"fig": (29, 40), "caption": "Beaks fit the food: tearing prey (eagle), chiseling wood (woodpecker), "
+                                         "prying open nuts (macaw), cracking seeds (cardinal)."},
             ("Traps", [
                 "Anapsid = 0 openings (turtles), diapsid = 2 (other reptiles, birds), synapsid = 1 (mammals).",
                 "Birds are reptiles, and endotherms; other reptiles are ectotherms.",
@@ -576,6 +602,7 @@ QUICK_GUIDE[29] = {
                 "cattle, deer), Perissodactyla (odd-toed: horses), Chiroptera (bats), Rodentia (one pair of "
                 "ever-growing incisors), Lagomorpha (rabbits: two pairs), Primates (opposable thumb) (29.6.46).",
             ]),
+            {"fig": (29, 45), "caption": "A monotreme (duckbill platypus) and two marsupials (koala, opossum)."},
             ("Traps", [
                 "Monotremes = eggs; marsupials = pouch; placentals = placenta.",
                 "The placenta exchanges substances; the mother's and fetus's blood don't mix.",
@@ -627,6 +654,8 @@ QUICK_GUIDE[30] = {
                 "(work in dim light, blurry gray image). Humans and apes have three kinds of cones: greens, blues, "
                 "reds (30.1.7).",
             ]),
+            {"fig": (30, 8), "caption": "Stereoscopic vision: with the snout reduced and both eyes at the front, "
+                                        "their fields overlap (the binocular field), giving depth perception."},
             ("Brain and reproduction", [
                 "A larger, more complex brain: in apes and humans the smell area is smaller, the sight area larger, "
                 "more brain controls the hands (hand-eye coordination), and more handles communication for living "
@@ -665,6 +694,8 @@ QUICK_GUIDE[30] = {
                 "copies); the DNA base sequences differ by only 1.5% (30.1.18, 30.1.19).",
                 "Differences in noncoding DNA kept by each species may explain the differences in anatomy "
                 "(30.1.18).",
+                "Great apes and humans used to be classified in different families; this genetic evidence is why "
+                "they are now grouped together as hominids (30.1.18; textbook p. 560).",
             ]),
             {"fig": (30, 19), "caption": "Human chromosome 2 = chimpanzee chromosomes 2A + 2B fused; Alu elements in "
                                          "the same places in both."},
@@ -692,9 +723,11 @@ QUICK_GUIDE[30] = {
                 "the weight, and a foot bone that apes lack (30.2.23, 30.2.24).",
                 "Apelike features: an opposable big toe and flexible wrists for moving carefully along branches; "
                 "chimpanzee-sized, a 300–350 cc brain, a forward-projecting face, small teeth with no sharp "
-                "canines (soft plant food) (30.2.23, 30.2.25).",
-                "Ardi lived in woods, not grassland, so bipedalism didn't start with a switch to grassland. It may "
-                "have helped carry infants and helped males forage on the forest floor (30.2.26).",
+                "canines (soft plant food) (30.2.23, 30.2.25). About 120 cm (4 ft) tall; males and females were about "
+                "the same size, unlike the australopiths, whose males were larger (30.2.25, 30.2.27).",
+                "The old idea was that bipedalism evolved when grassland replaced the forests of East Africa; Ardi "
+                "lived in the woods, which questions it. In a forest, walking upright may have helped carry infants "
+                "and helped males forage on the forest floor (30.2.26).",
             ]),
             {"fig": (30, 24), "caption": "Adaptations for walking erect, in a modern human and in Ardi."},
             ("Australopithecines (australopiths)", [
@@ -807,6 +840,8 @@ QUICK_GUIDE[30] = {
                 "study of 17 genes in seven groups found that most genetic variation is within groups, not "
                 "between them (30.4.54).",
             ]),
+            {"fig": (30, 52), "caption": "Ethnic groups: the slim, long-limbed Maasai of East Africa and the stockier "
+                                         "Inuit of the Arctic illustrate Bergmann's and Allen's rules."},
             ("Traps", [
                 "Replacement = Africa only, then spread; multiregional = everywhere in parallel.",
                 "Neanderthal brains were slightly larger than ours, not smaller.",

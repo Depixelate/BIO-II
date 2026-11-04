@@ -5,6 +5,10 @@ GLOSSARY, TERM_INDEX = {}, {}
 
 # ======================================================================== Ch 28
 GLOSSARY[28] = [
+    ("Anticoagulant", "a substance that keeps blood from clotting (hirudin in leech saliva)", 38),
+    ("Determinate / indeterminate cleavage", "each early cell has a fixed fate / a separated cell can still become "
+     "a whole embryo", 12),
+    ("Regeneration", "growth of a whole animal from a small part", 13),
     ("Ampulla / tube feet", "bulb that contracts to push water into a tube foot / small water-filled feet that "
      "extend, grip and move a sea star", 72),
     ("Asymmetry / radial / bilateral symmetry", "no body pattern (sponges) / identical halves from any cut through "
@@ -74,6 +78,13 @@ GLOSSARY[28] = [
 
 TERM_INDEX[28] = [
     # ---- key terms
+    ("Anticoagulant", r"anticoagulant", None, "38 hirudin"),
+    ("Determinate, indeterminate cleavage", r"determinate", None, "12 def."),
+    ("Larvae", r"larva", None, "13 sponges | 23 trochophore | 27 clams | 45 flukes"),
+    ("Cilia", r"\bcilia", None, "15 comb jellies | 27 bivalve gills | 41 flame cells | 48 corona"),
+    ("Tentacles", r"tentacle", None, "18 sea anemones | 23 lophophore | 29 snail eyes"),
+    ("Suckers, hooks", r"sucker|hooks", None, "44 parasites | 31 cephalopods | 38 leeches"),
+    ("Pharynx", r"pharynx", None, "34 earthworm | 41 planarian"),
     ("Asymmetry, radial symmetry, bilateral symmetry", r"symmetr", None,
      "8 def. | 22 lophotrochozoans | 69 echinoderms"),
     ("Blastula, blastopore", r"blastula|blastopore", None, "11-12 def."),
@@ -238,6 +249,25 @@ TERM_INDEX[28] = [
 
 # ======================================================================== Ch 29
 GLOSSARY[29] = [
+    ("Adaptive radiation", "rapid evolution of several species from a common ancestor into new habitats (placental "
+     "mammals into the dinosaurs' former habitats)", 42),
+    ("Archosaurs", "crocodilians, dinosaurs and birds", 34),
+    ("Buoyancy", "how well something floats; the swim bladder adjusts it", 20),
+    ("Cephalization", "brain and sense organs concentrated in the head", 9),
+    ("Differentiated teeth", "teeth of different shapes for different jobs (mammals)", 41),
+    ("Dorsoventrally flattened", "flattened from back to belly (rays and skates)", 17),
+    ("Echolocate", "find things by the echoes of the animal's own sounds (some bats)", 46),
+    ("External / internal fertilization", "eggs and sperm meet outside the body, in the water (most bony fishes) "
+     "/ inside the female (salamanders, reptiles)", 20),
+    ("Incisors", "the front cutting teeth", 46),
+    ("Orbit", "the eye socket", 33),
+    ("Pelycosaurs / therapsids", "extinct synapsid amniotes on the line to the mammals", 43),
+    ("Placoderms / ostracoderms", "extinct armored jawed fishes of the Devonian / the earliest vertebrate fossils, "
+     "jawless", 15),
+    ("Septum", "a dividing wall, e.g. in a reptile's ventricle", 31),
+    ("Ungulates / ruminants", "hoofed mammals / plant eaters whose stomach has a rumen, where microorganisms break "
+     "down complex carbohydrates (cattle, deer)", 46),
+    ("Urogenital opening", "one opening for the urinary and reproductive tracts (the monotremes' cloaca)", 44),
     ("Agnathans", "jawless fishes: ostracoderms (fossils), lampreys, hagfishes", 13),
     ("Air sacs", "sacs connected to a bird's lungs", 37),
     ("Amniotic egg / amniotes", "shelled egg whose membranes surround the embryo in amniotic fluid / the animals "
@@ -275,6 +305,37 @@ GLOSSARY[29] = [
 
 TERM_INDEX[29] = [
     # ---- key terms
+    ("Cephalization", r"cephalization", None, "9 vertebrates"),
+    ("Segmentation", r"segment", None, "5 lancelets | 9 vertebral column"),
+    ("Complete digestive tract", r"complete digestive", None, "10 vertebrates"),
+    ("Lungs", r"\blungs?\b", None, "12 land | 24 amphibians | 31 reptiles | 37 birds' air sacs"),
+    ("Gills, gill slits", r"\bgills?\b|gill slit", None, "3 pharyngeal pouches | 7 sea squirt | 15 jawed fishes | "
+                                                      "20 operculum"),
+    ("Scales", r"\bscal(e|y)", None, "13 fishes | 31 reptiles | 37 feathers"),
+    ("Skin", r"\bskin\b", None, "24 amphibians smooth | 31 reptiles scaly"),
+    ("Electric currents", r"electric", None, "17 sharks, rays"),
+    ("Spiracles", r"spiracle", None, "19 stingray"),
+    ("Buoyancy", r"buoyancy", None, "20 swim bladder"),
+    ("Dorsoventrally flattened", r"dorsoventral", None, "17 rays, skates"),
+    ("External fertilization, internal fertilization", r"fertilization", None, "20 bony fishes | 28 salamanders | "
+                                                                               "31 reptiles"),
+    ("Septum (ventricle)", r"septum", None, "31 reptiles"),
+    ("Rib cage", r"rib cage|\bribs\b", None, "31 reptiles | 35 turtle shell"),
+    ("Orbit (eye socket)", r"orbit", None, "33 skull openings"),
+    ("Beaks", r"\bbeaks?\b", None, "40 bird beaks | 35 turtles"),
+    ("Differentiated teeth", r"differentiated teeth", None, "41 mammals"),
+    ("Incisors", r"incisor", None, "46 rodents, rabbits"),
+    ("Ungulates, ruminants", r"ungulate|ruminant", None, "46 Artiodactyla"),
+    ("Echolocation", r"echolocat", None, "46 bats"),
+    ("Urogenital opening", r"urogenital", None, "44 monotremes"),
+    ("Third eye", r"third eye", None, "35 tuataras"),
+    ("Burrowing", r"burrow", None, "35 snakes lost limbs"),
+    ("Instinctual behavior", r"instinct", None, "37 birds"),
+    ("Pelycosaurs, therapsids", r"pelycosaur|therapsid", "(extinct synapsids)", "43 line to mammals | 34 timeline"),
+    ("Thecodonts", r"thecodont", "(extinct diapsids)", "34 archosaur ancestors"),
+    ("Great Lakes", r"great lakes", None, "13 sea lamprey"),
+    ("Geologic periods (Cambrian ... Triassic)", r"cambrian|ordovician|silurian|devonian|carboniferous|triassic",
+     None, "12 vertebrate evolution | 15 placoderms | 33 amniotes | 42 mammals"),
     ("Notochord", r"notochord", None, "3 def. | 9-11 replaced | 6 lancelet"),
     ("Dorsal tubular nerve cord", r"nerve cord", None, "3 def. | 6 lancelet"),
     ("Pharyngeal pouches, gill slits", r"pharyngeal|gill slit", None, "3-4 def. | 7 sea squirt | 14 lamprey"),
@@ -368,6 +429,27 @@ TERM_INDEX[29] = [
 
 # ======================================================================== Ch 30
 GLOSSARY[30] = [
+    ("Binocular field", "the area both eyes see at once, which gives depth perception", 8),
+    ("Chromosome fusion", "two chromosomes joined end to end: human chromosome 2 = chimpanzee 2A + 2B", 19),
+    ("Symbolic thinking", "using symbols such as art, as speech needs", 50),
+    ("Archaic humans", "earlier Homo species, before modern humans", 40),
+    ("Ardipithecines / australopithecines", "the earliest humanlike hominins (Ardi, 4.4 MYA) / later ones, 4–1.5 MYA "
+     "(Lucy)", 27),
+    ("Brow ridges", "bony ridges above the eye sockets", 32),
+    ("Compound tools", "tools made of several parts, e.g. stone flakes fitted to a wooden handle (textbook)", 49),
+    ("Cro-Magnons", "the oldest fossils classified as Homo sapiens", 48),
+    ("Denisovans / Neanderthals", "the Asian / European lineage that came from H. heidelbergensis", 39),
+    ("Dentition", "the teeth", 29),
+    ("Dryopithecines", "fossil apes descended from Proconsul, from which the early hominids arose", 16),
+    ("Foraging", "searching for food", 26),
+    ("Gait", "way of walking", 33),
+    ("Gestation", "pregnancy", 10),
+    ("Hunter-gatherers", "people who hunt and collect food from the wild instead of farming", 48),
+    ("Noncoding regions", "DNA that doesn't code for proteins but still affects gene expression (textbook)", 18),
+    ("Pleistocene overkill", "the extinction of many large mammals, possibly from Cro-Magnon hunting", 49),
+    ("Transitional link", "a fossil between two groups, e.g. Proconsul between monkeys, gibbons and early hominids",
+     14),
+    ("Visual acuity", "sharpness of vision", 7),
     ("Anthropoids", "hominids, gibbons, Old World monkeys and New World monkeys", 12),
     ("Arboreal", "living in trees", 3),
     ("Bergmann's rule / Allen's rule", "animals in colder regions have bulkier bodies / shorter limbs, digits and "
@@ -394,6 +476,41 @@ GLOSSARY[30] = [
 
 TERM_INDEX[30] = [
     # ---- key terms
+    ("Flat nails", r"nails", None, "5-6 instead of claws"),
+    ("Color vision, visual acuity", r"color vision|acuity", None, "7 cone cells"),
+    ("Hand-eye coordination", r"hand-eye", None, "9 brain"),
+    ("Social groups, learned behavior", r"social|learned", None, "9 communication | 31 H. habilis | 38 H. "
+                                                               "heidelbergensis"),
+    ("Gestation, forebrain", r"gestation|forebrain", None, "10 def."),
+    ("Transitional link", r"transitional link", None, "14 Proconsul"),
+    ("Africarabia", r"africarabia", None, "16 apes migrate"),
+    ("Noncoding regions", r"noncoding", None, "18 anatomical differences"),
+    ("Brow ridges", r"brow ridge|eyebrow ridge", None, "32 H. erectus | 25 Ardi | 45 Neanderthals"),
+    ("Canines", r"canine", None, "25 Ardi none sharp | 29 Lucy large"),
+    ("Pelvis, femurs, knees", r"pelvis|femur|knee", None, "23-24 walking erect | 29 sediba pelvis"),
+    ("Big toe", r"big toe", None, "23-24 Ardi opposable"),
+    ("Foraging", r"forag", None, "26 bipedal males"),
+    ("Dentition", r"dentition", None, "29 humanlike"),
+    ("Scavengers, omnivores", r"scavenger|omnivor", None, "31 H. habilis"),
+    ("Birth canal", r"birth canal", None, "33 H. erectus"),
+    ("Gait", r"\bgait\b", None, "33 H. erectus"),
+    ("Projecting nose", r"projecting nose", None, "32 H. erectus, hot climate"),
+    ("Shelters", r"shelter", None, "38 H. heidelbergensis | 47 Neanderthals"),
+    ("Archaic humans", r"archaic", None, "40 replacement model | 54 more varied"),
+    ("Interbreeding", r"interbred", None, "48 Cro-Magnons"),
+    ("Ice Age", r"ice age", None, "45 Neanderthal build"),
+    ("Hunter-gatherers", r"hunter-gatherer|hunting", None, "48 Cro-Magnons | 51 agriculture"),
+    ("Compound tools", r"compound tool", None, "49 Cro-Magnons"),
+    ("Binocular field", r"binocular", None, "8 stereoscopic vision"),
+    ("Chromosome fusion", r"fusion|fused", None, "18-19 human chromosome 2"),
+    ("Symbolic thinking, cave paintings", r"symbolic|painting|sculpture", None, "50 Cro-Magnon art"),
+    ("Burials, religion", r"buried|religion", None, "47 Neanderthals"),
+    ("Climate change, grassland", r"climate|grassland", None, "26 bipedalism idea | 51 agriculture"),
+    ("Mammalian ancestor", r"mammalian ancestor", None, "17 all primates | 13 tree"),
+    ("Upright posture, tool use", r"upright posture|tool use", None, "20 frees the hands | 30 early Homo"),
+    ("Fossil record", r"fossil record", None, "30 early Homo | 40 replacement evidence"),
+    ("Woolly mammoths, bears, reindeer", r"mammoth|bears|reindeer", "(Neanderthal prey)", "47 hunting"),
+    ("Ethiopia", r"ethiopia", None, "22 Ardi fossils"),
     ("Arboreal", r"arboreal", None, "3 def."),
     ("Prehensile hands and feet, tails", r"prehensile", None, "5 def. | 12 New World monkeys"),
     ("Opposable thumb, opposable toes", r"opposable", None, "5 def. | 23 Ardi's big toe"),

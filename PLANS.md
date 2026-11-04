@@ -246,6 +246,12 @@ For each chapter:
   - Quick guides written fuller than Unit 2's, with 39 diagrams (38 from the slides, the animal family tree from textbook p. 510) in a one-column reading copy, and a printable copy without pictures whose slide codes point to main-notes pages.
   - `--fit` gives 13 pt. Result: Ch 28 9 sheets (12 + 6 pages), Ch 29 6 (8 + 4), Ch 30 7 (9 + 3). Unit 3 Printed Notes 29 pages, Index 13; guides reading copy 36 pages, printable 11 pages (6 sheets). Term index: organisms in an entry name get their own "see" lines (e.g. Clams see Bivalves: clams, oysters...).
 
+- 2026-11-04, final review of Unit 3 (equal depth across chapters):
+  - Measured each chapter (guide words per slide, diagrams, glossary, term index, clues); Ch 29 and Ch 30 were thinner. Now: guide words per slide 45 / 45 / 41; diagrams 22 / 17 / 12 (51 in all); glossary 53 / 41 / 36; term index 155 / 111 / 93 entries (plus "see" lines); clues 54 / 43 / 44.
+  - Guides: added the missing slide points (cell walls and movement, Clonorchis, tapeworms and nutrient absorption, crayfish coelom and sexes, birds' instinct, the old family split of apes and humans, Ardi's equal-sized sexes); softened "bipedalism didn't start in grassland" to the slide's wording; the pupa cited to the textbook.
+  - Glossaries: the words the slides use unexplained (buoyancy, orbit, septum, ungulates, ruminants, gestation, gait, dentition, foraging...), each with its own term-index entry; adaptive radiation and ruminants follow the textbook glossary.
+  - Result: Ch 28 9 sheets (12 + 6), Ch 29 7 (8 + 5), Ch 30 7 (9 + 4); 13 pt still the `--fit` size. Guides reading copy 45 pages, printable 11. All checks pass; independent check of 2,008 index codes, the slices and 337 printable-guide codes: 0 problems.
+
 ## Sources for how this plan is written (official OpenAI guidance only)
 - OpenAI Codex best practices: a prompt with Goal / Context / Constraints / Done when; `AGENTS.md`; `PLANS.md`; verification. https://learn.chatgpt.com/guides/best-practices
 - OpenAI, "Using GPT-6": autonomy and follow-through, when to ask, reasoning effort, testing. https://developers.openai.com/api/docs/guides/latest-model
