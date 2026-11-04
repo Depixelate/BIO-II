@@ -701,14 +701,14 @@ def fit_size(chapters, budget, tmp, font=None):
         if h not in cache:
             fs = h / 2
             cols = 2 if fs >= 9 else 3
-            n = {}
-            for kind in ("main", "index"):
+            main_pages, parts = None, {}
+            for kind in ("main", "index"):   # the index needs the main notes' pages for its codes
                 path = os.path.join(tmp, f"fit{kind}.docx")
-                Builder(chapters, fs, cols, {}, kind, font, n.get("main_pages")).build().save(path)
+                Builder(chapters, fs, cols, {}, kind, font, main_pages).build().save(path)
                 pdf = to_pdf(path, tmp)
-                n["main_pages"] = n.get("main_pages") or bookmark_pages(pdf)
-                n[kind] = chapter_sheets(pdf)
-            cache[h] = all(sheets(n["main"][ch][0] + 1, n["index"][ch][0]) <= budget for ch in n["main"])
+                main_pages = main_pages or bookmark_pages(pdf)
+                parts[kind] = chapter_sheets(pdf)
+            cache[h] = all(sheets(parts["main"][ch][0] + 1, parts["index"][ch][0]) <= budget for ch in parts["main"])
         return cache[h]
 
     lo, hi = 14, 32   # half points: 7 pt .. 16 pt
@@ -816,9 +816,9 @@ def check_layout(pdf_path, main=True, font=None, missing="", first=1):
                 problems.append(f"page {i}: has a picture")
             if (round(p.rect.width), round(p.rect.height)) != (612, 792):
                 problems.append(f"page {i}: not Letter size")
-            foot = [b[4].strip() for b in p.get_text("blocks") if b[1] > p.rect.height - 0.5 * 72]
-            if foot and foot[-1].isdigit() and int(foot[-1]) != i + first - 1:   # stored page numbers rely on it
-                problems.append(f"{os.path.basename(pdf_path)}, page {i}: its printed page number is {foot[-1]}, "
+            number = page_number(p)   # stored page numbers and the index's codes rely on it
+            if p.get_text().strip() and number != str(i + first - 1):
+                problems.append(f"{os.path.basename(pdf_path)}, page {i}: its printed page number is {number!r}, "
                                 f"not {i + first - 1}")
             if main:
                 codes = body_codes(p)
@@ -828,6 +828,14 @@ def check_layout(pdf_path, main=True, font=None, missing="", first=1):
                 if codes and shown and codes[0] not in shown:
                     problems.append(f"page {i}: running header doesn't show its first slide {codes[0]}")
     return problems
+
+
+def page_number(page):
+    """The number printed at the bottom of a page: its lowest word, if that is a number in the bottom margin (words,
+    not text blocks: LibreOffice can put the page number in the same block as the last line)."""
+    words = page.get_text("words")
+    low = max(words, key=lambda w: w[1]) if words else None
+    return low[4] if low and low[4].isdigit() and low[1] > page.rect.height - 0.5 * 72 else None
 
 
 def check_glyphs(docx_path, font_file):
