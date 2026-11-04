@@ -32,6 +32,9 @@ DECKS = {
     25: "Mader_Biology2024Release_PPT_Ch25_ACCESS.pptx",   # 2024 Release edition, like the textbook
     26: "Mader_Biology14e_PPT_Ch26_ACCESS.pptx",
     27: "Mader_Biology14e_PPT_Ch27_ACCESS.pptx",
+    28: "Mader_Biology14e_PPT_Ch28_ACCESS.pptx",   # Unit 3
+    29: "Mader_Biology14e_PPT_Ch29_ACCESS.pptx",
+    30: "Mader_Biology14e_PPT_Ch30_ACCESS.pptx",
 }
 HEADERS = ["CLARIFICATION", "IMAGE DESCRIPTION", "NOT EXPLAINED ON ANY SLIDE", "NOT EXPLAINED YET",
            "HOME NOTE", "ADDS TO", "COVERED ELSEWHERE", "EXAM FOCUS"]
