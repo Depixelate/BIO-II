@@ -55,6 +55,30 @@ Parts:
 - one part per section in order: key ideas in plain words with examples and slide codes, how the pieces connect, look-alike traps;
 - a "look up, don't memorize" list.
 
+### Writing the quick guides (Unit 3 on: make them as easy to learn from as possible)
+The user asked (Nov 4) for guides "as pedagogical and easily understandable as possible", based on research into how to write material that's easy to learn from. These rules come from that research. Apply them to every chapter alike.
+- **Big idea first.** The chapter intro says what the chapter is about and gives a map (usually the family tree). Each section opens with a `{"big": ...}` item: one or two sentences on what the section shows and why it matters.
+  - Why: introductory material that links new ideas to what the reader knows ("advance organizers", Ausubel), and headings and previews that signal the structure (Lorch's text-signaling research), help readers remember the topics.
+- **Concept first, term second.** Describe the thing in plain words, then name it in bold: "A body with a definite right and left half has **bilateral symmetry**". Bold (`**term**`) marks each key term only where it is defined.
+  - Why: biology students given a concepts-first, jargon-second reading explained the ideas better (McDonnell, Barker & Wieman 2016, *Biochemistry and Molecular Biology Education* 44:12–19). Bold terms are a signaling cue.
+- **Word roots.** Give a term's Greek or Latin parts when they make it memorable, preferably the textbook's own glosses: protostome = "first mouth", echinoderm = "spiny skin", arthropod = "jointed foot".
+- **Concrete examples.** Pair every abstract idea with an organism or a case: radial symmetry with a jellyfish, mosaic evolution with the australopiths.
+  - Why: linking abstract and concrete is a recommendation of the IES practice guide *Organizing Instruction and Study to Improve Student Learning* (Pashler et al. 2007), and concrete examples are one of the Learning Scientists' six strategies.
+- **The why and how.** Say what a feature is for, or why it happened: why arthropods molt, why the amniotic egg matters.
+  - Why: elaboration with "why" questions has moderate support (Dunlosky et al. 2013). The guide gives the answer, because novices can produce wrong explanations of their own.
+- **Analogies, sparingly, with their limit stated.** Use one only where it fits, and say where it breaks: a hydrostatic skeleton is like a water balloon, but septa divide it.
+  - Why: Glynn's Teaching-With-Analogies model warns that analogies stretched too far create misconceptions.
+- **Look-alikes side by side.** Each section's "Traps" puts the easily confused terms next to each other with the one difference.
+  - Why: comparing cases helps learners tell concepts apart (Alfieri, Nokes-Malach & Schunn 2013 meta-analysis).
+- **Misconceptions refuted.** Where a common wrong idea exists, state it, say it is wrong, and give the correct version: "Myth: humans evolved from chimpanzees. Fact: ...".
+  - Why: refutation texts beat plain explanations in meta-analyses (e.g. g = 0.41, *Educational Psychology Review* 2021). Use them only for real misconceptions or for slide errors, never invented ones.
+- **Plain language.** Short sentences, active voice, everyday words, one idea per bullet, with long bullets split (federal plain-language guidelines; Mayer's segmenting principle).
+- **Diagrams next to the text they explain**, with captions that tell the reader what to look at ("follow the water", "count the cutting planes"). Cut decorative pictures and wording that only repeats the picture.
+  - Why: Mayer's contiguity, signaling and coherence principles, and the split-attention and redundancy effects in cognitive load theory (Sweller).
+- **Check yourself.** End each section with a `{"check": [(question, answer), ...]}` item: 2–4 short questions, with answers and slide codes. These print in the reading copy only, so the exam copy stays lean.
+  - Why: practice testing with feedback is one of the two most effective study techniques (Dunlosky et al. 2013).
+- **Accuracy still comes first.** Every added root, "why", analogy or myth must trace to the slides or the textbook, cited like any other fact (textbook page where it isn't on a slide). Don't add absolute words, and don't make a slide's claim stronger.
+
 ## Rules
 - **Page budget:** at most 10 double-sided sheets per chapter (`SHEETS_PER_CHAPTER`), counting the main and index files as printed separately: each rounds up to whole sheets (15 + 5 pages = 8 + 3 = 11 sheets). `--fit` also keeps a page to spare in the main file.
 - **Font:** one body size for all chapter and unit files (`FONT_SIZE`; Unit 2: 11.5 pt, the user's choice; Unit 3: 13 pt, the `--fit` result), in whole or half points, since Word stores sizes in half points. Headings and the page header are fixed steps above or below it (`SIZE_STEP` in `build_print_docx.py`). The quick-guides reading copy is 11 pt (`GUIDES_FONT`); the printable copy uses `FONT_SIZE` and the unit font.
